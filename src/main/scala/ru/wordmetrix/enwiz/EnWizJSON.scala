@@ -42,9 +42,9 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
         new AsyncResult() {
             val promise = Promise[List[Probability]]()
             val is = promise.future
-
             lookup ? EnWizWords(word1, word2) onSuccess {
                 case Some(words: List[(String, Double)]) =>
+                    println(2)
                     promise.complete(Try(
                         words.map(x => Probability(x))
                     ))

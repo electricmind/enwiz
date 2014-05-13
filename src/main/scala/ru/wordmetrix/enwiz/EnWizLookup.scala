@@ -176,7 +176,6 @@ class EnWizLookup() extends Actor with EnWizMongo {
             }
 
         case (EnWizWords(word1, word2), sender: ActorRef) =>
-
             sender ! Some(
                 coll.find($and(
                     "word1" $eq word1,
