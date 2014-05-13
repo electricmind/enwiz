@@ -1,0 +1,66 @@
+#set (title) Wizard that generates english phrases. #end #set (tmpl)
+<script
+    id="dropmenu"
+    type="text/x-jquery-tmpl"
+>
+                    <ul  class="words" style="display:inline-block; vertical-align:top; font-size:+15"><li><a href="#">Add word</a>
+                    <ul >{{each(i,wp) wps}}<li>
+                        <a class="menuitem" data-word="\${wp.word}" href="#\${wp.word}">\${wp.word} : \${wp.probability} </a>
+                    </li>{{/each}}</ul></ul>
+</script>
+<script
+    id="phrase"
+    type="text/x-jquery-tmpl"
+>
+                    <div class="phrase" style="font-size:+25">
+                        <span class="word" data-word=""></span>
+                        <span class="word" data-word=""></span>
+                    </div></script>
+<script
+    id="loading"
+    type="text/x-jquery-tmpl"
+>
+                    <div class="loading" style="vertical-align:top; font-size:+15">
+                        Loading...
+                    </div></script>
+<script
+    id="reload"
+    type="text/x-jquery-tmpl"
+>
+                    <button class="reload" style="vertical-align:top; font-size:+15">
+                        Press to continue
+                    </button></script>
+<script
+    id="phraseitem"
+    type="text/x-jquery-tmpl"
+>
+                    <span class="word" data-word="\${word}">
+                        \${word} 
+                    </span></script>
+#end #set (js)
+<script src="/js/generator.js">  </script>
+<script src="/js/progressSpin.min.js">  </script>
+#end
+<div id="header">
+    <p>This application helps to write English sentences. For an
+        english sentence it prompts a range of words along with
+        probabilities that could continue the sentence. You can choose a
+        word of the drop-list to begin.</p>
+</div>
+<div class="ui-wizard-content ui-corner-all">
+    <div
+        class="phrase"
+        style="font-size: +25"
+    >
+        <span
+            class="word"
+            data-word=""
+        ></span>
+        <span
+            class="word"
+            data-word=""
+        ></span>
+    </div>
+    <button class="remove" title="Press the button to remove last word." style="font-size:+15">Remove</button>
+    <div class=".spinner"></div>
+</div>

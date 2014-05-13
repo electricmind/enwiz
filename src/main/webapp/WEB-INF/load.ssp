@@ -1,0 +1,23 @@
+<%@ val text: String %>
+#set (title) 
+Load text to teach generator your specific language. 
+#end
+
+<form method="post" enctype="multipart/form-data">
+    <textarea
+        title="Enter text to parse and include into the vocabulary"
+        cols="72"
+        rows="26"
+        name="text"
+    ></textarea>
+    <input type="submit" />
+</form>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file"'
+        title="Enter a name of a text file to parse and include into the vocabulary"
+        name="text"
+    />
+    <input type="submit" />
+</form>
+ 

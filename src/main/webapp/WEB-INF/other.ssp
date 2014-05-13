@@ -1,0 +1,121 @@
+
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>EnWiz : English Wizard to generate phrases</title>
+<link
+    rel="stylesheet"
+    href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"
+/>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script
+    src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"
+></script>
+<link
+    rel="stylesheet"
+    href="/resources/demos/style.css"
+/>
+<script
+    id="dropmenu"
+    type="text/x-jquery-tmpl"
+>
+<ul class="words">{{each(i,wp) wps}}<li>
+                        <a class="menuitem" data-word="${wp.word}" href="#${wp.word}">${wp.word} : ${wp.probability} </a>
+                    </li>{{/each}}</ul>
+</script>
+<script
+    id="phraseitem"
+    type="text/x-jquery-tmpl"
+>
+                    <span class="word" data-word="${word}">
+                        ${word} 
+                    </span>
+ </script>
+<script>
+                    val a = 1;
+                    val b = 1;
+        $(function(){
+                            $( ".words" ).menu();
+                            
+                            function handler(event) {
+                            
+                              a = $(event.target).parents(".words");
+                            
+                              var w1 = $(a).prev().data("word");
+                              var w2 = $(event.target).data("word");
+                            
+                              $("#phraseitem").tmpl({
+                                "word" : $(event.target).data("word")
+                              }).appendTo(".phrase")
+                            
+                              $(a).remove();
+                            
+                              var url = "";
+                              if (w1 == "") {
+                                 url = "/json/words/" + w2;
+                              } else {
+                                 url = "/json/words/" + w1 + "/" + w2;
+                              }
+                            
+                              $.ajax({
+                                 url: url
+                              }).done(function(data) {
+                                 b = data;
+                                 $("#dropmenu").tmpl({wps : data}).appendTo(".phrase");
+                                 $(".words").menu();
+                                 $(".menuitem").on("click", handler);
+                              });
+                            };
+                            
+                              $.ajax({
+                                 url: "/json/words/"
+                              }).done(function(data) {
+                                 b = data;
+                                 $("#dropmenu").tmpl({wps : data}).appendTo(".phrase");
+                                 $(".words").menu();
+                                 $(".menuitem").on("click", handler);
+                              });
+
+//                            $( ".menuitem").on("click", handler);
+</script>
+</head>
+<body>
+    <div
+        id="header"
+        style="position: fixed; z-index: 100; background: white; top: 0px"
+    >
+        <h1>EnWiz : English Wizard to generate phrases</h1>
+        <p>This application helps to write English sentences. For
+            any english sentence it prompts the range of words along
+            with probabilities that could continue the sentence. You can
+            enter initial sentence into the text area below or choose a
+            word of drop-list.</p>
+    </div>
+    <div
+        id="top"
+        style="height: 150px"
+    ></div>
+    <form>
+        <textarea title="enter an example of sentence"> </textarea>
+        <input type="submit" />
+    </form>
+    <form>
+        <select title="choose one of the words">
+            <option></option>
+        </select> <input type="submit" />
+    </form>
+    <p>
+        <a href="/words">press to begin</a>
+    </p>
+    <p>
+        <a href="/load">press to enter a text to index</a>
+    </p>
+    <div class="phrase">
+        <span
+            class="word"
+            data-word=""
+        ></span>
+    </div>
+</body>
+</html>
