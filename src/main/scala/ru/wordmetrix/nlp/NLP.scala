@@ -1,6 +1,6 @@
 package ru.wordmetrix.nlp
 /**
- * Text tokenizer 
+ * Text tokenizer
  * (acquired from an old HMM NLP project of my own)
  */
 object NLP {
@@ -17,8 +17,6 @@ object NLP {
 
 class NLP(val phrase: List[NLP.Phrase]) {
 
-    
-    
     def this(phrase: String) = this(phrase.split("\\b").map(
         x => x.replaceAll("\\s+", "")).filter(_ != "").map(
             x => "^\\p{Punct}+$".r.findFirstMatchIn(x) match {
@@ -29,11 +27,11 @@ class NLP(val phrase: List[NLP.Phrase]) {
     import NLP._
 
     def phrases() = rPhrase.findAllIn("\\s+".r.replaceAllIn(phrase, " "))
-    
+
     def tokenize(): List[NLP.Word] = phrase
-    
-    def tokenizeGap(): List[NLP.Word] = List("","") ++ phrase
-    
+
+    def tokenizeGap(): List[NLP.Word] = List("", "") ++ phrase
+
     def hidewords(ws: List[NLP.Word]): Phrase = hidewords_(ws)
 
     def hidewords_(ws: List[NLP.Word]): List[Word] = {
@@ -59,12 +57,15 @@ class NLP(val phrase: List[NLP.Phrase]) {
             case (p, ws) => p.hidewords_(ws.filter(_ != "*"))
         })
 
-    def rectify(): String = """\s+(\p{Punct})""".r.replaceAllIn(
-        phrase.mkString(" "),
-        m => m.group(1) match {
-            case "*" => " *";
-            case x   => x
-        }).replace("' ", "'")
-        
-        
+    def rectify(): String = {
+        """\s+(\p{Punct})""".r.replaceAllIn(
+            phrase.mkString(" "),
+            m => scala.util.matching.Regex.quoteReplacement(m.group(1) match {
+                    case "*" => " *";
+                    case x   => x
+                })
+        ).replace("' ", "'")
+
+    }
+
 }
