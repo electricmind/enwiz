@@ -1,12 +1,19 @@
 package ru.wordmetrix.enwiz
 
-import EnWizLookup.{EnWizStatRequest, EnWizWords}
+import EnWizLookup.{ EnWizStatRequest, EnWizWords }
+
+//import akka.routing.ActorRefRoutee
+import akka.routing.Router
+import akka.routing.RoundRobinRouter
+//import akka.routing.
+//import akka.routing.RoundRobinRoutingLogic
+
 import EnWizParser.EnWizText
-import akka.actor.{Actor, Props, actorRef2Scala}
+import akka.actor.{ Actor, Props, actorRef2Scala }
 
 /**
  * Dispatcher of requests that resends time-consuming request
- * into special queue. 
+ * into special queue.
  */
 
 object EnWizActor {
@@ -16,7 +23,10 @@ object EnWizActor {
 }
 
 class EnWizActor(lookupprop: Props, parserprop: Props) extends Actor {
-    val lookup = context.actorOf(lookupprop, "Lookup")
+    val lookup = context.actorOf(lookupprop.withRouter(
+        RoundRobinRouter(nrOfInstances = 5)
+    ))
+    
     val parser = context.actorOf(parserprop, "Parser")
 
     import EnWizParser._
