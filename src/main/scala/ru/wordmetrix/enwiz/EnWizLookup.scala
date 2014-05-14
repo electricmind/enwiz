@@ -171,7 +171,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                 val bigram = trigram.map({ case (w1, w2, _) => (w1, w2) })
 
                 val unigram = bigram.map({ case (w1, _) => (w1) })
-                sender ! EnWizStat(trigram.size, bigram.size, unigram.size,
+                sender ! EnWizStat(unigram.size, bigram.size, trigram.size,
                     average)
             }
 
