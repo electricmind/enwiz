@@ -31,7 +31,7 @@ object EnWizLookup {
 
     case class EnWizPi2WordsRequest(ns: List[Int]) extends EnWizMessage
 
-    case class EnWizPi2Words(ns: List[String]) extends EnWizMessage
+    case class EnWizPi2Words(ns: Either[List[String],List[String]]) extends EnWizMessage
 
     def props(): Props = Props(new EnWizLookup())
 }
@@ -89,14 +89,17 @@ class EnWizLookup() extends Actor with EnWizMongo {
     }
 
     def receive(): Receive = {
+        /**
+         * Return sequence of words each has a length equal to according number
+         */
         case EnWizPi2WordsRequest(ns) =>
             def betterof(ws1: List[String], ws2: List[String]) =
-                 if (ws1.length > ws2.length) ws1 else ws2
+                if (ws1.length > ws2.length) ws1 else ws2
 
             def findLeft(it: Iterator[Either[List[String], List[String]]], best: List[String]): Either[List[String], List[String]] = if (it.nonEmpty) {
                 it.next() match {
                     case Left(ws)  => Left(ws)
-                    case Right(ws) => findLeft(it, betterof(ws,best))
+                    case Right(ws) => findLeft(it, betterof(ws, best))
                 }
             } else {
                 Right(best)
@@ -106,7 +109,6 @@ class EnWizLookup() extends Actor with EnWizMongo {
                 case n :: ns =>
                     ws match {
                         case word2 :: word1 :: _ =>
-                            println(ws, word1, word2)
                             val better = betterof(best, ws)
 
                             findLeft(coll.find($and(
@@ -116,30 +118,40 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                 "probability" $exists true)).
                                 sort(MO("probability" -> -1)).
                                 limit(100).map(x => {
-                                    println(x.get("word3").toString)
                                     (x.get("word3").toString, x.get("probability").toString.toDouble)
                                 }) filter {
                                     case (",", _)   => n == 0
-                                    case (word3, _) =>  !Set("'", ",", "-")(word3) && word3.length == n
+                                    case (word3, _) => !Set("'", ",", "-")(word3) && word3.length == n
                                     case _          => false
                                 } map {
                                     case (",", _) =>
                                         ns2ws(ns, better, "," :: ws)
-                                    case (word3, p) => 
-                                        println(s" ok : $n : $word3 x $p : $ws")
+                                    case (word3, p) =>
+                                        //println(s" ok : $n : $word3 x $p : $ws")
                                         ns2ws(ns, better, word3 :: ws)
                                 },
                                 better
                             )
                     }
-                case List() => Left(ws)
+                case List() =>
+                    ws match {
+                        case word2 :: word1 :: _ =>
+                            coll.findOne($and(
+                                "word1" $eq word1,
+                                "word2" $eq word2,
+                                "word3" $eq ","
+                            )) match {
+                                case Some(_) => Left("." :: ws)
+                                case None    => Right(ws)
+                            }
+                    }
             }
 
             Future {
                 EnWizPi2Words(
                     ns2ws(ns, List(), List("", "")) match {
-                        case Left(x)  => x.reverse
-                        case Right(x) => x.reverse
+                        case Left(x)  => Left(x.reverse)
+                        case Right(x) => Right(x.reverse)
                     }
                 )
             } pipeTo sender

@@ -83,14 +83,16 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
     
     get("/pi2words/:numbers") {
         new AsyncResult() {
-            val promise = Promise[List[String]]()
+            val promise = Promise[(Boolean,List[String],String)]
             val is = promise.future
             
             lookup ? EnWizPi2WordsRequest(
                     params("numbers").split("").map(x => Try(x.toInt).toOption).flatten.toList
                     ) onSuccess {
-                case EnWizPi2Words(words) => 
-                    promise.complete( Try(words)  )
+                case EnWizPi2Words(Left(words)) => 
+                    promise.complete( Try(true,words,words.mkString(" "))  )
+                case EnWizPi2Words(Right(words)) => 
+                    promise.complete( Try(false,words,words.mkString(" "))  )
             }
         }
         
