@@ -86,7 +86,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
         /**
          * Return a set of statistics of vocabulary
          */
-        case (EnWizStatRequest(), sender: ActorRef) =>
+        case EnWizStatRequest() =>
             if (host != "localhost") {
                 val average = stat("average", {
                     println("calc ave")
@@ -175,7 +175,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                     average)
             }
 
-        case (EnWizWords(word1, word2), sender: ActorRef) =>
+        case EnWizWords(word1, word2) =>
             sender ! Some(
                 coll.find($and(
                     "word1" $eq word1,
@@ -188,5 +188,4 @@ class EnWizLookup() extends Actor with EnWizMongo {
                     ).toList
             )
     }
-
 }

@@ -18,7 +18,7 @@ import akka.util.Timeout
 class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
         with FutureSupport with FileUploadSupport with AuthenticationSupport { //with GZipSupport{
 
-    configureMultipartHandling(MultipartConfig(maxFileSize = Some(3 * 1024 * 1024)))
+    configureMultipartHandling(MultipartConfig(maxFileSize = Some(10 * 1024 * 1024)))
 
     protected implicit def executor: ExecutionContext = system.dispatcher
     implicit val defaultTimeout = Timeout(100 second)

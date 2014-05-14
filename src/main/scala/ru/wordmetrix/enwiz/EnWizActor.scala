@@ -24,12 +24,12 @@ class EnWizActor(lookupprop: Props, parserprop: Props) extends Actor {
 
     def receive(): Receive = {
         case msg @ EnWizStatRequest() =>
-            lookup ! (msg, sender)
+            lookup forward msg
 
         case msg @ EnWizWords(word1, word2) =>
-            lookup ! (msg, sender)
+            lookup forward msg
 
         case msg @ EnWizText(text) =>
-            parser ! msg
+            parser forward msg
     }
 }
