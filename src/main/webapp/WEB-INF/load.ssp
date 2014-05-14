@@ -2,14 +2,53 @@
 #set (title) 
 Load text to teach generator your specific language. 
 #end
+#set (js)
+<script>
+$(document).ready(function() {
+var interval = setInterval(function() {
+                     $.ajax({ url : "/json/progress",
+                                statusCode : {
+                                    504 : function() {
+                                      $("#progress").text("Unavailable")
+                                    }
+                                }
+                            }).done(function(data) {
+                                 $("#progress").replaceWith(
+                                     $("#progress-tmpl").tmpl({tasks : data})    
+                                 );
+                                 if (data.length == 0) {
+                                    clearInterval(interval);
+                                 }
+                            });
+ }, 1000);
 
+});
+
+</script>
+#end
+#set (tmpl)
+<script
+    id="progress-tmpl"
+    type="text/x-jquery-tmpl"
+>
+<div  id="progress">
+{{if tasks.length > 0 }}
+<h1>Progress</h1>
+                    <ul><li>
+                    <ul >{{each(i,task) tasks}}<li>
+                        \${task._1.id} : \${task._1.title} \${task._2} </a>
+                    </li>{{/each}}</ul></ul>
+{{/if}}
+</div>
+</script>
+#end
 <form method="post" enctype="multipart/form-data">
     <textarea
         title="Enter text to parse and include into the vocabulary"
         cols="72"
         rows="26"
         name="text"
-    ></textarea>
+    ></textarea><br/>
     <input type="submit" />
 </form>
 
@@ -20,4 +59,5 @@ Load text to teach generator your specific language.
     />
     <input type="submit" />
 </form>
- 
+<hr/>
+ <div id="progress"></div>
