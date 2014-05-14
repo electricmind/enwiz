@@ -71,7 +71,6 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
             val is = promise.future
             lookup ? EnWizStatusRequest() onSuccess {
                 case EnWizStatus(tasks) =>
-                    println(2)
                     promise.complete(Try(
                         tasks
                     ))

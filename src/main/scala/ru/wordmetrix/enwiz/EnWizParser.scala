@@ -15,9 +15,9 @@ import scala.concurrent.{ ExecutionContext, Future }
 object EnWizParser {
     abstract sealed trait EnWizMessage
 
-    case class EnWizTaskId(id : Int, title: String)
-    
-    case class EnWizText(task : EnWizTaskId, text: String) extends EnWizMessage
+    case class EnWizTaskId(id: Int, title: String)
+
+    case class EnWizText(task: EnWizTaskId, text: String) extends EnWizMessage
     case class EnWizCompleted(msg: EnWizTaskId) extends EnWizMessage
     case class EnWizProgress(msg: EnWizTaskId, progress: Double) extends EnWizMessage
     case class EnWizStatusRequest() extends EnWizMessage
@@ -33,20 +33,31 @@ class EnWizParser() extends Actor with EnWizMongo {
     val queue = Queue[(EnWizText, Double)]();
 
     def runTask(msg: EnWizText) = Future {
-        for {
+        val trigrams = (for {
             sentence <- msg.text.phrases
             Vector(word1, word2, word3) <- {
-                println(sentence)
+                //   println(sentence)
                 ("" +: "" +:
                     sentence.tokenize.toVector :+ ".") sliding 3
             }
-        } coll.update(
-            MongoDBObject("word1" -> word1, "word2" -> word2,
-                "word3" -> word3),
-            $inc("probability" -> 1.0),
-            upsert = true
-        )
-        EnWizCompleted(msg.task)
+        } yield (word1, word2, word3)) toList
+        
+        val size = trigrams.length
+        
+        for {
+            ((word1, word2, word3), id) <- trigrams.zipWithIndex
+        } {
+            coll.update(
+                MongoDBObject("word1" -> word1, "word2" -> word2,
+                    "word3" -> word3),
+                $inc("probability" -> 1.0),
+                upsert = true
+            );
+            self ! EnWizProgress(msg.task, id.toDouble / size)
+        }
+
+        self ! EnWizCompleted(msg.task)
+
     } pipeTo self
 
     def idle(): Receive = {
@@ -57,10 +68,10 @@ class EnWizParser() extends Actor with EnWizMongo {
             runTask(msg)
 
         case EnWizCompleted(task) =>
-            println(s"I have no idea whose $task are you completed")
+            println(s"I have no idea whose $task you are completed")
 
         case EnWizProgress(task, amount) =>
-            println("I have no idea what $task is that progress about")
+            println("I have no idea what $task that progress is about")
 
         case EnWizStatusRequest() =>
             sender ! EnWizStatus(List())
@@ -82,12 +93,12 @@ class EnWizParser() extends Actor with EnWizMongo {
                         runTask(msg)
                 }
             }
-            
+
         case EnWizProgress(msg, amount) =>
-                        context.become(
-                            running(queue, progress + (msg->amount))
-                        )
-                        
+            context.become(
+                running(queue, progress + (msg -> amount))
+            )
+
         case EnWizStatusRequest() =>
             sender ! EnWizStatus(progress.toList)
     }
