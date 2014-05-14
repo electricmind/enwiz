@@ -90,11 +90,11 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
     def receive(): Receive = {
         case EnWizPi2WordsRequest(ns) =>
-            def ns2ws(ns: List[Int], best: List[String], wss: List[List[String]]): Option[List[List[String]]] = ns match {
+            def ns2ws(ns: List[Int], ws: List[String]): Either[List[String],List[String]] = ns match {
                 case n :: ns =>
-                    wss match {
-                        case (ws @ word2 :: word1 :: _ ) :: wss =>
-                            println(s"$wss $word1 $word2")
+                    ws match {
+                        case word2 :: word1 :: _ =>
+                            println(ws,word1,word2)
                             coll.find($and(
                                 "word1" $eq word1,
                                 "word2" $eq word2,
@@ -106,28 +106,29 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                     (x.get("word3").toString, x.get("probability").toString.toDouble)
                                 }).map {
                                     case (",", _) if n == 0 =>
-                                        ns2ws(ns, best, ("." :: ws) :: wss)
-
-                                    case (word3, _) if Set("'", ",", "-")(word3) =>
-                                        None
+                                        ns2ws(ns, "." :: ws)
+                                    case (word3, _) if Set("'",",","-")(word3) =>
+                                        Right(ws)
                                     case (word3, p) if word3.length == n =>
                                         println(s" ok : $n : $word3 x $p : $ws")
-                                        ns2ws(ns, best, (word3 :: ws) :: wss)
-                                        
-                                    case (word3, p) =>
+                                        ns2ws(ns, word3 :: ws)
+                                    case (word3, p) => 
                                         println(s" wr : $n : $word3 x $p : $ws")
-                                        None
-                                } find (_.nonEmpty) flatten
+                                        Right(ws)
+                                } find (_.isLeft) match {
+                                    case Some(Left(ws)) => Left(ws)
+                                    case None => Right(ws)
+                                }
                     }
-                case List() => 
-                    wss match {
-                        case ws :: wss => Some(ws.reverse :: wss)
-                    }
+                case List() => Left(ws.reverse)
             }
 
             Future {
                 EnWizPi2Words(
-                    ns2ws(ns, List(), List("", "")).head
+                        ns2ws(ns, List("","")) match {
+                            case Left(x) => x
+                            case Right(x) => x
+                        }
                 )
             } pipeTo sender
 
