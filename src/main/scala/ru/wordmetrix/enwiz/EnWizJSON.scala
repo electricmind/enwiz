@@ -8,7 +8,8 @@ import org.json4s.{ DefaultFormats, Formats }
 import org.scalatra.{ AsyncResult, FutureSupport, NotFound, ScalatraServlet }
 import org.scalatra.json.JacksonJsonSupport
 
-import EnWizLookup.EnWizWords
+import EnWizLookup.{ EnWizWords }
+import EnWizParser.{ EnWizStatusRequest, EnWizStatus, EnWizTaskId }
 import akka.actor.{ ActorRef, ActorSystem }
 import akka.pattern.ask
 import akka.util.Timeout
@@ -44,7 +45,6 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
             val is = promise.future
             lookup ? EnWizWords(word1, word2) onSuccess {
                 case Some(words: List[(String, Double)]) =>
-                    println(2)
                     promise.complete(Try(
                         words.map(x => Probability(x))
                     ))
@@ -63,6 +63,22 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
 
     get("/words/:word1/:word2") {
         result("", "", params("word1"), params("word2"))
+    }
+    
+    get("/progress") { 
+        new AsyncResult() {
+            val promise = Promise[List[(EnWizTaskId,Double)]]()
+            val is = promise.future
+            lookup ? EnWizStatusRequest() onSuccess {
+                case EnWizStatus(tasks) =>
+                    println(2)
+                    promise.complete(Try(
+                        tasks
+                    ))
+
+                case None => NotFound(s"Sorry, unknown words")
+            }
+        }
     }
 
 }
