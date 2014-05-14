@@ -1,6 +1,6 @@
 package ru.wordmetrix.enwiz
 
-import EnWizLookup.{ EnWizStatRequest, EnWizWords }
+import EnWizLookup.{ EnWizStatRequest, EnWizPi2WordsRequest, EnWizWords }
 
 //import akka.routing.ActorRefRoutee
 import akka.routing.Router
@@ -44,5 +44,8 @@ class EnWizActor(lookupprop: Props, parserprop: Props) extends Actor {
             
         case msg @ EnWizStatusRequest() =>
             parser forward msg
+            
+        case msg @ EnWizPi2WordsRequest(_) =>
+            lookup forward msg
     }
 }

@@ -1,6 +1,7 @@
 package ru.wordmetrix.enwiz
 
 import scala.annotation.implicitNotFound
+
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration.DurationInt
 
@@ -15,6 +16,7 @@ import com.mongodb.casbah.Imports.{
 
 import akka.actor.{ Actor, ActorRef, Props, actorRef2Scala }
 import akka.util.Timeout
+import akka.pattern.pipe
 
 /**
  * Actor that serves short-time requests that requires an answer
@@ -26,6 +28,10 @@ object EnWizLookup {
     case class EnWizStatRequest() extends EnWizMessage
     case class EnWizStat(count1: Int, count2: Int, count3: Int,
                          average: Double) extends EnWizMessage
+
+    case class EnWizPi2WordsRequest(ns: List[Int]) extends EnWizMessage
+
+    case class EnWizPi2Words(ns: List[String]) extends EnWizMessage
 
     def props(): Props = Props(new EnWizLookup())
 }
@@ -83,6 +89,48 @@ class EnWizLookup() extends Actor with EnWizMongo {
     }
 
     def receive(): Receive = {
+        case EnWizPi2WordsRequest(ns) =>
+            def ns2ws(ns: List[Int], best: List[String], wss: List[List[String]]): Option[List[List[String]]] = ns match {
+                case n :: ns =>
+                    wss match {
+                        case (ws @ word2 :: word1 :: _ ) :: wss =>
+                            println(s"$wss $word1 $word2")
+                            coll.find($and(
+                                "word1" $eq word1,
+                                "word2" $eq word2,
+                                "word3" $exists true,
+                                "probability" $exists true)).
+                                sort(MO("probability" -> -1)).
+                                limit(100).map(x => {
+                                    println(x.get("word3").toString)
+                                    (x.get("word3").toString, x.get("probability").toString.toDouble)
+                                }).map {
+                                    case (",", _) if n == 0 =>
+                                        ns2ws(ns, best, ("." :: ws) :: wss)
+
+                                    case (word3, _) if Set("'", ",", "-")(word3) =>
+                                        None
+                                    case (word3, p) if word3.length == n =>
+                                        println(s" ok : $n : $word3 x $p : $ws")
+                                        ns2ws(ns, best, (word3 :: ws) :: wss)
+                                        
+                                    case (word3, p) =>
+                                        println(s" wr : $n : $word3 x $p : $ws")
+                                        None
+                                } find (_.nonEmpty) flatten
+                    }
+                case List() => 
+                    wss match {
+                        case ws :: wss => Some(ws.reverse :: wss)
+                    }
+            }
+
+            Future {
+                EnWizPi2Words(
+                    ns2ws(ns, List(), List("", "")).head
+                )
+            } pipeTo sender
+
         /**
          * Return a set of statistics of vocabulary
          */

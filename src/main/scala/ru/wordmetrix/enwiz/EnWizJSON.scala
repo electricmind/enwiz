@@ -1,6 +1,7 @@
 package ru.wordmetrix.enwiz
 
 import scala.concurrent.{ ExecutionContext, Promise }
+
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
 
@@ -8,7 +9,7 @@ import org.json4s.{ DefaultFormats, Formats }
 import org.scalatra.{ AsyncResult, FutureSupport, NotFound, ScalatraServlet }
 import org.scalatra.json.JacksonJsonSupport
 
-import EnWizLookup.{ EnWizWords }
+import EnWizLookup._
 import EnWizParser.{ EnWizStatusRequest, EnWizStatus, EnWizTaskId }
 import akka.actor.{ ActorRef, ActorSystem }
 import akka.pattern.ask
@@ -79,5 +80,20 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
             }
         }
     }
+    
+    get("/pi2words/:numbers") {
+        new AsyncResult() {
+            val promise = Promise[List[String]]()
+            val is = promise.future
+            
+            lookup ? EnWizPi2WordsRequest(
+                    params("numbers").split("").map(x => Try(x.toInt).toOption).flatten.toList
+                    ) onSuccess {
+                case EnWizPi2Words(words) => 
+                    promise.complete( Try(words)  )
+            }
+        }
+        
+    } 
 
 }
