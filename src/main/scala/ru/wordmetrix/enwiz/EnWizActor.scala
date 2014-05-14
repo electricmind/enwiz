@@ -39,7 +39,7 @@ class EnWizActor(lookupprop: Props, parserprop: Props) extends Actor {
         case msg @ EnWizWords(word1, word2) =>
             lookup forward msg
 
-        case msg @ EnWizText(text) =>
+        case msg @ EnWizText(_,_) =>
             parser forward msg
     }
 }

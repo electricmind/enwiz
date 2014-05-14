@@ -3,15 +3,14 @@ package ru.wordmetrix.enwiz
 import scala.concurrent.{ ExecutionContext, Promise }
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
-
 import org.scalatra.{ AsyncResult, FutureSupport }
 import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig }
-
 import EnWizLookup.{ EnWizStat, EnWizStatRequest }
-import EnWizParser.EnWizText
+import EnWizParser.{ EnWizText, EnWizTaskId }
 import akka.actor.{ ActorRef, ActorSystem, actorRef2Scala }
 import akka.pattern.ask
 import akka.util.Timeout
+
 /**
  * Servlet that provides UI
  */
@@ -55,6 +54,7 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
 
     }
 
+    val taskids = Iterator.from(1)
     /**
      * Page that posts new text
      */
@@ -65,12 +65,13 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
         params.get("text") match {
             case None =>
             case Some(text) =>
-                lookup ! EnWizText(text)
+                lookup ! EnWizText(EnWizTaskId(taskids.next, ""),text)
         }
 
         fileParams.get("text") match {
             case Some(file) =>
                 lookup ! EnWizText(
+                   EnWizTaskId(taskids.next, file.getName),
                     io.Source.fromInputStream(file.getInputStream).
                         getLines.mkString("\n")
                 )
