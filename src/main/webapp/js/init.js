@@ -10,7 +10,7 @@ $(document).ready(function() {
     });
     
     $(".my-panes").hide();
-    $(".my-generate").show();
+    $(".my-about").show();
 
     $(".open-generate").click(function() {
         $(".my-panes").hide();

@@ -11,10 +11,10 @@ $(document).ready(function() {
             $("#memento").tmpl({
                 memento : responseText,
                 figures : $('.form-memento input[name=figures]').val()
-            }).appendTo($(".memento")).show(100);
+            }).appendTo($(".memento")).show(200);
             $('.my-memento-scroll').animate({
-                scrollTop: 460
-            }, 1000)
+                scrollTop: $('.my-memento-scroll table').height()
+            }, 200)
        }
     });
     

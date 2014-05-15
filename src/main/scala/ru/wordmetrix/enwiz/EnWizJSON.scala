@@ -1,19 +1,19 @@
 package ru.wordmetrix.enwiz
 
 import scala.concurrent.{ ExecutionContext, Promise }
-
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
-
 import org.json4s.{ DefaultFormats, Formats }
 import org.scalatra.{ AsyncResult, FutureSupport, NotFound, ScalatraServlet }
 import org.scalatra.json.JacksonJsonSupport
-
 import EnWizLookup._
 import EnWizParser.{ EnWizStatusRequest, EnWizStatus, EnWizTaskId }
 import akka.actor.{ ActorRef, ActorSystem }
 import akka.pattern.ask
 import akka.util.Timeout
+import scala.util.Success
+import scala.util.Failure
+import org.scalatra.BadRequest
 
 /**
  * A servlet that provides access to API with JSON
@@ -44,13 +44,17 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
         new AsyncResult() {
             val promise = Promise[List[Probability]]()
             val is = promise.future
-            lookup ? EnWizWords(word1, word2) onSuccess {
-                case Some(words: List[(String, Double)]) =>
+            lookup ? EnWizWords(word1, word2) onComplete {
+                case Success(Some(words: List[(String, Double)])) =>
                     promise.complete(Try(
                         words.map(x => Probability(x))
                     ))
 
-                case None => NotFound(s"Sorry, unknown words")
+                case Success(None) => NotFound(s"Sorry, unknown words")
+                case Failure(f) =>
+                    status = 400
+                    promise.complete(Failure(f))
+
             }
         }
 
@@ -68,46 +72,51 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
     /**
      * Return a progress of texts' parsing
      */
-    get("/progress") { 
+    get("/progress") {
         new AsyncResult() {
-            val promise = Promise[List[(EnWizTaskId,String)]]()
+            val promise = Promise[List[(EnWizTaskId, String)]]()
             val is = promise.future
-            lookup ? EnWizStatusRequest() onSuccess {
-                case EnWizStatus(tasks) =>
+            lookup ? EnWizStatusRequest() onComplete {
+                case Success(EnWizStatus(tasks)) =>
                     promise.complete(Try(
                         tasks map {
                             case (tid, part) => (tid, f"${part}%4.2f")
                         }
                     ))
 
-                case None => NotFound(s"Sorry, unknown words")
+                case Success(None) => NotFound(s"Sorry, unknown words")
+                case Failure(f) =>
+                    status = 400
+                    promise.complete(Failure(f))
             }
         }
     }
     /**
-     * Return mnemonic for a sequence of figures. 
+     * Return mnemonic for a sequence of figures.
      */
-    
-    def memento = new AsyncResult() {
-            val promise = Promise[(Boolean,List[String],String,String)]
-            val is = promise.future
-            val key = params("figures")
-            
-            lookup ? EnWizPi2WordsRequest(
-                    key.split("").map(x => Try(x.toInt).toOption).flatten.toList.take(15)
-                    ) onSuccess {
-                case EnWizPi2Words(Left(words)) => 
-                    promise.complete( Try(true,words,words.mkString(" "),key)  )
-                case EnWizPi2Words(Right(words)) => 
-                    promise.complete( Try(false,words,words.mkString(" "),key)  )
-            }
-        }
 
-    
+    def memento = new AsyncResult() {
+        val promise = Promise[(Boolean, List[String], String, String)]
+        val is = promise.future
+        val key = params("figures")
+
+        lookup ? EnWizPi2WordsRequest(
+            key.split("").map(x => Try(x.toInt).toOption).flatten.toList.take(25)
+        ) onComplete {
+                case Success(EnWizPi2Words(Left(words))) =>
+                    promise.complete(Try(true, words, words.mkString(" "), key))
+                case Success(EnWizPi2Words(Right(words))) =>
+                    promise.complete(Try(false, words, words.mkString(" "), key))
+                case Failure(f) =>
+                    status = 400
+                    promise.complete(Failure(f))
+            }
+    }
+
     get("/memento/:figures") {
         memento
-    } 
-    
+    }
+
     get("/memento/?") {
         memento
     }

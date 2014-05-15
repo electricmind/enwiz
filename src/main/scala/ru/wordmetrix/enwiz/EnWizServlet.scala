@@ -1,16 +1,17 @@
 package ru.wordmetrix.enwiz
 
 import scala.concurrent.{ ExecutionContext, Promise }
-
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
-import org.scalatra.{ AsyncResult, FutureSupport }
+import org.scalatra.{ AsyncResult, FutureSupport, BadRequest }
 import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig }
 import EnWizLookup._
 import EnWizParser.{ EnWizText, EnWizTaskId }
 import akka.actor.{ ActorRef, ActorSystem, actorRef2Scala }
 import akka.pattern.ask
 import akka.util.Timeout
+import scala.util.Success
+import scala.util.Failure
 
 /**
  * Servlet that provides UI
@@ -46,8 +47,8 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
             val promise = Promise[String]()
             val is = promise.future
 
-            lookup ? EnWizStatRequest() onSuccess {
-                case EnWizStat(count1, count2, count3, average) =>
+            lookup ? EnWizStatRequest() onComplete {
+                case Success(EnWizStat(count1, count2, count3, average)) =>
                     promise.complete(Try(
                         ssp("/stat.ssp",
                             "count1" -> count1,
@@ -55,6 +56,10 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
                             "count3" -> count3,
                             "average" -> average
                         )
+                    ))
+                case Failure(f) =>
+                    promise.complete(Try(
+                         BadRequest().toString              
                     ))
             }
         }
