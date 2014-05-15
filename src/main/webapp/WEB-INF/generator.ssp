@@ -139,73 +139,77 @@ generates english phrases. #end #set (tmpl)
             <span><b>Generate a mnemonic for a sequence of
                     numbers</b></span>
         </div>
-        <table
-            class="memento ui-corner-top"
-            width="100%"
-        >
-            <tr>
-                <td
-                    width="2%"
-                    class="ui-state-highlight1"
-                    style="border: 0px"
-                ><span class="ui-icon ui-icon-check"></span></td>
-                <td width="20%">pi = 3.14159265</td>
-                <td>And I have a child condemned to always think .</td>
-            </tr>
-            <tr>
-                <td
-                    width="2%"
-                    class="ui-state-error"
-                    style="border: 0px"
-                ><span class="ui-icon ui-icon-alert"></span></td>
-                <td width="20%">e = 2.718281</td>
-                <td>He thought a headache or somewhat.</td>
-            </tr>
-            <tr>
-                <td
-                    width="2%"
-                    class="ui-state-highlight1"
-                    style="border: 0px"
-                ><span class="ui-icon ui-icon-check"></span></td>
-                <td width="20%">just numbers:
-                    242424242424242424242424</td>
-                <td>He felt as well as some of them in that it made
-                    me feel as much as they do that to make it easy .</td>
-            </tr>
-            <tr>
-                <td
-                    width="2%"
-                    class="ui-state-highlight1"
-                    style="border: 0px"
-                ><span class="ui-icon ui-icon-check"></span></td>
-                <td width="20%">just numbers: 1234567654321</td>
-                <td>I do not know about thirty seconds before their
-                    eyes met in a ..</td>
-            </tr>
-        </table>
-        <form
-            action="/json/memento"
-            class="form-memento"
-            style="float: left"
-        >
-            <div
-                class="memento-error ui-state-error ui-corner-all ui-helper-hidden"
-                style="padding: 0 .2em; width: 250px; float: right"
+        <div class="my-memento-scroll">
+            <table
+                class="memento ui-corner-top"
+                width="100%"
             >
-                <p>
-                    <span
-                        class="ui-icon ui-icon-alert"
-                        style="float: left; margin-right: .3em;"
-                    ></span> <strong>Alert:</strong> Error to access the
-                    server, try again.
-                </p>
-            </div>
-            <input
-                type="text"
-                title="Enter a string of figures"
-                name="figures"
-            />
-            <button class="button">Generate!</button>
-        </form>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">pi = 3.14159265</td>
+                    <td>And I have a child condemned to always
+                        think .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-error"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-alert"></span></td>
+                    <td width="20%">e = 2.718281</td>
+                    <td>He thought a headache or somewhat.</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">just numbers:
+                        242424242424242424242424</td>
+                    <td>He felt as well as some of them in that it
+                        made me feel as much as they do that to make it
+                        easy .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">just numbers: 1234567654321</td>
+                    <td>I do not know about thirty seconds before
+                        their eyes met in a ..</td>
+                </tr>
+            </table>
+            <form
+                action="/json/memento"
+                class="form-memento"
+                style="float: left"
+            >
+                <div
+                    class="memento-error ui-state-error ui-corner-all ui-helper-hidden"
+                    style="padding: 0 .2em; width: 250px; float: right"
+                >
+                    <p>
+                        <span
+                            class="ui-icon ui-icon-alert"
+                            style="float: left; margin-right: .3em;"
+                        ></span> <strong>Alert:</strong> Error to access the
+                        server, try again.
+                    </p>
+                </div>
+                <input
+                    type="text"
+                    title="Enter a string of figures"
+                    name="figures"
+                />
+                <button class="button">Generate!</button>
+            </form>
+        </div>
     </div>
 </div>

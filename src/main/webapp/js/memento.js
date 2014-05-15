@@ -12,6 +12,9 @@ $(document).ready(function() {
                 memento : responseText,
                 figures : $('.form-memento input[name=figures]').val()
             }).appendTo($(".memento")).show(100);
+            $('.my-memento-scroll').animate({
+                scrollTop: 460
+            }, 1000)
        }
     });
     

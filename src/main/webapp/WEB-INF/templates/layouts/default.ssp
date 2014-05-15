@@ -20,6 +20,10 @@
     height: 480px;
 }
 
+.my-memento-scroll {
+   overflow-y: auto;  
+   height:460px;
+}
 </style>
 <style rel="stylesheet" type="text/css" media="handheld">
 .my-main {
