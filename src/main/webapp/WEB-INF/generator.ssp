@@ -57,7 +57,7 @@
 <script src="/js/progressSpin.min.js">  </script>
 <script src="/js/progress.js">  </script>
 #end
-<div class="ui-wizard-content ui-corner-all">
+<div class="ui-wizard-content">
 <div class=" my-panes my-about">
     <p>This application helps to write English sentences. For an
         english sentence it prompts a range of words along with

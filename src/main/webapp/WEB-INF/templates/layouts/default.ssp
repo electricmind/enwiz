@@ -43,10 +43,10 @@
                 <span>English Wizard</span>
             </div>
         </div>
-        <div class=" ui-state-default  ui-corner-all">
+        <div class=" ui-state-default  ui-corner-top">
             <span><b></b><%= title %></b></span>
         </div>
-        <div class="ui-widget-content  ui-corner-all"><%=
+        <div class="ui-widget-content  ui-corner-none"><%=
             unescape(body) %></div>
         <div class="ui-state-default" style="text-align:center">unit: mongodb</div>
     </div>
