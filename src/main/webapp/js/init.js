@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $(document).tooltip();
-    $(".button").button();
+//    $(".button").button();
     $(".menu").menu();
     $("#mainmenu").menu();
     

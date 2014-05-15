@@ -19,6 +19,7 @@
     src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"
 ></script>
 <script src="/js/init.js"></script>
+<script src="http://malsup.github.io/min/jquery.form.min.js"></script>
 <%= unescape(js) %> <%= unescape(tmpl) %>
 </head>
 <body>
