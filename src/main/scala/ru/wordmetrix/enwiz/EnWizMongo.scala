@@ -24,7 +24,8 @@ trait EnWizMongo {
     val password: String = prop("password")
     val port: String = prop("port")
 
-    println(s"mongodb://$user:$password@$host:$port/$dbname")
+    //TODO: ensure indexes
+    
     lazy val coll = MongoClient(MongoClientURI(
         s"mongodb://$user:$password@$host:$port/$dbname")
     )("words")("words")

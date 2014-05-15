@@ -160,7 +160,7 @@ generates english phrases. #end #set (tmpl)
         >
             <div
                 class="memento-error ui-state-error ui-corner-all ui-helper-hidden"
-                style="padding: 0 .2em; width: 400px; float: right"
+                style="padding: 0 .2em; width: 250px; float: right"
             >
                 <p>
                     <span
