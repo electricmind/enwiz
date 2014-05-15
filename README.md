@@ -1,5 +1,5 @@
-enwiz
-=====
+English Wizard
+==================
 
 
 This very tool is just a toy, but it engages the statistic of 65000 words in 500000 English trigrams, that comes from a range of texts. It provides two opportunities: a bit of enjoy and a bit of better sense of how English really runs.
