@@ -1,4 +1,19 @@
-#set (title) Wizard that generates english phrases. #end #set (tmpl)
+#set (title) Wizard that generates english phrases. #end  #set (tmpl)
+<script
+    id="progress-tmpl"
+    type="text/x-jquery-tmpl"
+>
+<div  id="progress" class="ui-corner-top">
+{{if tasks.length > 0 }}
+<table>
+{{each(i,task) tasks}}
+<tr><td>
+   \${task._1.id} </td><td> \${task._1.title} </td><td> \${task._2} </td>
+{{/each}}
+{{/if}}
+</table>
+</div>
+</script>
 <script
     id="dropmenu"
     type="text/x-jquery-tmpl"
@@ -40,27 +55,61 @@
 #end #set (js)
 <script src="/js/generator.js">  </script>
 <script src="/js/progressSpin.min.js">  </script>
+<script src="/js/progress.js">  </script>
 #end
-<div id="header">
+<div class="ui-wizard-content ui-corner-all">
+<div class=" my-panes my-about">
     <p>This application helps to write English sentences. For an
         english sentence it prompts a range of words along with
         probabilities that could continue the sentence. You can choose a
         word of the drop-list to begin.</p>
 </div>
-<div class="ui-wizard-content ui-corner-all">
-    <div
-        class="phrase"
-        style="font-size: +25"
-    >
-        <span
-            class="word"
-            data-word=""
-        ></span>
-        <span
-            class="word"
-            data-word=""
-        ></span>
+
+    <div class=" my-panes my-generate">
+        <div
+            class="phrase"
+            style="font-size: +25"
+        >
+            <span
+                class="word"
+                data-word=""
+            ></span> <span
+                class="word"
+                data-word=""
+            ></span>
+        </div>
+        <button
+            class="remove"
+            title="Press the button to remove last word."
+            style="font-size: +15"
+        >Remove</button>
     </div>
-    <button class="remove" title="Press the button to remove last word." style="font-size:+15">Remove</button>
-    <div class=".spinner"></div>
+    <div class="my-panes my-upload">
+            <div id="progress"></div>
+            <iframe src="/load" width="100%">
+        
+        </iframe>
+    </div>
+    <div class="my-panes my-memento">
+        <div
+            id="progress"
+            class="ui-corner-top"
+        >
+            <table>
+                <tr>
+                    <td>3.14159265</td>
+                    <td>And I have a child condemned to always think .</td>
+                </tr>
+                <tr>
+                    <td>2.718281</td>
+                    <td>He thought a headache or somewhat.</td>
+                </tr>
+            </table>
+        </div>
+        <div class="ui-corner-top">
+            <iframe src="/memento" width="100%">
+        </iframe>
+        </div>
+    </div>
+</div>
 </div>

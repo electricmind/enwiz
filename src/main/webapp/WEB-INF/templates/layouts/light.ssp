@@ -1,0 +1,22 @@
+<%@ val body: String %> <%@ val js: String = ""%> <%@ val tmpl: String =
+""%> <%@ val title: String = "English phrase generator"%>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>EnWiz : <%= title %></title>
+<link
+    rel="stylesheet"
+    href="http://code.jquery.com/ui/1.10.3/themes/redmond/jquery-ui.css"
+/>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script
+    src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"
+></script>
+<script src="/js/init.js"></script>
+<%= unescape(js) %> <%= unescape(tmpl) %>
+</head>
+<body>
+   <%= unescape(body) %>
+</body>
+</html>

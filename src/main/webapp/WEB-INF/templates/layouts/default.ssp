@@ -6,10 +6,12 @@
 <title>EnWiz : <%= title %></title>
 <link
     rel="stylesheet"
-    href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"
+    href="http://code.jquery.com/ui/1.10.3/themes/redmond/jquery-ui.css"
 />
 <style>
-  .ui-menu { width: 150px; }
+.ui-menu {
+	width: 150px;
+}
 </style>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -17,19 +19,37 @@
     src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"
 ></script>
 <script src="/js/init.js"></script>
-
 <%= unescape(js) %> <%= unescape(tmpl) %>
 </head>
 <body>
-    <h1><%= title %></h1>
-    <%= unescape(body) %>
-    <hr />
-    <div>
-        <ul id="mainmenu" style="position:fixed; top:0; right:0">
-            <li><a href="/">Generate text</a></li>
-            <li><a href="/stat">Statistic</a></li>
-            <li><a href="/load">Load text</a></li>
-        </ul>
+    <div class="ui-widget-content ui-corner-all  ui-helper-clearfix">
+        <div class="ui-widget-content ui-corner-all  ui-helper-clearfix">
+            <div style="float: left" class="ui-state-default">
+                <ul id="mainmenu">
+                    <li><a href="#">Menu</a>
+                        <ul>
+                            <li><a class="open-generate" href="#/">Generate text</a></li>
+                            <li><a class="open-memento" href="#/json/memento/314159265">Memento</a></li>
+                            <li><a class="open-upload" href="#/load">Load text</a></li>
+                            <li><a class="open-statistic" href="/stat">Statistic</a></li>
+                            <li><a class="open-about" href="#/about">Read Me</a></li>
+                        </ul></li>
+                </ul>
+            </div>
+            <div
+                class=" ui-widget-header  ui-corner-all"
+                style="text-align: center; line-height: 2.2"
+            >
+                <span>English Wizard</span>
+            </div>
+        </div>
+        <div class=" ui-state-default  ui-corner-all">
+            <span><b></b><%= title %></b></span>
+        </div>
+        <div class="ui-widget-content  ui-corner-all"><%=
+            unescape(body) %></div>
+        <div class="ui-state-default" style="text-align:center">unit: mongodb</div>
+    </div>
     </div>
 </body>
 </html>

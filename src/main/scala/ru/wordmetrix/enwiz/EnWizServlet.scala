@@ -1,11 +1,12 @@
 package ru.wordmetrix.enwiz
 
 import scala.concurrent.{ ExecutionContext, Promise }
+
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
 import org.scalatra.{ AsyncResult, FutureSupport }
 import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig }
-import EnWizLookup.{ EnWizStat, EnWizStatRequest }
+import EnWizLookup._
 import EnWizParser.{ EnWizText, EnWizTaskId }
 import akka.actor.{ ActorRef, ActorSystem, actorRef2Scala }
 import akka.pattern.ask
@@ -53,11 +54,37 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
         }
 
     }
+    get("/memento/?") {
+        contentType = "text/html"
 
-    val taskids = Iterator.from(1)
+        new AsyncResult() {
+            val promise = Promise[String]
+            val is = promise.future
+
+            def page(ok: Boolean, words: List[String]) =
+                ssp("/memento.ssp",
+                    "layout" -> "WEB-INF/layouts/light.ssp",
+                    "ok" -> ok,
+                    "words" -> words.mkString(" ")
+                )
+
+            lookup ? EnWizPi2WordsRequest(
+                params.getOrElse("numbers", "").split("").map(
+                    x => Try(x.toInt).toOption
+                ).flatten.toList
+            ) onSuccess {
+                    case EnWizPi2Words(Left(words)) =>
+                        promise.complete(Try(page(true, words)))
+                    case EnWizPi2Words(Right(words)) =>
+                        promise.complete(Try(page(false, words)))
+                }
+        }
+    }
+
     /**
      * Page that posts new text
      */
+    val taskids = Iterator.from(1)
     def load = {
         contentType = "text/html"
         basicAuth
@@ -65,20 +92,20 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
         params.get("text") match {
             case None =>
             case Some(text) =>
-                lookup ! EnWizText(EnWizTaskId(taskids.next, ""),text)
+                lookup ! EnWizText(EnWizTaskId(taskids.next, ""), text)
         }
 
         fileParams.get("text") match {
             case Some(file) =>
                 lookup ! EnWizText(
-                   EnWizTaskId(taskids.next, file.getName),
+                    EnWizTaskId(taskids.next, file.getName),
                     io.Source.fromInputStream(file.getInputStream).
                         getLines.mkString("\n")
                 )
             case None =>
         }
 
-        ssp("/load.ssp", "text" -> "")
+        ssp("/load.ssp", "layout" -> "WEB-INF/layouts/light.ssp", "text" -> "")
     }
 
     get("/load")(load)

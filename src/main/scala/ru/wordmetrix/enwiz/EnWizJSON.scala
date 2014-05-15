@@ -81,7 +81,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
         }
     }
     
-    get("/pi2words/:numbers") {
+    get("/memento/:numbers") {
         new AsyncResult() {
             val promise = Promise[(Boolean,List[String],String)]
             val is = promise.future
@@ -95,7 +95,6 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
                     promise.complete( Try(false,words,words.mkString(" "))  )
             }
         }
-        
     } 
 
 }
