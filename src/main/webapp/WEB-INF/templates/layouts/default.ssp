@@ -31,7 +31,7 @@
                             <li><a class="open-generate" href="#/">Generate text</a></li>
                             <li><a class="open-memento" href="#/json/memento/314159265">Memento</a></li>
                             <li><a class="open-upload" href="#/load">Load text</a></li>
-                            <li><a class="open-statistic" href="/stat">Statistic</a></li>
+                            <!--  li><a class="open-statistic" href="/stat">Statistic</a></li  -->
                             <li><a class="open-about" href="#/about">Read Me</a></li>
                         </ul></li>
                 </ul>
