@@ -17,7 +17,7 @@ Two words about grammar correctness. For each three word that database uses it's
 A few outcomes of the mnemonic generator
 -------------------------------------------
 
- - Pi = 3.14159265 :	*And I have a child condemned to always think .*
+ - Pi = 3.14159265 :	*And I have a child condemned to always think .*, *Now I have a rectangle of public space .*
  -	e = 2.718281 :	*He thought a headache or somewhat.*
  -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
  - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
