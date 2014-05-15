@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var interval;
     function progress() {
         $.ajax({
             url : "/json/progress",
@@ -20,6 +21,7 @@ $(document).ready(function() {
     var interval = setInterval(progress, 1000);
     
     $(".form-upload").ajaxForm({
+        clearForm :true,
        success : function(responseText, statusText, xhr, $form)  {
            clearInterval(interval);
            interval = setInterval(progress, 1000);

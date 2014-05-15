@@ -64,7 +64,6 @@
 #end #set (js)
 <script src="/js/generator.js">  </script>
 <script src="/js/progressSpin.min.js">  </script>
-<script src="/js/progress.js">  </script>
 <script src="/js/memento.js">  </script>
 <script src="/js/upload.js">  </script>
 #end
@@ -109,6 +108,7 @@
                 name="text"
             />
             <button class="button">Upload</button>
+        </form>
     </div>
     <div class="my-panes my-memento">
         <div
