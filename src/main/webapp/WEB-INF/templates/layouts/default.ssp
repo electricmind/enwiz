@@ -1,8 +1,6 @@
-<%@ val body: String %> 
-<%@ val restricted: Boolean = false %>
-<%@ val js: String = ""%>
-<%@ val tmpl: String = ""%> 
-<%@ val title: String = "English phrase generator"%>
+<%@ val body: String %> <%@ val restricted: Boolean = false %> <%@ val
+js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
+"English phrase generator"%>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -15,20 +13,36 @@
 .ui-menu {
 	width: 150px;
 }
+
 .my-main {
-    width: 640px;
-    height: 480px;
+	width: 640px;
+	height: 480px;
+}
+
+@media ( max-width : 640px) {
+	.my-main {
+		width: 100%;
+		height: 100%;
+	}
+	.my-memento-scroll {
+		overflow-y: auto;
+		height: 100%;
+	}
 }
 
 .my-memento-scroll {
-   overflow-y: auto;  
-   height:460px;
+	overflow-y: auto;
+	height: 460px;
 }
 </style>
-<style rel="stylesheet" type="text/css" media="handheld">
+<style
+    rel="stylesheet"
+    type="text/css"
+    media="handheld"
+>
 .my-main {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
 </style>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -41,22 +55,45 @@
 <%= unescape(js) %> <%= unescape(tmpl) %>
 </head>
 <body>
-    <div class="my-main ui-widget-content ui-corner-all  ui-helper-clearfix">
+    <div
+        class="my-main ui-widget-content ui-corner-all  ui-helper-clearfix"
+    >
         <div class="ui-widget-content ui-corner-all  ui-helper-clearfix">
-            <div style="float: left" class="ui-state-default">
+            <div
+                style="float: left"
+                class="ui-state-default"
+            >
                 <ul id="mainmenu">
                     <li><a href="#">Menu</a>
-                        <ul style="z-index:100">
-                            <li><a class="open-generate" href="#/">Generate text</a></li>
-                            <li><a class="open-memento" href="#/json/memento/314159265">Mnemonic</a></li>
-                            #if (restricted)
-                            <li><a class="open-upload" href="#/load">Load text</a></li>
-                            <li><a class="open-statistic" href="/stat">Statistic</a></li>
-                            #else
-                            <li><a class="open-upload" href="/admin#/load">Load text</a></li>
-                            <li><a class="open-statistic" href="/admin#/stat">Statistic</a></li>
-                            #end
-                            <li><a class="open-about" href="#/about">Read Me</a></li>
+                        <ul style="z-index: 100">
+                            <li><a
+                                class="open-generate"
+                                href="#/"
+                            >Generate text</a></li>
+                            <li><a
+                                class="open-memento"
+                                href="#/json/memento/314159265"
+                            >Mnemonic</a></li> #if (restricted)
+                            <li><a
+                                class="open-upload"
+                                href="#/load"
+                            >Load text</a></li>
+                            <li><a
+                                class="open-statistic"
+                                href="/stat"
+                            >Statistic</a></li> #else
+                            <li><a
+                                class="open-upload"
+                                href="/admin#/load"
+                            >Load text</a></li>
+                            <li><a
+                                class="open-statistic"
+                                href="/admin#/stat"
+                            >Statistic</a></li> #end
+                            <li><a
+                                class="open-about"
+                                href="#/about"
+                            >Read Me</a></li>
                         </ul></li>
                 </ul>
             </div>
@@ -67,9 +104,14 @@
                 <span>English Wizard</span>
             </div>
         </div>
-        <div class="ui-widget-content  ui-corner-none" style="height: 100%"><%=
-            unescape(body) %></div>
-        <div class="ui-state-default" style="text-align:center">unit: mongodb</div>
+        <div
+            class="ui-widget-content  ui-corner-none"
+            style="height: 100%"
+        ><%= unescape(body) %></div>
+        <div
+            class="ui-state-default"
+            style="text-align: center"
+        >unit: mongodb</div>
     </div>
     </div>
 </body>

@@ -86,7 +86,7 @@ generates english phrases. #end #set (tmpl)
             english sentence it prompts a range of words along with
             probabilities that could continue the sentence. You can
             choose a word of the drop-list to begin.</p>
-        <p>v.0.0.13</p>
+        <p>v.0.0.14</p>
     </div>
     <div class=" my-panes my-generate">
         <div class=" ui-state-default  ui-corner-top">
