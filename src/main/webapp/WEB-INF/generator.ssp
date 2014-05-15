@@ -1,4 +1,4 @@
-#set (title) Wizard that generates english phrases. #end  #set (tmpl)
+#set (title) Wizard that generates english phrases. #end #set (tmpl)
 <script
     id="progress-tmpl"
     type="text/x-jquery-tmpl"
@@ -32,6 +32,15 @@
                         <span class="word" data-word=""></span>
                     </div></script>
 <script
+    id="memento"
+    type="text/x-jquery-tmpl"
+>
+                    <tr class="memento-\${memento._1}">
+<td>\${figures}</td>
+<td>\${memento._3}</td>
+</tr>
+</script>
+<script
     id="loading"
     type="text/x-jquery-tmpl"
 >
@@ -55,16 +64,16 @@
 #end #set (js)
 <script src="/js/generator.js">  </script>
 <script src="/js/progressSpin.min.js">  </script>
-<script src="/js/progress.js">  </script>
+<script src="/js/memento.js">  </script>
+<script src="/js/upload.js">  </script>
 #end
 <div class="ui-wizard-content">
-<div class=" my-panes my-about">
-    <p>This application helps to write English sentences. For an
-        english sentence it prompts a range of words along with
-        probabilities that could continue the sentence. You can choose a
-        word of the drop-list to begin.</p>
-</div>
-
+    <div class=" my-panes my-about">
+        <p>This application helps to write English sentences. For an
+            english sentence it prompts a range of words along with
+            probabilities that could continue the sentence. You can
+            choose a word of the drop-list to begin.</p>
+    </div>
     <div class=" my-panes my-generate">
         <div
             class="phrase"
@@ -85,20 +94,32 @@
         >Remove</button>
     </div>
     <div class="my-panes my-upload">
-            <div id="progress"></div>
-            <iframe src="/load" width="100%">
-        
-        </iframe>
+        <div id="progress"></div>
+        <form
+            class="form-upload"
+            action="/load"
+            method="post"
+            enctype="multipart/form-data"
+        >
+            <input
+                class="button"
+                type="file"
+                title="Enter a name of a text file to parse and include into the vocabulary"
+                name="text"
+            />
+            <button class="button">Upload</button>
+        </form>
     </div>
     <div class="my-panes my-memento">
         <div
             id="progress"
             class="ui-corner-top"
         >
-            <table>
+            <table class="memento">
                 <tr>
                     <td>3.14159265</td>
-                    <td>And I have a child condemned to always think .</td>
+                    <td>And I have a child condemned to always
+                        think .</td>
                 </tr>
                 <tr>
                     <td>2.718281</td>
@@ -106,10 +127,17 @@
                 </tr>
             </table>
         </div>
-        <div class="ui-corner-top">
-            <iframe src="/memento" width="100%">
-        </iframe>
-        </div>
+        <form
+            action="/json/memento"
+            class="form-memento"
+        >
+            <input
+                type="text"
+                title="Enter a string of figures"
+                name="figures"
+            />
+            <button class="button">Submit</button>
+        </form>
     </div>
 </div>
 </div>
