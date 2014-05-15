@@ -37,7 +37,16 @@ generates english phrases. #end #set (tmpl)
     type="text/x-jquery-tmpl"
 >
                     <tr class="memento-\${memento._1} ui-helper-hidden" >
-<td width="20%">\${memento._4}</td>
+{{if memento._1}}
+<td width="2%" class="ui-state-highlight1" style="border:0px">
+<span class="ui-icon ui-icon-check"></span>
+</td>
+{{else}}
+<td width="2%" class="ui-state-error" style="border:0px">
+<span class="ui-icon ui-icon-alert"></span>
+</td>
+{{/if}}
+<td width="2%">\${memento._4}</td>
 <td>\${memento._3}</td>
 </tr>
 </script>
@@ -77,6 +86,7 @@ generates english phrases. #end #set (tmpl)
             english sentence it prompts a range of words along with
             probabilities that could continue the sentence. You can
             choose a word of the drop-list to begin.</p>
+        <p>v.0.0.13</p>
     </div>
     <div class=" my-panes my-generate">
         <div class=" ui-state-default  ui-corner-top">
@@ -134,20 +144,40 @@ generates english phrases. #end #set (tmpl)
             width="100%"
         >
             <tr>
+                <td
+                    width="2%"
+                    class="ui-state-highlight1"
+                    style="border: 0px"
+                ><span class="ui-icon ui-icon-check"></span></td>
                 <td width="20%">pi = 3.14159265</td>
                 <td>And I have a child condemned to always think .</td>
             </tr>
             <tr>
+                <td
+                    width="2%"
+                    class="ui-state-error"
+                    style="border: 0px"
+                ><span class="ui-icon ui-icon-alert"></span></td>
                 <td width="20%">e = 2.718281</td>
                 <td>He thought a headache or somewhat.</td>
             </tr>
             <tr>
+                <td
+                    width="2%"
+                    class="ui-state-highlight1"
+                    style="border: 0px"
+                ><span class="ui-icon ui-icon-check"></span></td>
                 <td width="20%">just numbers:
                     242424242424242424242424</td>
                 <td>He felt as well as some of them in that it made
                     me feel as much as they do that to make it easy .</td>
             </tr>
             <tr>
+                <td
+                    width="2%"
+                    class="ui-state-highlight1"
+                    style="border: 0px"
+                ><span class="ui-icon ui-icon-check"></span></td>
                 <td width="20%">just numbers: 1234567654321</td>
                 <td>I do not know about thirty seconds before their
                     eyes met in a ..</td>

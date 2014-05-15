@@ -94,7 +94,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
             val key = params("figures")
             
             lookup ? EnWizPi2WordsRequest(
-                    key.split("").map(x => Try(x.toInt).toOption).flatten.toList
+                    key.split("").map(x => Try(x.toInt).toOption).flatten.toList.take(15)
                     ) onSuccess {
                 case EnWizPi2Words(Left(words)) => 
                     promise.complete( Try(true,words,words.mkString(" "),key)  )

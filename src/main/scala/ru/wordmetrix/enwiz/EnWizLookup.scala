@@ -105,7 +105,9 @@ class EnWizLookup() extends Actor with EnWizMongo {
                 Right(best)
             }
 
-            def ns2ws(ns: List[Int], best: List[String], ws: List[String]): Either[List[String], List[String]] = ns match {
+            def ns2ws(ns: List[Int], best: List[String], ws: List[String], t : Long): Either[List[String], List[String]] = if (t < System.currentTimeMillis()) {
+                Right(betterof(best,ws))
+            } else ns match {
                 case n :: ns =>
                     ws match {
                         case word2 :: word1 :: _ =>
@@ -125,10 +127,10 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                     case _          => false
                                 } map {
                                     case (",", _) =>
-                                        ns2ws(ns, better, "," :: ws)
+                                        ns2ws(ns, better, "," :: ws,t)
                                     case (word3, p) =>
                                         //println(s" ok : $n : $word3 x $p : $ws")
-                                        ns2ws(ns, better, word3 :: ws)
+                                        ns2ws(ns, better, word3 :: ws,t)
                                 },
                                 better
                             )
@@ -149,7 +151,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
             Future {
                 EnWizPi2Words(
-                    ns2ws(ns, List(), List("", "")) match {
+                    ns2ws(ns, List(), List("", ""),System.currentTimeMillis() + 10000) match {
                         case Left(x)  => Left(x.reverse)
                         case Right(x) => Right(x.reverse)
                     }
