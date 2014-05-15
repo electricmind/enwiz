@@ -19,9 +19,11 @@ object EnWizParser {
 
     case class EnWizText(task: EnWizTaskId, text: String) extends EnWizMessage
     case class EnWizCompleted(msg: EnWizTaskId) extends EnWizMessage
-    case class EnWizProgress(msg: EnWizTaskId, progress: Double) extends EnWizMessage
+    case class EnWizProgress(msg: EnWizTaskId, progress: Double)
+        extends EnWizMessage
     case class EnWizStatusRequest() extends EnWizMessage
-    case class EnWizStatus(tasks: List[(EnWizTaskId, Double)]) extends EnWizMessage
+    case class EnWizStatus(tasks: List[(EnWizTaskId, Double)])
+        extends EnWizMessage
 
     def props(): Props = Props(new EnWizParser())
 }
@@ -41,9 +43,9 @@ class EnWizParser() extends Actor with EnWizMongo {
                     sentence.tokenize.toVector :+ ".") sliding 3
             }
         } yield (word1, word2, word3)) toList
-        
+
         val size = trigrams.length
-        
+
         for {
             ((word1, word2, word3), id) <- trigrams.zipWithIndex
         } {
@@ -77,9 +79,11 @@ class EnWizParser() extends Actor with EnWizMongo {
             sender ! EnWizStatus(List())
     }
 
-    def running(queue: Queue[EnWizText], progress: Map[EnWizTaskId, Double]): Receive = {
+    def running(queue: Queue[EnWizText],
+                progress: Map[EnWizTaskId, Double]): Receive = {
         case msg @ EnWizText(task, text) =>
-            context.become(running(queue.enqueue(msg), progress + (task -> 0.0)))
+            context.become(running(queue.enqueue(msg),
+                progress + (task -> 0.0)))
 
         case EnWizCompleted(task) =>
             if (queue.isEmpty) {

@@ -65,7 +65,9 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
     get("/words/:word1/:word2") {
         result("", "", params("word1"), params("word2"))
     }
-    
+    /**
+     * Return a progress of texts' parsing
+     */
     get("/progress") { 
         new AsyncResult() {
             val promise = Promise[List[(EnWizTaskId,Double)]]()
@@ -80,6 +82,9 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
             }
         }
     }
+    /**
+     * Return mnemonic for a sequence of figures. 
+     */
     
     get("/memento/:numbers") {
         new AsyncResult() {
