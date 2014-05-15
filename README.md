@@ -4,15 +4,25 @@ enwiz
 
 This very tool is just a toy, but it engages the statistic of 65000 words in 500000 English trigrams, that comes from a range of texts. It provides two opportunities: a bit of enjoy and a bit of better sense of how English really runs.
 
-First one is a *mnemonic generator*, theoretically one can use it to memorize a long sequence of numbers. Practically, just because English is not my native, it works for me in opposite direction, that's enjoyable. Let's assume you need to memorize a Pi. Look at the lengths of the words: "And(3) I (1) have (4) a (1) child (5) condemned (9) to (2) always (6) think (5).", that gives 3.14159265.
+First one is a **mnemonic generator**, theoretically one can use it to memorize a long sequence of numbers. Practically, just because English is not my native, it works for me in opposite direction, that's enjoyable. Let's assume you need to memorize a Pi. Look at the lengths of the words: *"And(3) I (1) have (4) a (1) child (5) condemned (9) to (2) always (6) think (5)."*, that gives 3.14159265.
 
-One can write a bunch of amusing things: "They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .", what a lurid story of two awful fellows in four-letter words!
+One can write a bunch of amusing things: *"They were both gone into some kind that says that this time when they were gone from them both with guns they find this town ."*, what a lurid story of two awful fellows in four-letter words!
 
 For the lack of an interest to numbers, one can focus on language itself with a sentence generator. The tool suggests more plausible word with respect to a couple of previous. English writing becomes a lot of easy for one, who chooses suitable words one by one. Of course it would be a complete synthetic nonsense, but .... you will be surprised that only a little participation of humanity is really necessary to put a sense into them.
 
 As for me, it helps to estimate possible context of different words or possible language constructs, but to be honest I used a little more sophisticated tool.
 
 Two words about grammar correctness. For each three word that database uses it's guaranteed that they comes from a real text, correct one. For each four-five word that is quite possible to find a text that contains them. More than five .... yeah, it's debatable.
+
+A few outcomes of the mnemonic generator
+-------------------------------------------
+
+ - Pi = 3.14159265 :	*And I have a child condemned to always think .*
+ -	e = 2.718281 :	*He thought a headache or somewhat.*
+ -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
+ - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
+ - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
+
 
 Usage
 -------------
