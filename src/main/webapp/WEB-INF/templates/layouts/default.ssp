@@ -1,5 +1,8 @@
-<%@ val body: String %> <%@ val js: String = ""%> <%@ val tmpl: String =
-""%> <%@ val title: String = "English phrase generator"%>
+<%@ val body: String %> 
+<%@ val restricted: Boolean = false %>
+<%@ val js: String = ""%>
+<%@ val tmpl: String = ""%> 
+<%@ val title: String = "English phrase generator"%>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -23,16 +26,21 @@
 <%= unescape(js) %> <%= unescape(tmpl) %>
 </head>
 <body>
-    <div class="ui-widget-content ui-corner-all  ui-helper-clearfix">
+    <div class="ui-widget-content ui-corner-all  ui-helper-clearfix" style="width:640px; height:480px">
         <div class="ui-widget-content ui-corner-all  ui-helper-clearfix">
             <div style="float: left" class="ui-state-default">
                 <ul id="mainmenu">
                     <li><a href="#">Menu</a>
-                        <ul>
+                        <ul style="z-index:100">
                             <li><a class="open-generate" href="#/">Generate text</a></li>
-                            <li><a class="open-memento" href="#/json/memento/314159265">Memento</a></li>
+                            <li><a class="open-memento" href="#/json/memento/314159265">Mnemonic</a></li>
+                            #if (restricted)
                             <li><a class="open-upload" href="#/load">Load text</a></li>
-                            <!--  li><a class="open-statistic" href="/stat">Statistic</a></li  -->
+                            <li><a class="open-statistic" href="/stat">Statistic</a></li>
+                            #else
+                            <li><a class="open-upload" href="/admin#/load">Load text</a></li>
+                            <li><a class="open-statistic" href="/admin#/stat">Statistic</a></li>
+                            #end
                             <li><a class="open-about" href="#/about">Read Me</a></li>
                         </ul></li>
                 </ul>
@@ -44,10 +52,7 @@
                 <span>English Wizard</span>
             </div>
         </div>
-        <div class=" ui-state-default  ui-corner-top">
-            <span><b></b><%= title %></b></span>
-        </div>
-        <div class="ui-widget-content  ui-corner-none"><%=
+        <div class="ui-widget-content  ui-corner-none" style="height: 100%"><%=
             unescape(body) %></div>
         <div class="ui-state-default" style="text-align:center">unit: mongodb</div>
     </div>

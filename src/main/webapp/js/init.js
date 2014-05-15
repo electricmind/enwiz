@@ -2,7 +2,12 @@ $(document).ready(function() {
     $(document).tooltip();
     $(".button").button();
     $(".menu").menu();
-    $("#mainmenu").menu();
+    $("#mainmenu").menu({
+        position : {
+            my : "top",
+            at : "top+30"
+        }
+    });
     
     $(".my-panes").hide();
     $(".my-generate").show();

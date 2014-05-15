@@ -104,7 +104,9 @@ class EnWizParser() extends Actor with EnWizMongo {
             )
 
         case EnWizStatusRequest() =>
-            sender ! EnWizStatus(progress.toList)
+            sender ! EnWizStatus(progress.toList/*queue.toList.map(
+                msg => msg.task -> progress(msg.task)
+            )*/)
     }
 
     def receive(): Receive = idle

@@ -70,12 +70,14 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
      */
     get("/progress") { 
         new AsyncResult() {
-            val promise = Promise[List[(EnWizTaskId,Double)]]()
+            val promise = Promise[List[(EnWizTaskId,String)]]()
             val is = promise.future
             lookup ? EnWizStatusRequest() onSuccess {
                 case EnWizStatus(tasks) =>
                     promise.complete(Try(
-                        tasks
+                        tasks map {
+                            case (tid, part) => (tid, f"${part}%4.2f")
+                        }
                     ))
 
                 case None => NotFound(s"Sorry, unknown words")
@@ -87,16 +89,17 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
      */
     
     def memento = new AsyncResult() {
-            val promise = Promise[(Boolean,List[String],String)]
+            val promise = Promise[(Boolean,List[String],String,String)]
             val is = promise.future
+            val key = params("figures")
             
             lookup ? EnWizPi2WordsRequest(
-                    params("figures").split("").map(x => Try(x.toInt).toOption).flatten.toList
+                    key.split("").map(x => Try(x.toInt).toOption).flatten.toList
                     ) onSuccess {
                 case EnWizPi2Words(Left(words)) => 
-                    promise.complete( Try(true,words,words.mkString(" "))  )
+                    promise.complete( Try(true,words,words.mkString(" "),key)  )
                 case EnWizPi2Words(Right(words)) => 
-                    promise.complete( Try(false,words,words.mkString(" "))  )
+                    promise.complete( Try(false,words,words.mkString(" "),key)  )
             }
         }
 

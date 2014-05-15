@@ -31,6 +31,12 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
         ssp("/generator.ssp")
     }
 
+    get("/admin") {
+        contentType = "text/html"
+        basicAuth
+        ssp("/generator.ssp", "restricted" -> true)
+    }
+
     /**
      * Page with statistic
      */

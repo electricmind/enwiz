@@ -1,14 +1,15 @@
-#set (title) Wizard that generates english phrases. #end #set (tmpl)
+<%@ val restricted: Boolean = false %> #set (title) Wizard that
+generates english phrases. #end #set (tmpl)
 <script
     id="progress-tmpl"
     type="text/x-jquery-tmpl"
 >
-<div  id="progress" class="ui-corner-top">
+<div  id="progress" class="ui-corner-top" width="100%">
 {{if tasks.length > 0 }}
-<table>
+<table width="100%">
 {{each(i,task) tasks}}
-<tr><td>
-   \${task._1.id} </td><td> \${task._1.title} </td><td> \${task._2} </td>
+<tr><td width="10%">
+   \${task._1.id} </td><td> \${task._1.title} </td><td  width="30%"> \${task._2} % completed </td>
 {{/each}}
 {{/if}}
 </table>
@@ -19,7 +20,7 @@
     type="text/x-jquery-tmpl"
 >
                     <ul  class="words" style="display:inline-block; vertical-align:top; font-size:+15"><li><a href="#">Add word</a>
-                    <ul >{{each(i,wp) wps}}<li>
+                    <ul style="z-index:100">{{each(i,wp) wps}}<li>
                         <a class="menuitem" data-word="\${wp.word}" href="#\${wp.word}">\${wp.word} : \${wp.probability} </a>
                     </li>{{/each}}</ul></ul>
 </script>
@@ -35,8 +36,8 @@
     id="memento"
     type="text/x-jquery-tmpl"
 >
-                    <tr class="memento-\${memento._1}">
-<td>\${figures}</td>
+                    <tr class="memento-\${memento._1} ui-helper-hidden" >
+<td width="20%">\${memento._4}</td>
 <td>\${memento._3}</td>
 </tr>
 </script>
@@ -44,7 +45,7 @@
     id="loading"
     type="text/x-jquery-tmpl"
 >
-                    <div class="loading" style="vertical-align:top; font-size:+15">
+                    <div class="loading" title="On complete drop-down menu raises" style="vertical-align:top; font-size:+15">
                         Loading...
                     </div></script>
 <script
@@ -58,7 +59,7 @@
     id="phraseitem"
     type="text/x-jquery-tmpl"
 >
-                    <span class="word" data-word="\${word}">
+                    <span class="word ui-helper-hidden" data-word="\${word}">
                         \${word} 
                     </span></script>
 #end #set (js)
@@ -69,12 +70,20 @@
 #end
 <div class="ui-wizard-content">
     <div class=" my-panes my-about">
+        <div class=" ui-state-default  ui-corner-top">
+            <span><b></b>ReadMe about this stuff</b></span>
+        </div>
         <p>This application helps to write English sentences. For an
             english sentence it prompts a range of words along with
             probabilities that could continue the sentence. You can
             choose a word of the drop-list to begin.</p>
     </div>
     <div class=" my-panes my-generate">
+        <div class=" ui-state-default  ui-corner-top">
+            <span
+                title="Press menu button bellow and choose next word from menu"
+            ><b>Generate English sentences</b></span>
+        </div>
         <div
             class="phrase"
             style="font-size: +25"
@@ -88,12 +97,16 @@
             ></span>
         </div>
         <button
-            class="remove"
+            class="remove ui-helper-hidden"
             title="Press the button to remove last word."
             style="font-size: +15"
         >Remove</button>
     </div>
+    #if (restricted)
     <div class="my-panes my-upload">
+        <div class=" ui-state-default  ui-corner-top">
+            <span><b>Upload new text file to teach the wizard</b></span>
+        </div>
         <div id="progress"></div>
         <form
             class="form-upload"
@@ -110,34 +123,59 @@
             <button class="button">Upload</button>
         </form>
     </div>
-    <div class="my-panes my-memento">
-        <div
-            id="progress"
-            class="ui-corner-top"
-        >
-            <table class="memento">
-                <tr>
-                    <td>3.14159265</td>
-                    <td>And I have a child condemned to always
-                        think .</td>
-                </tr>
-                <tr>
-                    <td>2.718281</td>
-                    <td>He thought a headache or somewhat.</td>
-                </tr>
-            </table>
+    #end
+    <div class="my-panes my-memento ui-helper-clearfix">
+        <div class=" ui-state-default  ui-corner-top">
+            <span><b>Generate a mnemonic for a sequence of
+                    numbers</b></span>
         </div>
+        <table
+            class="memento ui-corner-top"
+            width="100%"
+        >
+            <tr>
+                <td width="20%">pi = 3.14159265</td>
+                <td>And I have a child condemned to always think .</td>
+            </tr>
+            <tr>
+                <td width="20%">e = 2.718281</td>
+                <td>He thought a headache or somewhat.</td>
+            </tr>
+            <tr>
+                <td width="20%">just numbers:
+                    242424242424242424242424</td>
+                <td>He felt as well as some of them in that it made
+                    me feel as much as they do that to make it easy .</td>
+            </tr>
+            <tr>
+                <td width="20%">just numbers: 1234567654321</td>
+                <td>I do not know about thirty seconds before their
+                    eyes met in a ..</td>
+            </tr>
+        </table>
         <form
             action="/json/memento"
             class="form-memento"
+            style="float: left"
         >
+            <div
+                class="memento-error ui-state-error ui-corner-all ui-helper-hidden"
+                style="padding: 0 .2em; width: 400px; float: right"
+            >
+                <p>
+                    <span
+                        class="ui-icon ui-icon-alert"
+                        style="float: left; margin-right: .3em;"
+                    ></span> <strong>Alert:</strong> Error to access the
+                    server, try again.
+                </p>
+            </div>
             <input
                 type="text"
                 title="Enter a string of figures"
                 name="figures"
             />
-            <button class="button">Submit</button>
+            <button class="button">Generate!</button>
         </form>
     </div>
-</div>
 </div>

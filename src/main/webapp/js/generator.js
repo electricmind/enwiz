@@ -2,7 +2,7 @@ $(document).ready(
         function() {
             var cache = [];
 
-            $(".remove").button().on("click", function() {
+            $(".remove").button().hide().on("click", function() {
                 if ($(".phrase :last .word").size() == 2) {
                     if ($(".phrase").size() > 1) {
                         $(".phrase :last").remove();
@@ -12,6 +12,9 @@ $(document).ready(
                     }
                 } else {
                     $(".phrase :last .word :last").remove();
+                    if ($(".phrase :last .word").size() == 2 && $(".phrase").size() == 1) {
+                        $(".remove").hide(200);
+                    }
                 }
 
                 $(".words").remove();
@@ -83,16 +86,18 @@ $(document).ready(
 
             function handler(event) {
 
-                a = $(event.target).parents(".words");
+                var words = $(event.target).parents(".words");
 
-                var w1 = $(a).prev().data("word");
+                var w1 = $(words).prev().data("word");
                 var w2 = $(event.target).data("word");
 
                 $("#phraseitem").tmpl({
                     "word" : $(event.target).data("word")
-                }).appendTo(".phrase :last")
+                }).appendTo(".phrase :last").show(400);
+                $(".remove").show(400);
 
-                $(a).remove();
+
+                $(words).remove();
 
                 if (w2 == ".") {
                     $(".phrase :last").after($("#phrase").tmpl());
