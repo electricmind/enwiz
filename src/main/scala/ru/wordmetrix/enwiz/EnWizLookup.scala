@@ -173,7 +173,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         MO("$group" ->
                             MO("_id" -> 1, "value" -> MO("$sum" -> "$p"))))
                     ).results.head
-                }).get("value").toString().toDouble
+                }).getOrElse("value",0.0).toString().toDouble
 
                 println(s"return average $average")
 
@@ -187,7 +187,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         MO("$group" ->
                             MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
                     ).results.head
-                }).get("value").toString().toDouble
+                }).getOrElse("value",0.0).toString().toDouble
 
                 println(s"return unigram $unigram")
 
@@ -201,7 +201,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         MO("$group" ->
                             MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
                     ).results.head
-                }).get("value").toString().toDouble
+                }).getOrElse("value",0.0).toString().toDouble
 
                 println(s"return bigram $bigram")
 
@@ -216,7 +216,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         MO("$group" ->
                             MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
                     ).results.head
-                }).get("value").toString().toDouble
+                }).getOrElse("value",0.0).toString().toDouble
 
                 println(s"return trigram $trigram")
 
