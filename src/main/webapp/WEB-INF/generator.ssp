@@ -66,6 +66,7 @@
 <script src="/js/progressSpin.min.js">  </script>
 <script src="/js/progress.js">  </script>
 <script src="/js/memento.js">  </script>
+<script src="/js/upload.js">  </script>
 #end
 <div class="ui-wizard-content">
     <div class=" my-panes my-about">
@@ -95,10 +96,19 @@
     </div>
     <div class="my-panes my-upload">
         <div id="progress"></div>
-        <iframe
-            src="/load"
-            width="100%"
-        > </iframe>
+        <form
+            class="form-upload"
+            action="/load"
+            method="post"
+            enctype="multipart/form-data"
+        >
+            <input
+                class="button"
+                type="file"
+                title="Enter a name of a text file to parse and include into the vocabulary"
+                name="text"
+            />
+            <button class="button">Upload</button>
     </div>
     <div class="my-panes my-memento">
         <div
