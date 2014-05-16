@@ -24,15 +24,11 @@ A few outcomes of the mnemonic generator
  - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
  - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
 
-I used a vocabulary 
-up to:
 
- -Unigram: 97,144,
- - Bigram: 1,000,320,
- - Trigram: 2,189,986,
- - Average trigrams' frequency: 1.92.
-
-from variety of texts including wikipedia pages.
+Sample of vocabulary
+---------------------
+Just to exmplify, I show a statistic below for the vocabulary of Wikipedia articles related to
+the word "Forensic":
 
 |         | unigram | bigram | trigram  | frequency |
 | --------| ------ | ------- | -------- | --------- |
@@ -49,7 +45,7 @@ from variety of texts including wikipedia pages.
 | xcc-xcg | 97179  | 1003502 | 2193309  | 1.864     |
 | xch-xci | 101954 | 1080966 | 2.405365 | 1.89      |
 
-(each sample is 4M length)
+(Each individaul sample was 4M length, 242M in common)
 
 Usage
 -------------
