@@ -47,6 +47,9 @@ the word "Forensic":
 
 (Each individaul sample was 4M length, 242M in common)
 
+The Wikipedia is an atypical case though: in fiction vocabulary grown shows different shapes.
+
+
 Usage
 -------------
 What you need is a mongodb and a text corpora. Large text corpora contains a lot of words and so forth, that 
