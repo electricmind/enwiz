@@ -44,15 +44,18 @@ the word "Forensic":
 | xbs-xbw | 88164  |  873820 | 1854607  |  1.79     |
 | xbx-xcb | 92218  |  929691 | 1993352  | 1.808     |
 | xcc-xcg | 97179  | 1003502 | 2193309  | 1.864     | 
+| xch-xci | 101954 | 1080966 | 2.405365 | 1.89      |
 
 
 -->
-| xch-xci | 101954 | 1080966 | 2.405365 | 1.89      |
+|         | unigram | bigram | trigram  | frequency |
+| --------| ------ | ------- | -------- | --------- |
+|         | 101954 | 1080966 | 2.405365 | 1.89      |
 
 (Each individaul sample was about 20M length, 242M in common)
 
 The Wikipedia is an atypical case though: for fiction books a vocabulary grown shows different shapes:
-
+<!--
 |         | unigram | bigram | trigram  | frequency |
 | --------| ------ | ------- | -------- | --------- |
 |  xaa    | 25228  | 226915  |  485915  | 1.664     |
@@ -66,6 +69,11 @@ The Wikipedia is an atypical case though: for fiction books a vocabulary grown s
 |  xai    | 78598  | 1205567 | 3356044  | 2.280     |
 |  xaj    |        |         |          |           |
 |         |        |         |          |           |
+-->
+
+|         | unigram | bigram | trigram  | frequency |
+| --------| ------ | ------- | -------- | --------- |
+|         | 78598  | 1205567 | 3356044  | 2.280     |
 
 (Each individaul sample was about 8M length, 87M in common, frequency is for average frequency of trigram).
 
