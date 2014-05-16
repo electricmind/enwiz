@@ -29,9 +29,9 @@ Fiction set :
 
 |  length | unigram | bigram | trigram  | frequency frequency of trigramm |
 | --------| ------ | ------- | -------- | ------------------------------- |
-|  87M    | 82847  | 1295670 | 3645601  | 2.320                           |
+|  87M    | 85044  | 1343235 | 3799617  | 2.3741653435069905              |
 
-Considering the fact, that size of any corpora is limited  , less intellectual source provides a sample with higher average frequency of trigramm having less or the same vocabulary size. Average frequency of trigramm is a crucial parameter that reflects a quality of model. Text generated on the base of the model with large average frequency of trigramm better come up to a human expectations. So, difference between 1.89 and 2.32 is the difference between two mnemonics of Pi : "But I have a great diversity of people using the Latin American president .* and *And I have a child condemned to always think .*
+Considering the fact, that size of any corpora is limited  , less intellectual source provides a sample with higher average frequency of trigramm having less or the same vocabulary size. Average frequency of trigramm is a crucial parameter that reflects a quality of model. Text generated on the base of the model with large average frequency of trigramm better come up to a human expectations. So, difference between 1.89 and 2.37 is the difference between two mnemonics of Pi : *"But I have a great diversity of people using the Latin American president .* and *And I have a child condemned to always think .*
  
 So, women romance is going to be an incredible source of data for natural language processing tools :).
 
@@ -70,7 +70,7 @@ The Wikipedia is an atypical case though: for fiction books a vocabulary grown s
 |  xai    | 78598  | 1205567 | 3356044  | 2.280     |
 |  xaj    | 80744  / 1260286 / 3538706  / 2.309     / 
 |  xaj    | 82847 / 1295670 / 3645601 / 2.320     /
-
+/  xak    | 85044 | 1343235 | 3799617 |"2.3741653435069905) |
 |         |        |         |          |           |
 
 (Each individaul sample was about 8M length, 87M in common, frequency is for average frequency of trigram).
