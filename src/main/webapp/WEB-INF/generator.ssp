@@ -77,8 +77,14 @@ generates english phrases. #end #set (tmpl)
 <script src="/js/memento.js">  </script>
 <script src="/js/upload.js">  </script>
 #end
-<div class="ui-wizard-content">
-    <div class=" my-panes my-about">
+<div id="tabs" class="my-wizard-content">
+    <ul class="ui-helper-hidden">
+        <li><a href="#my-generate">Generate text</a></li>
+        <li><a href="#my-memento">Mnemonic</a></li>
+        <li><a href="#my-upload">Load text</a></li>
+        <li><a href="#my-about"">Read Me</a></li>
+    </ul>
+    <div id="my-about" class="my-panes my-about">
         <div class=" ui-state-default  ui-corner-top">
             <span><b></b>ReadMe about this stuff</b></span>
         </div>
@@ -87,10 +93,10 @@ generates english phrases. #end #set (tmpl)
             style="text-align: justify; padding-left: 2em; padding-right: 2em;"
         >
             <p>This very tool is just a toy, but it engages the
-                statistics of almost four million of English trigrams and 85 thousand words,
-                that comes from a range of texts. It provides two
-                opportunities: a bit of enjoy and a bit of better sense
-                of how English really runs.</p>
+                statistics of almost four million of English trigrams
+                and 85 thousand words, that comes from a range of texts.
+                It provides two opportunities: a bit of enjoy and a bit
+                of better sense of how English really runs.</p>
             <p>
                 First one is a <b><a
                     href="#"
@@ -136,7 +142,7 @@ generates english phrases. #end #set (tmpl)
             <p style="text-align: center">v.0.0.17</p>
         </div>
     </div>
-    <div class=" my-panes my-generate">
+    <div id="my-generate" class=" my-panes my-generate">
         <div class=" ui-state-default  ui-corner-top">
             <span
                 title="Press menu button bellow and choose next word from menu"
@@ -161,7 +167,7 @@ generates english phrases. #end #set (tmpl)
         >Remove</button>
     </div>
     #if (restricted)
-    <div class="my-panes my-upload">
+    <div id="my-upload" class="my-panes my-upload">
         <div class=" ui-state-default  ui-corner-top">
             <span><b>Upload new text file to teach the wizard</b></span>
         </div>
@@ -183,7 +189,7 @@ generates english phrases. #end #set (tmpl)
         </form>
     </div>
     #end
-    <div class="my-panes my-memento ui-helper-clearfix">
+    <div id="my-memento" class="my-panes my-memento ui-helper-clearfix">
         <div class=" ui-state-default  ui-corner-top">
             <span><b>Generate a mnemonic for a sequence of
                     numbers</b></span>
@@ -208,7 +214,10 @@ generates english phrases. #end #set (tmpl)
                         width="2%"
                         class="ui-state-error"
                         style="border: 0px"
-                    ><span class="ui-icon ui-icon-alert" title="Exact solution was not found, this one is the best that was available."></span></td>
+                    ><span
+                        class="ui-icon ui-icon-alert"
+                        title="Exact solution was not found, this one is the best that was available."
+                    ></span></td>
                     <td width="20%">e = 2.718281</td>
                     <td>He thought a headache or somewhat.</td>
                 </tr>

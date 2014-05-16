@@ -68,15 +68,15 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
                         <ul style="z-index: 100">
                             <li><a
                                 class="open-generate"
-                                href="#/"
+                                href="#my-generate"
                             >Generate text</a></li>
                             <li><a
                                 class="open-memento"
-                                href="#/json/memento/314159265"
+                                href="#my-memento"
                             >Mnemonic</a></li> #if (restricted)
                             <li><a
                                 class="open-upload"
-                                href="#/load"
+                                href="admin#my-upload"
                             >Load text</a></li>
                             <li><a
                                 class="open-statistic"
@@ -84,15 +84,15 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
                             >Statistic</a></li> #else
                             <li><a
                                 class="open-upload"
-                                href="/admin#/load"
+                                href="/admin#my-upload"
                             >Load text</a></li>
                             <li><a
                                 class="open-statistic"
-                                href="/admin#/stat"
+                                href="/stat"
                             >Statistic</a></li> #end
                             <li><a
                                 class="open-about"
-                                href="#/about"
+                                href="#my-about"
                             >Read Me</a></li>
                         </ul></li>
                 </ul>
