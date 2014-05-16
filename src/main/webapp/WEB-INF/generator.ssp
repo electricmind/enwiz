@@ -21,7 +21,7 @@ generates english phrases. #end #set (tmpl)
 >
                     <ul  class="words" style="display:inline-block; vertical-align:top; font-size:+15"><li><a href="#">Add word</a>
                     <ul style="z-index:100">{{each(i,wp) wps}}<li>
-                        <a class="menuitem" data-word="\${wp.word}" href="#\${wp.word}">\${wp.word} : \${wp.probability} </a>
+                        <a class="menuitem" data-word="\${wp.word}">\${wp.word} : \${wp.probability} </a>
                     </li>{{/each}}</ul></ul>
 </script>
 <script
@@ -77,14 +77,14 @@ generates english phrases. #end #set (tmpl)
 <script src="/js/memento.js">  </script>
 <script src="/js/upload.js">  </script>
 #end
-<div id="tabs" class="my-wizard-content">
-    <ul class="ui-helper-hidden">
-        <li><a href="#my-generate">Generate text</a></li>
-        <li><a href="#my-memento">Mnemonic</a></li>
-        <li><a href="#my-upload">Load text</a></li>
-        <li><a href="#my-about"">Read Me</a></li>
-    </ul>
-    <div id="my-about" class="my-panes my-about">
+<div
+    id="tabs"
+    class="my-wizard-content"
+>
+    <div
+        id="my-about"
+        class="my-panes my-about"
+    >
         <div class=" ui-state-default  ui-corner-top">
             <span><b></b>ReadMe about this stuff</b></span>
         </div>
@@ -139,10 +139,13 @@ generates english phrases. #end #set (tmpl)
                 from a real text, correct one. For each four-five word
                 that is quite possible to find a text that contains
                 them. More than five .... yeah, it's debatable.</p>
-            <p style="text-align: center">v.0.0.17</p>
+            <p style="text-align: center">v.0.0.17 patched with tabs</p>
         </div>
     </div>
-    <div id="my-generate" class=" my-panes my-generate">
+    <div
+        id="my-generate"
+        class=" my-panes my-generate"
+    >
         <div class=" ui-state-default  ui-corner-top">
             <span
                 title="Press menu button bellow and choose next word from menu"
@@ -167,7 +170,10 @@ generates english phrases. #end #set (tmpl)
         >Remove</button>
     </div>
     #if (restricted)
-    <div id="my-upload" class="my-panes my-upload">
+    <div
+        id="my-upload"
+        class="my-panes my-upload"
+    >
         <div class=" ui-state-default  ui-corner-top">
             <span><b>Upload new text file to teach the wizard</b></span>
         </div>
@@ -189,7 +195,10 @@ generates english phrases. #end #set (tmpl)
         </form>
     </div>
     #end
-    <div id="my-memento" class="my-panes my-memento ui-helper-clearfix">
+    <div
+        id="my-memento"
+        class="my-panes my-memento ui-helper-clearfix"
+    >
         <div class=" ui-state-default  ui-corner-top">
             <span><b>Generate a mnemonic for a sequence of
                     numbers</b></span>

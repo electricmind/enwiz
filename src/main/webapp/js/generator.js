@@ -50,7 +50,7 @@ $(document).ready(
                             at : "right-5 top+5"
                         }
                     });
-                    $(".menuitem").on("click", handler);
+                    $(".menuitem").click(handler);
                 }
                 if (url in cache) {
                     update(cache[url]);
@@ -105,6 +105,8 @@ $(document).ready(
                 } else {
                     add();
                 }
+                
+                false;
             }
             add();
         })

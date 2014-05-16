@@ -8,14 +8,16 @@ $(document).ready(function() {
             at : "top+30"
         }
     });
+    
+    $(".my-panes").hide();
+    $("#my-about").show();
 
     $(window).hashchange(function() {
-//        alert(location.hash);
-        
-        $('#tabs').tabs('option', 'active', $('#tabs > div').index($(location.hash))-1);
+        if (!$(location.hash).size() == 0) {
+            $(".my-panes").hide();
+            $($(location.hash)).show();
+        }
     })
-
-    $("#tabs").tabs();
 
     $(window).hashchange();
 
