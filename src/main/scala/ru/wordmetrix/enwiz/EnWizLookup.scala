@@ -31,7 +31,7 @@ object EnWizLookup {
 
     case class EnWizPi2WordsRequest(ns: List[Int]) extends EnWizMessage
 
-    case class EnWizPi2Words(ns: Either[List[String],List[String]]) extends EnWizMessage
+    case class EnWizPi2Words(ns: Either[List[String], List[String]]) extends EnWizMessage
 
     def props(): Props = Props(new EnWizLookup())
 }
@@ -105,8 +105,8 @@ class EnWizLookup() extends Actor with EnWizMongo {
                 Right(best)
             }
 
-            def ns2ws(ns: List[Int], best: List[String], ws: List[String], t : Long): Either[List[String], List[String]] = if (t < System.currentTimeMillis()) {
-                Right(betterof(best,ws))
+            def ns2ws(ns: List[Int], best: List[String], ws: List[String], t: Long): Either[List[String], List[String]] = if (t < System.currentTimeMillis()) {
+                Right(betterof(best, ws))
             } else ns match {
                 case n :: ns =>
                     ws match {
@@ -127,10 +127,10 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                     case _          => false
                                 } map {
                                     case (",", _) =>
-                                        ns2ws(ns, better, "," :: ws,t)
+                                        ns2ws(ns, better, "," :: ws, t)
                                     case (word3, p) =>
                                         //println(s" ok : $n : $word3 x $p : $ws")
-                                        ns2ws(ns, better, word3 :: ws,t)
+                                        ns2ws(ns, better, word3 :: ws, t)
                                 },
                                 better
                             )
@@ -151,7 +151,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
             Future {
                 EnWizPi2Words(
-                    ns2ws(ns, List(), List("", ""),System.currentTimeMillis() + 10000) match {
+                    ns2ws(ns, List(), List("", ""), System.currentTimeMillis() + 10000) match {
                         case Left(x)  => Left(x.reverse)
                         case Right(x) => Right(x.reverse)
                     }
@@ -175,7 +175,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         MO("$group" ->
                             MO("_id" -> 1, "value" -> MO("$sum" -> "$p"))))
                     ).results.head
-                }).getOrElse("value",0.0).toString().toDouble
+                }).getOrElse("value", 0.0).toString().toDouble
 
                 println(s"return average $average")
 
@@ -189,7 +189,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         MO("$group" ->
                             MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
                     ).results.head
-                }).getOrElse("value",0.0).toString().toDouble
+                }).getOrElse("value", 0.0).toString().toDouble
 
                 println(s"return unigram $unigram")
 
@@ -203,7 +203,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         MO("$group" ->
                             MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
                     ).results.head
-                }).getOrElse("value",0.0).toString().toDouble
+                }).getOrElse("value", 0.0).toString().toDouble
 
                 println(s"return bigram $bigram")
 
@@ -218,7 +218,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         MO("$group" ->
                             MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
                     ).results.head
-                }).getOrElse("value",0.0).toString().toDouble
+                }).getOrElse("value", 0.0).toString().toDouble
 
                 println(s"return trigram $trigram")
 
@@ -231,10 +231,10 @@ class EnWizLookup() extends Actor with EnWizMongo {
                     "word3" $exists true,
                     "probability" $exists true
                 )).map(x => (
-                        x.get("word1").toString,
-                        x.get("word2").toString,
-                        x.get("word3").toString, 
-                        x.get("probability").toString.toDouble)
+                    x.get("word1").toString,
+                    x.get("word2").toString,
+                    x.get("word3").toString,
+                    x.get("probability").toString.toDouble)
                 ).toSet
 
                 val average = records.iterator.map({
@@ -242,14 +242,14 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         p.toString.toDouble
                 }).reduceOption(_ + _).getOrElse(0.0) / records.size
 
-                val trigram : Set[(String,String,String)] = records.map({
+                val trigram: Set[(String, String, String)] = records.map({
                     case (w1, w2, w3, _) => (w1, w2, w3)
                 })
 
-                val bigram : Set[(String,String)] = trigram.map({ case (w1, w2, _) => (w1, w2) })
+                val bigram: Set[(String, String)] = trigram.map({ case (w1, w2, _) => (w1, w2) })
 
-                val unigram : Set[String] = bigram.map({ case (w1, _) => (w1) })
-                    println(EnWizStat(unigram.size, bigram.size, trigram.size,
+                val unigram: Set[String] = bigram.map({ case (w1, _) => (w1) })
+                println(EnWizStat(unigram.size, bigram.size, trigram.size,
                     average))
                 sender ! EnWizStat(unigram.size, bigram.size, trigram.size,
                     average)

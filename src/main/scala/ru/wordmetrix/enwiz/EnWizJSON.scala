@@ -1,12 +1,14 @@
 package ru.wordmetrix.enwiz
 
 import scala.concurrent.{ ExecutionContext, Promise }
+
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
 import org.json4s.{ DefaultFormats, Formats }
 import org.scalatra.{ AsyncResult, FutureSupport, NotFound, ScalatraServlet }
 import org.scalatra.json.JacksonJsonSupport
 import EnWizLookup._
+import EnWizAccessLog._
 import EnWizParser.{ EnWizStatusRequest, EnWizStatus, EnWizTaskId }
 import akka.actor.{ ActorRef, ActorSystem }
 import akka.pattern.ask
@@ -26,7 +28,7 @@ object Probability {
 
 case class Probability(word: String, probability: Double)
 
-class EnWizJSON(system: ActorSystem, lookup: ActorRef)
+class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         extends ScalatraServlet with FutureSupport with JacksonJsonSupport { //with GZipSupport{
     protected implicit def executor: ExecutionContext = system.dispatcher
     implicit val defaultTimeout = Timeout(10 second)
@@ -44,6 +46,9 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
         new AsyncResult() {
             val promise = Promise[List[Probability]]()
             val is = promise.future
+            log ! EnWizAccessLogWords(
+                ip = request.getRemoteAddr(), word1, word2)
+
             lookup ? EnWizWords(word1, word2) onComplete {
                 case Success(Some(words: List[(String, Double)])) =>
                     promise.complete(Try(
@@ -98,15 +103,34 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
     def memento = new AsyncResult() {
         val promise = Promise[(Boolean, List[String], String, String)]
         val is = promise.future
-        val key = params("figures")
+        val query = params.getOrElse("figures", "")
+println(1)
+        val figures = query.split("").map(
+            x => Try(x.toInt).toOption).flatten.toList.take(25)
+println(2)
+
+        def complete(words: List[String]) = {
+            val phrase = words.mkString(" ")
+println(4)
+            log ! EnWizAccessLogMnemonic(
+
+                request.getRemoteAddr(), query, figures.mkString,
+                phrase
+            )
+
+            promise.complete(Try(true, words, phrase, query))
+        }
+println(3)
 
         lookup ? EnWizPi2WordsRequest(
-            key.split("").map(x => Try(x.toInt).toOption).flatten.toList.take(25)
+            figures
         ) onComplete {
                 case Success(EnWizPi2Words(Left(words))) =>
-                    promise.complete(Try(true, words, words.mkString(" "), key))
+                    complete(words)
+
                 case Success(EnWizPi2Words(Right(words))) =>
-                    promise.complete(Try(false, words, words.mkString(" "), key))
+                    complete(words)
+
                 case Failure(f) =>
                     status = 400
                     promise.complete(Failure(f))
