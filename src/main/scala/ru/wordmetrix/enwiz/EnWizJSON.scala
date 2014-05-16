@@ -104,14 +104,11 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         val promise = Promise[(Boolean, List[String], String, String)]
         val is = promise.future
         val query = params.getOrElse("figures", "")
-println(1)
         val figures = query.split("").map(
             x => Try(x.toInt).toOption).flatten.toList.take(25)
-println(2)
 
         def complete(words: List[String]) = {
             val phrase = words.mkString(" ")
-println(4)
             log ! EnWizAccessLogMnemonic(
 
                 request.getRemoteAddr(), query, figures.mkString,
@@ -120,7 +117,6 @@ println(4)
 
             promise.complete(Try(true, words, phrase, query))
         }
-println(3)
 
         lookup ? EnWizPi2WordsRequest(
             figures
