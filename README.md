@@ -24,7 +24,8 @@ A few outcomes of the mnemonic generator
  - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
  - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
 
-I used a vocabulary up to:
+I used a vocabulary 
+up to:
 
  -Unigram: 97,144,
  - Bigram: 1,000,320,
@@ -32,6 +33,22 @@ I used a vocabulary up to:
  - Average trigrams' frequency: 1.92.
 
 from variety of texts including wikipedia pages.
+
+unigram bigram trigram average-frequency
+xaa-xae 33000 199000 329000 1.37
+xaf-xaj 45461 324267 579255 1.482
+xak-xao 54941 434926 817300 1.521
+xau-xay 63841 541313 1051161 1.56
+xay-xbc 70783 631158 1259202 1.646
+xbd-xbh 78613 738428 1515427 1.69
+xbi-xbm 85038 825300 1728236 1.721
+xbn-xbr 85038 825300 1728236 1.76 
+xbs-xbw 88164 873820 1854607 1.79
+xbx-xcb 92218 929691 1993352 1.808
+xcc-xcg 97179 1003502 2193309 1.864
+xch-xci,xat,xas 101954 1080966 2.405365 1.89
+
+
 
 
 Usage
