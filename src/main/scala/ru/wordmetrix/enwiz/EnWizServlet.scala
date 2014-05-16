@@ -19,7 +19,7 @@ import scala.util.Failure
 class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
         with FutureSupport with FileUploadSupport with AuthenticationSupport { //with GZipSupport{
 
-    configureMultipartHandling(MultipartConfig(maxFileSize = Some(10 * 1024 * 1024)))
+    configureMultipartHandling(MultipartConfig(maxFileSize = Some(100 * 1024 * 1024)))
 
     protected implicit def executor: ExecutionContext = system.dispatcher
     implicit val defaultTimeout = Timeout(100 second)
@@ -59,7 +59,7 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
                     ))
                 case Failure(f) =>
                     promise.complete(Try(
-                         BadRequest().toString              
+                        BadRequest().toString
                     ))
             }
         }
@@ -106,15 +106,16 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
                 lookup ! EnWizText(EnWizTaskId(taskids.next, ""), text)
         }
 
-        
-        fileParams.get("text") match {
-            case Some(file) =>
-                lookup ! EnWizText(
-                    EnWizTaskId(taskids.next, file.getName),
-                    io.Source.fromInputStream(file.getInputStream).
-                        getLines.mkString("\n")
-                )
-            case None =>
+        for {
+            files <- fileMultiParams.get("text")
+            file <- files
+        } {
+            lookup ! EnWizText(
+                EnWizTaskId(taskids.next, file.getName),
+                io.Source.fromInputStream(file.getInputStream).
+                    getLines.mkString("\n")
+            )
+
         }
 
         ssp("/load.ssp", "layout" -> "WEB-INF/layouts/light.ssp", "text" -> "")

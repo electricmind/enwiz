@@ -175,6 +175,7 @@ generates english phrases. #end #set (tmpl)
             <input
                 class="button"
                 type="file"
+                multiple
                 title="Enter a name of a text file to parse and include into the vocabulary"
                 name="text"
             />
