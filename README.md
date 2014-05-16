@@ -14,22 +14,27 @@ As for me, it helps to estimate possible context of different words or possible 
 
 Two words about grammar correctness. For each three word that database uses it's guaranteed that they comes from a real text, correct one. For each four-five word that is quite possible to find a text that contains them. More than five .... yeah, it's debatable.
 
-A few outcomes of the mnemonic generator
--------------------------------------------
-
- - Pi = 3.14159265 :	*And I have a child condemned to always think .*, *Now I have a rectangle of public space .*
- - Pi =3.141592653589	 : "But I have a great diversity of people using the Latin American president .*
- -	e = 2.71828 : *He thought a headache of migraine.*
- -	e = 2.71828182845 : *To achieve a majority of building a database is designed with space .*
- -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
- - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
- - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
-
-
 Sample of vocabulary
 ---------------------
-Just to exmplify, I show a statistic below for the vocabulary of Wikipedia articles related to
-the word "Forensic":
+Just to illustrate the claim about women romance, I show a statistic of two source of data: Wikipedia articles related to the word "Forensic" and a bunch of fiction book:
+
+Forensic set :
+
+| length  | unigram | bigram | trigram  | average frequency of trigramm |
+| --------| ------ | ------- | -------- | ----------------------------- |
+|  242M   | 101954 | 1080966 | 2.405365 | 1.89                          |
+
+Fiction set :
+
+|  length | unigram | bigram | trigram  | frequency frequency of trigramm |
+| --------| ------ | ------- | -------- | ------------------------------- |
+|  87M    | 78598  | 1205567 | 3356044  | 2.280                           |
+
+Considering the fact, that size of any corpora is limited  , less intellectual source provides a sample with higher average frequency of trigramm having less or the same vocabulary size. Average frequency of trigramm is a crucial parameter that reflects a quality of model. Text generated on the base of the model with large average frequency of trigramm better come up to a human expectations.
+
+So, women romance is going to be an incredible source of data for natural language processing tools :).
+
+
 <!--
 |         | unigram | bigram | trigram  | frequency |
 | --------| ------ | ------- | -------- | --------- |
@@ -48,14 +53,10 @@ the word "Forensic":
 
 
 -->
-|         | unigram | bigram | trigram  | frequency |
-| --------| ------ | ------- | -------- | --------- |
-|         | 101954 | 1080966 | 2.405365 | 1.89      |
 
-(Each individaul sample was about 20M length, 242M in common)
-
-The Wikipedia is an atypical case though: for fiction books a vocabulary grown shows different shapes:
 <!--
+The Wikipedia is an atypical case though: for fiction books a vocabulary grown shows different shapes:
+
 |         | unigram | bigram | trigram  | frequency |
 | --------| ------ | ------- | -------- | --------- |
 |  xaa    | 25228  | 226915  |  485915  | 1.664     |
@@ -67,15 +68,25 @@ The Wikipedia is an atypical case though: for fiction books a vocabulary grown s
 |  xag    | 69331  | 1004366 | 2721126  | 2.157     |
 |  xah    | 74191  | 1110674 | 3057782  | 2.221     |
 |  xai    | 78598  | 1205567 | 3356044  | 2.280     |
+|  xaj    | 80744  / 1260286 / 3538706  / 2.309     / 
 |  xaj    |        |         |          |           |
 |         |        |         |          |           |
--->
-
-|         | unigram | bigram | trigram  | frequency |
-| --------| ------ | ------- | -------- | --------- |
-|         | 78598  | 1205567 | 3356044  | 2.280     |
 
 (Each individaul sample was about 8M length, 87M in common, frequency is for average frequency of trigram).
+-->
+
+
+A few outcomes of the mnemonic generator
+-------------------------------------------
+
+ - Pi = 3.14159265 :	*And I have a child condemned to always think .*, *Now I have a rectangle of public space .*
+ - Pi =3.141592653589	 : "But I have a great diversity of people using the Latin American president .*
+ -	e = 2.71828 : *He thought a headache of migraine.*
+ -	e = 2.71828182845 : *To achieve a majority of building a database is designed with space .*
+ -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
+ - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
+ - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
+
 
 
 Usage
