@@ -15,17 +15,6 @@ As for me, it helps to estimate possible context of different words or possible 
 Two words about grammar correctness. For each three word that database uses it's guaranteed that they comes from a real text, correct one. For each four-five word that is quite possible to find a text that contains them. More than five .... yeah, it's debatable.
 
 
-A few outcomes of the mnemonic generator
--------------------------------------------
-
- - Pi = 3.14159265 :	*And I have a child condemned to always think .*, *Now I have a rectangle of public space .*
- - Pi =3.141592653589	 : "But I have a great diversity of people using the Latin American president .*
- -	e = 2.71828 : *He thought a headache of migraine.*
- -	e = 2.71828182845 : *To achieve a majority of building a database is designed with space .*
- -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
- - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
- - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
-
 Sample of vocabulary
 ---------------------
 Just to illustrate the claim about women romance, I show a statistic of two source of data: Wikipedia articles related to the word "Forensic" and a bunch of fiction book:
@@ -87,6 +76,17 @@ The Wikipedia is an atypical case though: for fiction books a vocabulary grown s
 (Each individaul sample was about 8M length, 87M in common, frequency is for average frequency of trigram).
 -->
 
+
+A few outcomes of the mnemonic generator
+-------------------------------------------
+
+ - Pi = 3.14159265 :	*And I have a child condemned to always think .*, *Now I have a rectangle of public space .*
+ - Pi =3.141592653589	 : "But I have a great diversity of people using the Latin American president .*
+ -	e = 2.71828 : *He thought a headache of migraine.*
+ -	e = 2.71828182845 : *To achieve a majority of building a database is designed with space .*
+ -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
+ - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
+ - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
 
 
 Usage
