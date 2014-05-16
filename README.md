@@ -19,7 +19,7 @@ A few outcomes of the mnemonic generator
 
  - Pi = 3.14159265 :	*And I have a child condemned to always think .*, *Now I have a rectangle of public space .*
  - Pi =3.141592653589	 : "But I have a great diversity of people using the Latin American president .*
- -	e = 2.718281 :	*He thought a headache or somewhat.*
+ -	e = 2.71828 : *He thought a headache of migraine.*
  -	e = 2.71828182845 : *To achieve a majority of building a database is designed with space .*
  -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
  - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
@@ -46,7 +46,7 @@ the word "Forensic":
 | xcc-xcg | 97179  | 1003502 | 2193309  | 1.864     |
 | xch-xci | 101954 | 1080966 | 2.405365 | 1.89      |
 
-(Each individaul sample was 4M length, 242M in common)
+(Each individaul sample was about 20M length, 242M in common)
 
 The Wikipedia is an atypical case though: for fiction books a vocabulary grown shows different shapes:
 
@@ -56,15 +56,15 @@ The Wikipedia is an atypical case though: for fiction books a vocabulary grown s
 |  xab    | 33411  | 381919  |  905278  | 1.862     |
 |  xac    | 41397  | 516805  | 1282582  | 1.967     |
 |  xad    | 51640  | 667635  | 1692993  | 2         |
-|  xae    |        |         |          |           |
-|         |        |         |          |           |
-|         |        |         |          |           |
-|         |        |         |          |           |
-|         |        |         |          |           |
-|         |        |         |          |           |
+|  xae    | 58162  | 782039  | 2032108  | 2.053     |
+|  xaf    | 64081  | 895827  | 2381007  | 2.111     |
+|  xag    | 69331  | 1004366 | 2721126  | 2.157     |
+|  xah    | 74191  | 1110674 | 3057782  | 2.221     |
+|  xai    | 78598  | 1205567 | 3356044  | 2.280     |
+|  xaj    |        |         |          |           |
 |         |        |         |          |           |
 
-(Each individaul sample was 8M length, 87M in common, frequency is for average frequency of trigram).
+(Each individaul sample was about 8M length, 87M in common, frequency is for average frequency of trigram).
 
 
 Usage
