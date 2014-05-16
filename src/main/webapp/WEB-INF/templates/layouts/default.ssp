@@ -48,6 +48,11 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script
+    language="JavaScript"
+    type="text/javascript"
+    src="/js/jquery.ba-hashchange.min.js"
+></script>
+<script
     src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"
 ></script>
 <script src="/js/init.js"></script>
