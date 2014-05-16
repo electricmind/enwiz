@@ -20,6 +20,7 @@ A few outcomes of the mnemonic generator
  - Pi = 3.14159265 :	*And I have a child condemned to always think .*, *Now I have a rectangle of public space .*
  - Pi =3.141592653589	 : "But I have a great diversity of people using the Latin American president .*
  -	e = 2.718281 :	*He thought a headache or somewhat.*
+ -	e = 2.71828182845 : *To achieve a majority of building a database is designed with space .*
  -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
  - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
  - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
