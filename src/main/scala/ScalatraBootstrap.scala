@@ -8,11 +8,12 @@ class ScalatraBootstrap extends LifeCycle {
     
   val system = ActorSystem()
   val actor = system.actorOf(EnWizActor.props(Props[EnWizLookup], Props[EnWizParser]))
+  val log = system.actorOf(EnWizAccessLog.props())
 
   override def init(context: ServletContext) {
-    context.mount(new EnWizServlet(system, actor), "/*")
+    context.mount(new EnWizServlet(system, actor, log), "/*")
     context.mount(new EnWizSimple(system, actor), "/simple/*")
-    context.mount(new EnWizJSON(system, actor), "/json/*")
+    context.mount(new EnWizJSON(system, actor, log), "/json/*")
   }
   
   override def destroy(context:ServletContext) {
