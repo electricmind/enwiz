@@ -80,7 +80,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef)
                 case Success(EnWizStatus(tasks)) =>
                     promise.complete(Try(
                         tasks map {
-                            case (tid, part) => (tid, f"${part}%4.2f")
+                            case (tid, part) => (tid, f"${part * 100}%4.2f")
                         }
                     ))
 

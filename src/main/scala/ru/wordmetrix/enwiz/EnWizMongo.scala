@@ -28,5 +28,16 @@ trait EnWizMongo {
     
     lazy val coll = MongoClient(MongoClientURI(
         s"mongodb://$user:$password@$host:$port/$dbname")
-    )("words")("words")
+    )(dbname)("words")
+    
+    ensureIndexes
+    
+    def ensureIndexes = {
+        coll.ensureIndex(MO("word1" -> 1))
+        coll.ensureIndex(MO("word2" -> 1))
+        coll.ensureIndex(MO("word3" -> 1))
+        coll.ensureIndex(MO("word1" -> 1, "word2" -> 1))
+        coll.ensureIndex(MO("word1" -> 1, "word2" -> 1, "word3" -> 1))
+        coll.ensureIndex(MO("staat" -> 1))
+    }
 }

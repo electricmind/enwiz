@@ -106,6 +106,7 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef) extends EnwizStack
                 lookup ! EnWizText(EnWizTaskId(taskids.next, ""), text)
         }
 
+        
         fileParams.get("text") match {
             case Some(file) =>
                 lookup ! EnWizText(
