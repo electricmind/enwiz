@@ -43,7 +43,7 @@ generates english phrases. #end #set (tmpl)
 </td>
 {{else}}
 <td width="2%" class="ui-state-error" style="border:0px">
-<span class="ui-icon ui-icon-alert"></span>
+<span class="ui-icon ui-icon-alert" title="Exact solution was not found, this one is the best that was available."></span>
 </td>
 {{/if}}
 <td width="2%">\${memento._4}</td>
@@ -87,7 +87,7 @@ generates english phrases. #end #set (tmpl)
             style="text-align: justify; padding-left: 2em; padding-right: 2em;"
         >
             <p>This very tool is just a toy, but it engages the
-                statistic of 65000 words in 500000 English trigrams,
+                statistics of almost four million of English trigrams and 85 thousand words,
                 that comes from a range of texts. It provides two
                 opportunities: a bit of enjoy and a bit of better sense
                 of how English really runs.</p>
@@ -133,7 +133,7 @@ generates english phrases. #end #set (tmpl)
                 from a real text, correct one. For each four-five word
                 that is quite possible to find a text that contains
                 them. More than five .... yeah, it's debatable.</p>
-            <p style="text-align: center">v.0.0.16</p>
+            <p style="text-align: center">v.0.0.17</p>
         </div>
     </div>
     <div class=" my-panes my-generate">
@@ -208,7 +208,7 @@ generates english phrases. #end #set (tmpl)
                         width="2%"
                         class="ui-state-error"
                         style="border: 0px"
-                    ><span class="ui-icon ui-icon-alert"></span></td>
+                    ><span class="ui-icon ui-icon-alert" title="Exact solution was not found, this one is the best that was available."></span></td>
                     <td width="20%">e = 2.718281</td>
                     <td>He thought a headache or somewhat.</td>
                 </tr>
