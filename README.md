@@ -85,7 +85,7 @@ is pretty wonderful to threaten your classmates with a real power of your laptop
 
  - more important is an amount of sentences that involves each of the words
 
- - interactively, you barely would possible to operate with a choice even one of the one hundred words.
+ - interactively, you barely would possible to operate with a choice even one of one hundred words.
 
 So, of course I would suggest to use a large vocabulary from a range of different texts, but just for your expertise, more interesting point is a large text corpora that contains relatively small vocabulary. Something like women romance is quite suitable for that, try to feed the tool with one ... hundred of them.
 
