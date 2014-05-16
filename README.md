@@ -30,10 +30,10 @@ Sample of vocabulary
 ---------------------
 Just to exmplify, I show a statistic below for the vocabulary of Wikipedia articles related to
 the word "Forensic":
-
+<!--
 |         | unigram | bigram | trigram  | frequency |
 | --------| ------ | ------- | -------- | --------- |
-<!-- | xaa-xae | 33000  |  199000 | 329000   | 1.37      |
+| xaa-xae | 33000  |  199000 | 329000   | 1.37      |
 | xaf-xaj | 45461  |  324267 | 579255   | 1.482     |
 | xak-xao | 54941  |  434926 | 817300   | 1.521     |
 | xau-xay | 63841  |  541313 | 1051161  | 1.56      |
@@ -43,7 +43,10 @@ the word "Forensic":
 | xbn-xbr | 85038  |  825300 | 1728236  | 1.76      |
 | xbs-xbw | 88164  |  873820 | 1854607  |  1.79     |
 | xbx-xcb | 92218  |  929691 | 1993352  | 1.808     |
-| xcc-xcg | 97179  | 1003502 | 2193309  | 1.864     | -->
+| xcc-xcg | 97179  | 1003502 | 2193309  | 1.864     | 
+
+
+-->
 | xch-xci | 101954 | 1080966 | 2.405365 | 1.89      |
 
 (Each individaul sample was about 20M length, 242M in common)
