@@ -104,7 +104,7 @@ class EnWizParser() extends Actor with EnWizMongo {
             )
 
         case EnWizStatusRequest() =>
-            sender ! EnWizStatus(progress.toList/*queue.toList.map(
+            sender ! EnWizStatus(progress.toList.sortBy(x => x._1.id)/*queue.toList.map(
                 msg => msg.task -> progress(msg.task)
             )*/)
     }
