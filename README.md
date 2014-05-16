@@ -48,7 +48,23 @@ the word "Forensic":
 
 (Each individaul sample was 4M length, 242M in common)
 
-The Wikipedia is an atypical case though: in fiction vocabulary grown shows different shapes.
+The Wikipedia is an atypical case though: for fiction books a vocabulary grown shows different shapes:
+
+|         | unigram | bigram | trigram  | frequency |
+| --------| ------ | ------- | -------- | --------- |
+|  xaa    | 25228  | 226915  |  485915  | 1.664     |
+|  xab    | 33411  | 381919  |  905278  | 1.862     |
+|  xac    | 41397  | 516805  | 1282582  | 1.967     |
+|  xad    | 51640  | 667635  | 1692993  | 2         |
+|  xae    |        |         |          |           |
+|         |        |         |          |           |
+|         |        |         |          |           |
+|         |        |         |          |           |
+|         |        |         |          |           |
+|         |        |         |          |           |
+|         |        |         |          |           |
+
+(Each individaul sample was 8M length, 87M in common, frequency is for average frequency of trigram).
 
 
 Usage
