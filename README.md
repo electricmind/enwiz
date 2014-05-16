@@ -2,7 +2,7 @@ English Wizard
 ==================
 
 
-This very tool is just a toy, but it engages the statistic of 65000 words in 500000 English trigrams, that comes from a range of texts. It provides two opportunities: a bit of enjoy and a bit of better sense of how English really runs.
+This very tool is just a toy, but it engages the statistic of 97000 words in 2000000 English trigrams, that comes from a range of texts. It provides two opportunities: a bit of enjoy and a bit of better sense of how English really runs.
 
 First one is a **mnemonic generator**, theoretically one can use it to memorize a long sequence of numbers. Practically, just because English is not my native, it works for me in opposite direction, that's enjoyable. Let's assume you need to memorize a Pi. Look at the lengths of the words: *"And(3) I (1) have (4) a (1) child (5) condemned (9) to (2) always (6) think (5)."*, that gives 3.14159265.
 
@@ -23,6 +23,15 @@ A few outcomes of the mnemonic generator
  -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
  - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
  - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
+
+I used a vocabulary up to:
+
+ -Unigram: 97,144,
+ - Bigram: 1,000,320,
+ - Trigram: 2,189,986,
+ - Average trigrams' frequency: 1.92.
+
+from variety of texts including wikipedia pages.
 
 
 Usage
