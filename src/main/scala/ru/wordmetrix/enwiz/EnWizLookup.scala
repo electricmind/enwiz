@@ -122,7 +122,6 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                 limit(100).map(x => {
                                     (x.get("word3").toString, x.get("probability").toString.toDouble)
                                 }) filter {
-                                    case (",", _)   => n == 0
                                     case (word3, _) => !Set("'", ",", "-")(word3) && word3.length == n
                                     case _          => false
                                 } map {
@@ -151,7 +150,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
             Future {
                 EnWizPi2Words(
-                    ns2ws(ns, List(), List("", ""), System.currentTimeMillis() + 10000) match {
+                    ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 10000) match {
                         case Left(x)  => Left(x.reverse)
                         case Right(x) => Right(x.reverse)
                     }
