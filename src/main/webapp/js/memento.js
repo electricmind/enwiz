@@ -8,7 +8,7 @@ $(document).ready(function() {
          $(".memento-error").hide(100);  
        },
        success : function(responseText, statusText, xhr, $form)  {
-            $("#memento").tmpl({
+            $("#memento-tmpl").tmpl({
                 memento : responseText,
                 figures : $('.form-memento input[name=figures]').val()
             }).appendTo($(".memento")).show(200);

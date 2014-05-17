@@ -107,7 +107,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         val figures = query.split("").map(
             x => Try(x.toInt).toOption).flatten.toList.take(25)
 
-        def complete(words: List[String]) = {
+        def complete(success: Boolean, words: List[String]) = {
             val phrase = words.mkString(" ")
             log ! EnWizAccessLogMnemonic(
 
@@ -115,17 +115,17 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                 phrase
             )
 
-            promise.complete(Try(true, words, phrase, query))
+            promise.complete(Try(success, words, phrase, query))
         }
 
         lookup ? EnWizPi2WordsRequest(
             figures
         ) onComplete {
                 case Success(EnWizPi2Words(Left(words))) =>
-                    complete(words)
+                    complete(true, words)
 
                 case Success(EnWizPi2Words(Right(words))) =>
-                    complete(words)
+                    complete(false, words)
 
                 case Failure(f) =>
                     status = 400

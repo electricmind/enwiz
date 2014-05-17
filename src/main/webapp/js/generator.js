@@ -41,7 +41,7 @@ $(document).ready(
                 i = typeof i !== 'undefined' ? i : 0;
 
                 function update(data) {
-                    $("#dropmenu").tmpl({
+                    $("#dropmenu-tmpl").tmpl({
                         wps : data
                     }).appendTo(".phrase :last");
                     $(".words").menu({
@@ -55,7 +55,7 @@ $(document).ready(
                 if (url in cache) {
                     update(cache[url]);
                 } else {
-                    $("#loading").tmpl().appendTo(".phrase :last").button();
+                    $("#loading-tmpl").tmpl().appendTo(".phrase :last").button();
 
                     $.ajax(
                             {
@@ -66,7 +66,7 @@ $(document).ready(
                                         if (i <= 1) {
                                             request(url, i + 1);
                                         } else {
-                                            $("#reload").tmpl({}).appendTo(
+                                            $("#reload-tmpl").tmpl({}).appendTo(
                                                     ".phrase :last").button();
                                             $(".reload").on("click",
                                                     function() {
@@ -91,7 +91,7 @@ $(document).ready(
                 var w1 = $(words).prev().data("word");
                 var w2 = $(event.target).data("word");
 
-                $("#phraseitem").tmpl({
+                $("#phraseitem-tmpl").tmpl({
                     "word" : $(event.target).data("word")
                 }).appendTo(".phrase :last").show(400);
                 $(".remove").show(400);
@@ -100,7 +100,7 @@ $(document).ready(
                 $(words).remove();
 
                 if (w2 == ".") {
-                    $(".phrase :last").after($("#phrase").tmpl());
+                    $(".phrase :last").after($("#phrase-tmpl").tmpl());
                     add();
                 } else {
                     add();

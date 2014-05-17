@@ -16,7 +16,7 @@ generates english phrases. #end #set (tmpl)
 </div>
 </script>
 <script
-    id="dropmenu"
+    id="dropmenu-tmpl"
     type="text/x-jquery-tmpl"
 >
                     <ul  class="words" style="display:inline-block; vertical-align:top; font-size:+15"><li><a href="#">Add word</a>
@@ -25,7 +25,7 @@ generates english phrases. #end #set (tmpl)
                     </li>{{/each}}</ul></ul>
 </script>
 <script
-    id="phrase"
+    id="phrase-tmpl"
     type="text/x-jquery-tmpl"
 >
                     <div class="phrase" style="font-size:+25">
@@ -33,7 +33,7 @@ generates english phrases. #end #set (tmpl)
                         <span class="word" data-word=""></span>
                     </div></script>
 <script
-    id="memento"
+    id="memento-tmpl"
     type="text/x-jquery-tmpl"
 >
                     <tr class="memento-\${memento._1} ui-helper-hidden" >
@@ -51,21 +51,21 @@ generates english phrases. #end #set (tmpl)
 </tr>
 </script>
 <script
-    id="loading"
+    id="loading-tmpl"
     type="text/x-jquery-tmpl"
 >
-                    <div class="loading" title="On complete drop-down menu raises" style="vertical-align:top; font-size:+15">
+                    <div class="loading" title="Upon completion of a popup menu appears." style="vertical-align:top; font-size:+15">
                         Loading...
                     </div></script>
 <script
-    id="reload"
+    id="reload-tmpl"
     type="text/x-jquery-tmpl"
 >
                     <button class="reload" style="vertical-align:top; font-size:+15">
                         Press to continue
                     </button></script>
 <script
-    id="phraseitem"
+    id="phraseitem-tmpl"
     type="text/x-jquery-tmpl"
 >
                     <span class="word ui-helper-hidden" data-word="\${word}">
@@ -82,7 +82,7 @@ generates english phrases. #end #set (tmpl)
     class="my-wizard-content"
 >
     <div
-        id="my-about"
+        id="about"
         class="my-panes my-about"
     >
         <div class=" ui-state-default  ui-corner-top">
@@ -93,15 +93,16 @@ generates english phrases. #end #set (tmpl)
             style="text-align: justify; padding-left: 2em; padding-right: 2em;"
         >
             <p>This very tool is just a toy, but it engages the
-                statistics of almost four million of English trigrams
-                and 85 thousand words, that comes from a range of texts.
+                statistics of almost four million of English trigrams that 
+                contain 85 thousand words, that come from a variety of texts.
                 It provides two opportunities: a bit of enjoy and a bit
                 of better sense of how English really runs.</p>
+                
             <p>
                 First one is a <b><a
-                    href="#"
+                    href="#memento"
                     class="open-memento"
-                    title="the generator of mnemonics for numbers"
+                    title="a generator of mnemonics for numbers"
                 >mnemonic generator</a></b>, theoretically one can use it to
                 memorize a long sequence of numbers. Practically, just
                 because English is not my native, it works for me in
@@ -115,40 +116,39 @@ generates english phrases. #end #set (tmpl)
                     were both gone into some kind that says that this
                     time when they were gone from them both with guns
                     they find this town ."</i>, what a lurid story of two
-                awful fellows in four-letter words!
+                awful fellows written with four-letter words!
             </p>
-            <p>
-                For the lack of an interest to numbers, one can focus on
+            <p>Others,  for the lack of an interest to numbers,  can focus on
                 language itself with a <b><a
-                    href="#"
+                    href="#generate"
                     class="open-generate"
-                    title="the generator of tedious passages"
+                    title="a generator of tedious passages"
                 >sentence generator</a></b>. The tool suggests more plausible
                 word with respect to a couple of previous. English
                 writing becomes a lot of easy for one, who chooses
                 suitable words one by one. Of course it would be a
                 complete synthetic nonsense, but .... you will be
-                surprised that only a little participation of humanity
-                is really necessary to put a sense into them.
+                surprised that only a little participation of a human is
+                really necessary to bring a tinge of sense into them.
             </p>
             <p>As for me, it helps to estimate possible context of
                 different words or possible language constructs, but to
                 be honest I used a little more sophisticated tool.</p>
-            <p>Two words about grammar correctness. For each three
+            <p>A short remark about grammar correctness. For each three
                 word that database uses it's guaranteed that they comes
                 from a real text, correct one. For each four-five word
                 that is quite possible to find a text that contains
                 them. More than five .... yeah, it's debatable.</p>
-            <p style="text-align: center">v.0.0.18 patched with tabs</p>
+            <p style="text-align: center">v.0.0.21 patched with tabs</p>
         </div>
     </div>
     <div
-        id="my-generate"
+        id="generate"
         class=" my-panes my-generate"
     >
         <div class=" ui-state-default  ui-corner-top">
             <span
-                title="Press menu button bellow and choose next word from menu"
+                title="Press menu button below and choose next word from menu."
             ><b>Generate English sentences</b></span>
         </div>
         <div
@@ -171,11 +171,12 @@ generates english phrases. #end #set (tmpl)
     </div>
     #if (restricted)
     <div
-        id="my-upload"
+        id="upload"
         class="my-panes my-upload"
     >
         <div class=" ui-state-default  ui-corner-top">
-            <span><b>Upload new text file to teach the wizard</b></span>
+            <span><b>Upload new text file to teach the
+                    wizard.</b></span>
         </div>
         <div id="progress"></div>
         <form
@@ -188,7 +189,7 @@ generates english phrases. #end #set (tmpl)
                 class="button"
                 type="file"
                 multiple
-                title="Enter a name of a text file to parse and include into the vocabulary"
+                title="Enter a name of a text file to parse and include into the vocabulary."
                 name="text"
             />
             <button class="button">Upload</button>
@@ -196,12 +197,12 @@ generates english phrases. #end #set (tmpl)
     </div>
     #end
     <div
-        id="my-memento"
+        id="memento"
         class="my-panes my-memento ui-helper-clearfix"
     >
         <div class=" ui-state-default  ui-corner-top">
             <span><b>Generate a mnemonic for a sequence of
-                    numbers</b></span>
+                    figures.</b></span>
         </div>
         <div class="my-memento-scroll">
             <table
@@ -248,9 +249,19 @@ generates english phrases. #end #set (tmpl)
                         class="ui-state-highlight1"
                         style="border: 0px"
                     ><span class="ui-icon ui-icon-check"></span></td>
-                    <td width="20%">just numbers: 1234567654321</td>
-                    <td>I do not know about thirty seconds before
-                        their eyes met in a ..</td>
+                    <td width="20%">just numbers: 876543212345678</td>
+                    <td>Although several people could live out on a
+                        TV and some other people started laughing .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">just numbers: 12345678</td>
+                    <td>I am not like those people working together
+                        .</td>
                 </tr>
             </table>
             <form

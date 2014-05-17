@@ -10,7 +10,7 @@ $(document).ready(function() {
     });
     
     $(".my-panes").hide();
-    $("#my-about").show();
+    $("#about").show();
 
     $(window).hashchange(function() {
         if (!$(location.hash).size() == 0) {

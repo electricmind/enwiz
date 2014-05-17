@@ -60,64 +60,68 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
 <%= unescape(js) %> <%= unescape(tmpl) %>
 </head>
 <body>
-    <div
-        class="my-main ui-widget-content ui-corner-all  ui-helper-clearfix"
-    >
-        <div class="ui-widget-content ui-corner-all  ui-helper-clearfix">
+    <center>
+        <div
+            class="my-main ui-widget-content ui-corner-all  ui-helper-clearfix"
+            style="text-align:left"
+        >
             <div
-                style="float: left"
+                class="ui-widget-content ui-corner-all  ui-helper-clearfix"
+            >
+                <div
+                    style="float: left"
+                    class="ui-state-default"
+                >
+                    <ul id="mainmenu">
+                        <li><a href="#">Menu</a>
+                            <ul style="z-index: 100">
+                                <li><a
+                                    class="open-generate"
+                                    href="#generate"
+                                >Generate text</a></li>
+                                <li><a
+                                    class="open-memento"
+                                    href="#memento"
+                                >Mnemonic</a></li> #if (restricted)
+                                <li><a
+                                    class="open-upload"
+                                    href="admin#upload"
+                                >Load text</a></li>
+                                <li><a
+                                    class="open-statistic"
+                                    href="/stat"
+                                >Statistic</a></li> #else
+                                <li><a
+                                    class="open-upload"
+                                    href="/admin#upload"
+                                >Load text</a></li>
+                                <li><a
+                                    class="open-statistic"
+                                    href="/stat"
+                                >Statistic</a></li> #end
+                                <li><a
+                                    class="open-about"
+                                    href="#about"
+                                >Read Me</a></li>
+                            </ul></li>
+                    </ul>
+                </div>
+                <div
+                    class=" ui-widget-header  ui-corner-all"
+                    style="text-align: center; line-height: 2.2"
+                >
+                    <span>English Wizard</span>
+                </div>
+            </div>
+            <div
+                class="ui-widget-content  ui-corner-none"
+                style="height: 100%"
+            ><%= unescape(body) %></div>
+            <div
                 class="ui-state-default"
-            >
-                <ul id="mainmenu">
-                    <li><a href="#">Menu</a>
-                        <ul style="z-index: 100">
-                            <li><a
-                                class="open-generate"
-                                href="#my-generate"
-                            >Generate text</a></li>
-                            <li><a
-                                class="open-memento"
-                                href="#my-memento"
-                            >Mnemonic</a></li> #if (restricted)
-                            <li><a
-                                class="open-upload"
-                                href="admin#my-upload"
-                            >Load text</a></li>
-                            <li><a
-                                class="open-statistic"
-                                href="/stat"
-                            >Statistic</a></li> #else
-                            <li><a
-                                class="open-upload"
-                                href="/admin#my-upload"
-                            >Load text</a></li>
-                            <li><a
-                                class="open-statistic"
-                                href="/stat"
-                            >Statistic</a></li> #end
-                            <li><a
-                                class="open-about"
-                                href="#my-about"
-                            >Read Me</a></li>
-                        </ul></li>
-                </ul>
-            </div>
-            <div
-                class=" ui-widget-header  ui-corner-all"
-                style="text-align: center; line-height: 2.2"
-            >
-                <span>English Wizard</span>
-            </div>
+                style="text-align: center"
+            >set: fiction books</div>
         </div>
-        <div
-            class="ui-widget-content  ui-corner-none"
-            style="height: 100%"
-        ><%= unescape(body) %></div>
-        <div
-            class="ui-state-default"
-            style="text-align: center"
-        >unit: mongodb</div>
-    </div>
-    </div>
+    </center>
 </body>
 </html>
