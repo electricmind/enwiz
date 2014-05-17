@@ -120,7 +120,10 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                 "probability" $exists true)).
                                 sort(MO("probability" -> -1)).
                                 limit(100).map(x => {
-                                    (x.get("word3").toString, x.get("probability").toString.toDouble)
+                                    (
+                                        x.get("word3").toString,
+                                        x.get("probability").toString.toDouble
+                                    )
                                 }) filter {
                                     case (word3, _) => !Set("'", ",", "-")(word3) && word3.length == n
                                     case _          => false

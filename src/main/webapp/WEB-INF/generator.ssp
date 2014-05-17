@@ -139,7 +139,7 @@ generates english phrases. #end #set (tmpl)
                 from a real text, correct one. For each four-five word
                 that is quite possible to find a text that contains
                 them. More than five .... yeah, it's debatable.</p>
-            <p style="text-align: center">v.0.0.21 patched with tabs</p>
+            <p style="text-align: center">v.0.0.22 patched with tabs</p>
         </div>
     </div>
     <div
