@@ -93,24 +93,23 @@ generates english phrases. #end #set (tmpl)
             style="text-align: justify; padding-left: 2em; padding-right: 2em;"
         >
             <p>This very tool is just a toy, but it engages the
-                statistics of almost four million of English trigrams that 
-                contain 85 thousand words, that come from a variety of texts.
-                It provides two opportunities: a bit of enjoy and a bit
-                of better sense of how English really runs.</p>
-                
+                statistics of almost four million of English trigrams
+                that contain 85 thousand words, that come from a variety
+                of texts. It provides two opportunities: a bit of enjoy
+                and a bit of better sense of how English really runs.</p>
             <p>
                 First one is a <b><a
                     href="#memento"
                     class="open-memento"
                     title="a generator of mnemonics for numbers"
                 >mnemonic generator</a></b>, theoretically one can use it to
-                memorize a long sequence of numbers. Practically, just
-                because English is not my native, it works for me in
-                opposite direction, that's enjoyable. Let's assume you
+                memorize a long sequence of numbers. Let's assume you
                 need to memorize a Pi. Look at the lengths of the words:
                 <i>"And(3) I (1) have (4) a (1) child (5) condemned
                     (9) to (2) always (6) think (5)."</i>, that gives <i>3.14159265</i>.
-            
+                Practically, just because English is not my native, it
+                works for me in opposite direction, that's enjoyable.
+            </p>
             <p>
                 One can write a bunch of amusing things: <i>"They
                     were both gone into some kind that says that this
@@ -118,8 +117,9 @@ generates english phrases. #end #set (tmpl)
                     they find this town ."</i>, what a lurid story of two
                 awful fellows written with four-letter words!
             </p>
-            <p>Others,  for the lack of an interest to numbers,  can focus on
-                language itself with a <b><a
+            <p>
+                Others, for the lack of an interest to numbers, can
+                focus on language itself with a <b><a
                     href="#generate"
                     class="open-generate"
                     title="a generator of tedious passages"
@@ -134,11 +134,12 @@ generates english phrases. #end #set (tmpl)
             <p>As for me, it helps to estimate possible context of
                 different words or possible language constructs, but to
                 be honest I used a little more sophisticated tool.</p>
-            <p>A short remark about grammar correctness. For each three
-                word that database uses it's guaranteed that they comes
-                from a real text, correct one. For each four-five word
-                that is quite possible to find a text that contains
-                them. More than five .... yeah, it's debatable.</p>
+            <p>A short remark about grammatical correctness. For
+                each three words that database uses it's guaranteed that
+                they comes from a real text, correct one. For each
+                four-five words it is quite possible to find a text
+                containing them. More than five .... yeah, it's
+                debatable.</p>
             <p style="text-align: center">v.0.0.22 patched with tabs</p>
         </div>
     </div>
