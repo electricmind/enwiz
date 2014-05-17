@@ -27,9 +27,9 @@ Forensic set :
 
 Fiction set :
 
-|  length | unigram | bigram | trigram  | frequency frequency of trigramm |
-| --------| ------ | ------- | -------- | ------------------------------- |
-|  87M    | 85044  | 1343235 | 3799617  | 2.3741653435069905              |
+|  length | unigram | bigram | trigram  | average frequency of trigramm |
+| --------| ------ | ------- | -------- | ----------------------------- |
+|  87M    | 85044  | 1343235 | 3799617  | 2.37                          |
 
 Considering the fact, that size of any corpora is limited  , less intellectual source provides a sample with higher average frequency of trigramm having less or the same vocabulary size. Average frequency of trigramm is a crucial parameter that reflects a quality of model. Text generated on the base of the model with large average frequency of trigramm better come up to a human expectations. So, difference between 1.89 and 2.37 is the difference between two mnemonics of Pi : *"But I have a great diversity of people using the Latin American president .* and *And I have a child condemned to always think .*
  
