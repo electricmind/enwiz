@@ -122,7 +122,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                             "word3" $exists true,
                             "probability" $exists true)).
                             sort(MO("probability" -> -1)).
-                            limit(100).map(x => {
+                            map(x => {
                                 (
                                     x.get("word3").toString,
                                     x.get("probability").toString.toDouble
