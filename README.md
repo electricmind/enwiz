@@ -4,7 +4,7 @@ English Wizard
 
 This very tool is just a toy, that can  work on the top of a serious dataset about millions of English trigrams, that comes from a range of texts. It provides two opportunities: a bit of enjoy and a bit of better sense of how English really runs.
 
-First one is a **mnemonic generator**, theoretically one can use it to memorize a long sequence of numbers. Practically, just because English is not my native, it works for me in opposite direction, that's enjoyable. Let's assume you need to memorize a Pi. Look at the lengths of the words: *"And(3) I (1) have (4) a (1) child (5) condemned (9) to (2) always (6) think (5)."*, that gives 3.14159265.
+First one is a **mnemonic generator**, theoretically one can use it to memorize a long sequence of numbers.  Let's assume you need to memorize a Pi. Look at the lengths of the words: *"And(3) I (1) have (4) a (1) child (5) condemned (9) to (2) always (6) think (5)."*, that gives 3.14159265. Practically, just because English is not my native, it works for me in opposite direction, that's enjoyable.
 
 One can write a bunch of amusing things: *"They were both gone into some kind that says that this time when they were gone from them both with guns they find this town ."*, what a lurid story of two awful fellows in four-letter words!
 
