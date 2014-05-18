@@ -47,5 +47,8 @@ class EnWizActor(lookupprop: Props, parserprop: Props) extends Actor {
             
         case msg @ EnWizPi2WordsRequest(_) =>
             lookup forward msg
+            
+        case msg @ EnWizAcronymRequest(_) =>
+            lookup forward msg
     }
 }

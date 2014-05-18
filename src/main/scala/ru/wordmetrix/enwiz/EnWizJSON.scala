@@ -96,6 +96,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
             }
         }
     }
+    
     /**
      * Return mnemonic for a sequence of figures.
      */
@@ -141,4 +142,53 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         memento
     }
 
+    /**
+     * Return acronym for a sequence of chars.
+     */
+
+    def acronym = new AsyncResult() {
+        val promise = Promise[(Boolean, List[String], String, String)]
+        val allowed = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").tail.toSet
+        val is = promise.future
+        val query = params.getOrElse("acronym", "")
+        val letters = query.split("").filter(x=>allowed.contains(x.toUpperCase())).take(25).toList
+println(letters)
+        def complete(success: Boolean, words: List[String]) = {
+            
+            val phrase = words.map({
+                case ""=> ""
+                case s => s.head.toUpper + s.tail.toLowerCase
+            }).mkString(" ")
+            
+            log ! EnWizAccessLogMnemonic(
+
+                request.getRemoteAddr(), query, letters.mkString,
+                phrase
+            )
+
+            promise.complete(Try(success, words, phrase, query))
+        }
+        lookup ? EnWizAcronymRequest(
+            letters
+        ) onComplete {
+                case Success(EnWizAcronym(Left(words))) =>
+                    complete(true, words)
+
+                case Success(EnWizAcronym(Right(words))) =>
+                    complete(false, words)
+
+                case Failure(f) =>
+                    status = 400
+                    promise.complete(Failure(f))
+            }
+    }
+
+    get("/acronym/:acronym") {
+        acronym
+    }
+
+    get("/acronym/?") {
+        acronym
+    }
+    
 }

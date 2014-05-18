@@ -24,15 +24,23 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
 		width: 100%;
 		height: 100%;
 	}
-	.my-memento-scroll {
-		overflow-y: auto;
-		height: 100%;
-	}
+    .my-memento-scroll {
+        overflow-y: auto;
+        height: 100%;
+    }
+    .my-acronym-scroll {
+        overflow-y: auto;
+        height: 100%;
+    }
 }
 
 .my-memento-scroll {
-	overflow-y: auto;
-	height: 460px;
+    overflow-y: auto;
+    height: 460px;
+}
+.my-acronym-scroll {
+    overflow-y: auto;
+    height: 460px;
 }
 </style>
 <style
@@ -82,7 +90,12 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
                                 <li><a
                                     class="open-memento"
                                     href="#memento"
-                                >Mnemonic</a></li> #if (restricted)
+                                >Mnemonic</a></li>
+                                                                <li><a
+                                    class="open-acronym"
+                                    href="#acronym"
+                                >Acronym</a></li> 
+                                 #if (restricted)
                                 <li><a
                                     class="open-upload"
                                     href="admin#upload"

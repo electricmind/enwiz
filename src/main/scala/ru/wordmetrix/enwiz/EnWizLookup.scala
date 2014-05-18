@@ -33,6 +33,10 @@ object EnWizLookup {
 
     case class EnWizPi2Words(ns: Either[List[String], List[String]]) extends EnWizMessage
 
+    case class EnWizAcronymRequest(ls: List[String]) extends EnWizMessage
+
+    case class EnWizAcronym(ns: Either[List[String], List[String]]) extends EnWizMessage
+
     def props(): Props = Props(new EnWizLookup())
 }
 
@@ -88,72 +92,94 @@ class EnWizLookup() extends Actor with EnWizMongo {
         mo
     }
 
+    def betterof(ws1: List[String], ws2: List[String]) =
+        if (ws1.length > ws2.length) ws1 else ws2
+
+    def findLeft(it: Iterator[Either[List[String], List[String]]], best: List[String]): Either[List[String], List[String]] = if (it.nonEmpty) {
+        it.next() match {
+            case Left(ws)  => Left(ws)
+            case Right(ws) => findLeft(it, betterof(ws, best))
+        }
+    } else {
+        Right(best)
+    }
+
+    def ns2ws[A](ns: List[A], best: List[String], ws: List[String], t: Long)(
+        f: (A, String) => Boolean //PartialFunction[(A,String), Boolean]
+        ): Either[List[String], List[String]] =
+        if (t < System.currentTimeMillis()) {
+            Right(betterof(best, ws))
+        } else ns match {
+            case n :: ns =>
+                println(s"ws: $ws $best")
+                ws match {
+                    case word2 :: word1 :: _ =>
+                        val better = betterof(best, ws)
+
+                        findLeft(coll.find($and(
+                            "word1" $eq word1,
+                            "word2" $eq word2,
+                            "word3" $exists true,
+                            "probability" $exists true)).
+                            sort(MO("probability" -> -1)).
+                            limit(100).map(x => {
+                                (
+                                    x.get("word3").toString,
+                                    x.get("probability").toString.toDouble
+                                )
+                            }) filter {
+                                case (word3, _) =>
+                                    f(n, word3)
+                                case _ => false
+                            } map {
+                                case (word3, p) =>
+                                    println(s" ok : $n : $word3 x $p : $ws")
+                                    ns2ws(ns, better, word3 :: ws, t)(f)
+                            },
+                            better
+                        )
+                }
+            case List() =>
+                ws match {
+                    case word2 :: word1 :: _ =>
+                        coll.findOne($and(
+                            "word1" $eq word1,
+                            "word2" $eq word2,
+                            "word3" $eq ","
+                        )) match {
+                            case Some(_) => Left("." :: ws)
+                            case None    => Right(ws)
+                        }
+                }
+        }
+
     def receive(): Receive = {
         /**
          * Return sequence of words each has a length equal to according number
          */
         case EnWizPi2WordsRequest(ns) =>
-            def betterof(ws1: List[String], ws2: List[String]) =
-                if (ws1.length > ws2.length) ws1 else ws2
-
-            def findLeft(it: Iterator[Either[List[String], List[String]]], best: List[String]): Either[List[String], List[String]] = if (it.nonEmpty) {
-                it.next() match {
-                    case Left(ws)  => Left(ws)
-                    case Right(ws) => findLeft(it, betterof(ws, best))
-                }
-            } else {
-                Right(best)
-            }
-
-            def ns2ws(ns: List[Int], best: List[String], ws: List[String], t: Long): Either[List[String], List[String]] = if (t < System.currentTimeMillis()) {
-                Right(betterof(best, ws))
-            } else ns match {
-                case n :: ns =>
-                    ws match {
-                        case word2 :: word1 :: _ =>
-                            val better = betterof(best, ws)
-
-                            findLeft(coll.find($and(
-                                "word1" $eq word1,
-                                "word2" $eq word2,
-                                "word3" $exists true,
-                                "probability" $exists true)).
-                                sort(MO("probability" -> -1)).
-                                limit(100).map(x => {
-                                    (
-                                        x.get("word3").toString,
-                                        x.get("probability").toString.toDouble
-                                    )
-                                }) filter {
-                                    case (word3, _) => !Set("'", ",", "-")(word3) && word3.length == n
-                                    case _          => false
-                                } map {
-                                    case (",", _) =>
-                                        ns2ws(ns, better, "," :: ws, t)
-                                    case (word3, p) =>
-                                        //println(s" ok : $n : $word3 x $p : $ws")
-                                        ns2ws(ns, better, word3 :: ws, t)
-                                },
-                                better
-                            )
-                    }
-                case List() =>
-                    ws match {
-                        case word2 :: word1 :: _ =>
-                            coll.findOne($and(
-                                "word1" $eq word1,
-                                "word2" $eq word2,
-                                "word3" $eq ","
-                            )) match {
-                                case Some(_) => Left("." :: ws)
-                                case None    => Right(ws)
-                            }
-                    }
-            }
 
             Future {
                 EnWizPi2Words(
-                    ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 10000) match {
+                    ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 10000) {
+                        case (n, word3) => !Set("'", ",", "-")(word3) && word3.length == n
+                    } match {
+                        case Left(x)  => Left(x.reverse)
+                        case Right(x) => Right(x.reverse)
+                    }
+                )
+            } pipeTo sender
+
+        /**
+         * Return sequence of words each begins with a letter of an acronym
+         */
+        case EnWizAcronymRequest(ls) =>
+            println(s"lookup $ls")
+            Future {
+                EnWizAcronym(
+                    ns2ws(ls, List(), List("", ""), System.currentTimeMillis() + 10000) {
+                        case (letter, word3) => letter.head.toLower == word3.head.toLower
+                    } match {
                         case Left(x)  => Left(x.reverse)
                         case Right(x) => Right(x.reverse)
                     }

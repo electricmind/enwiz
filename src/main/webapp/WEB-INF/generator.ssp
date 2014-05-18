@@ -75,6 +75,7 @@ generates english phrases. #end #set (tmpl)
 <script src="/js/generator.js">  </script>
 <script src="/js/progressSpin.min.js">  </script>
 <script src="/js/memento.js">  </script>
+<script src="/js/acronym.js">  </script>
 <script src="/js/upload.js">  </script>
 #end
 <div
@@ -291,4 +292,83 @@ generates english phrases. #end #set (tmpl)
             </form>
         </div>
     </div>
-</div>
+    <div
+        id="acronym"
+        class="my-panes my-acronym ui-helper-clearfix"
+    >
+        <div class=" ui-state-default  ui-corner-top">
+            <span><b>Generate a mnemonic for a sequence of
+                    figures.</b></span>
+        </div>
+        <div class="my-acronym-scroll">
+            <table
+                class="acronym ui-corner-top"
+                width="100%"
+            >
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">S.E.C.O.N.D.</td>
+                    <td>Something Else Came Out Next Day .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-error"
+                        style="border: 0px"
+                    ><span
+                        class="ui-icon ui-icon-person"
+                        title="Planted by Human"
+                    ></span></td>
+                    <td width="20%">L.I.F.E.</td>
+                    <td>Learn Interactively For Evil .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">A.N.I.M.O.S.I.T.Y.</td>
+                    <td>And Not In Me Or Something In Them Yet .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">A.R.T.I.F.I.C.I.A.L.</td>
+                    <td>And Remember That I Felt It Coming In And
+                        Looked .</td>
+                </tr>
+            </table>
+            <form
+                action="/json/acronym"
+                class="form-acronym"
+                style="float: left"
+            >
+                <div
+                    class="memento-error ui-state-error ui-corner-all ui-helper-hidden"
+                    style="padding: 0 .2em; width: 250px; float: right"
+                >
+                    <p>
+                        <span
+                            class="ui-icon ui-icon-alert"
+                            style="float: left; margin-right: .3em;"
+                        ></span> <strong>Alert:</strong> Error to access the
+                        server, try again.
+                    </p>
+                </div>
+                <input
+                    type="text"
+                    title="Enter a word for acronym"
+                    name="acronym"
+                />
+                <button class="button">Generate!</button>
+            </form>
+        </div>
+    </div>
