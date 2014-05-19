@@ -26,6 +26,7 @@ object EnWizAccessLog {
 
     case class EnWizAccessLogWords(ip: String, word1: String, word2: String) extends EnWizMessage
     case class EnWizAccessLogMnemonic(ip: String, request: String, figures: String, response: String) extends EnWizMessage
+    case class EnWizAccessLogAcronym(ip: String, request: String, acronym: String, response: String) extends EnWizMessage
 
     def props(): Props = Props(new EnWizAccessLog())
 }
@@ -61,6 +62,16 @@ class EnWizAccessLog() extends Actor with EnWizMongo {
                 "ip" -> ip,
                 "time" -> System.currentTimeMillis(),
                 "action" -> "mnemonic",
+                "request" -> request,
+                "figures" -> figures,
+                "response" -> response
+            ))
+            
+        case EnWizAccessLogAcronym(ip, request, figures, response) =>
+            coll.insert(MO(
+                "ip" -> ip,
+                "time" -> System.currentTimeMillis(),
+                "action" -> "acronym",
                 "request" -> request,
                 "figures" -> figures,
                 "response" -> response

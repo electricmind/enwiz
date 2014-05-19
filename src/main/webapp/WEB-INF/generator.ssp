@@ -104,8 +104,8 @@ generates english phrases. #end #set (tmpl)
                     class="open-memento"
                     title="a generator of mnemonics for numbers"
                 >mnemonic generator</a></b>, theoretically one can use it to
-                memorize a long sequence of numbers. Let's assume you
-                need to memorize a Pi. Look at the lengths of the words:
+                memorize a long sequence of digits. Let's assume you
+                need to memorize number Pi. Look at the lengths of the words:
                 <i>"And(3) I (1) have (4) a (1) child (5) condemned
                     (9) to (2) always (6) think (5)."</i>, that gives <i>3.14159265</i>.
                 Practically, just because English is not my native, it
@@ -120,14 +120,21 @@ generates english phrases. #end #set (tmpl)
             </p>
             <p>
                 Others, for the lack of an interest to numbers, can
-                focus on language itself with a <b><a
+                focus on acronyms. An acronym is a vocabulary word, formed 
+                from the initial letters of words in a phrase: <i>M.I.N.D is 
+                for "<b>M</b>ind <b>I</b>s <b>N</b>ot <b>D</b>isappointed"</i>.
+                <b><a href="#acronym">Acronym's generator</a></b> might find 
+                a phrase, suitable for given acronym.</p> 
+                
+           <p> <b><a
                     href="#generate"
                     class="open-generate"
                     title="a generator of tedious passages"
-                >sentence generator</a></b>. The tool suggests more plausible
+                >Sentence generator</a></b> allows to realize principles of 
+                these toys. The tool suggests more plausible
                 word with respect to a couple of previous. English
                 writing becomes a lot of easy for one, who chooses
-                suitable words one by one. Of course it would be a
+                suitable words in turn. Of course it would be a
                 complete synthetic nonsense, but .... you will be
                 surprised that only a little participation of a human is
                 really necessary to bring a tinge of sense into them.
@@ -141,7 +148,7 @@ generates english phrases. #end #set (tmpl)
                 four-five words it is quite possible to find a text
                 containing them. More than five .... yeah, it's
                 debatable.</p>
-            <p style="text-align: center">v.0.1.1/p>
+            <p style="text-align: center">build 024 based on v.0.1.0</p>
         </div>
     </div>
     <div

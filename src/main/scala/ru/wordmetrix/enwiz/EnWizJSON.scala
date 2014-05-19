@@ -160,8 +160,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                 case s => s.head.toUpper + s.tail.toLowerCase
             }).mkString(" ")
             
-            log ! EnWizAccessLogMnemonic(
-
+            log ! EnWizAccessLogAcronym(
                 request.getRemoteAddr(), query, letters.mkString,
                 phrase
             )

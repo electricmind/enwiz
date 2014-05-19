@@ -24,23 +24,28 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
 		width: 100%;
 		height: 100%;
 	}
-    .my-memento-scroll {
-        overflow-y: auto;
-        height: 100%;
-    }
-    .my-acronym-scroll {
-        overflow-y: auto;
-        height: 100%;
-    }
+	.my-memento-scroll {
+		overflow-y: auto;
+		height: 100%;
+	}
+	.my-acronym-scroll {
+		overflow-y: auto;
+		height: 100%;
+	}
+}
+
+.my-panes {
+	height: 100%;
 }
 
 .my-memento-scroll {
-    overflow-y: auto;
-    height: 460px;
+	overflow-y: auto;
+	height: 460px;
 }
+
 .my-acronym-scroll {
-    overflow-y: auto;
-    height: 460px;
+	overflow-y: auto;
+	height: 460px;
 }
 </style>
 <style
@@ -71,7 +76,7 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
     <center>
         <div
             class="my-main ui-widget-content ui-corner-all  ui-helper-clearfix"
-            style="text-align:left"
+            style="text-align: left"
         >
             <div
                 class="ui-widget-content ui-corner-all  ui-helper-clearfix"
@@ -91,11 +96,10 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
                                     class="open-memento"
                                     href="#memento"
                                 >Mnemonic</a></li>
-                                                                <li><a
+                                <li><a
                                     class="open-acronym"
                                     href="#acronym"
-                                >Acronym</a></li> 
-                                 #if (restricted)
+                                >Acronym</a></li> #if (restricted)
                                 <li><a
                                     class="open-upload"
                                     href="admin#upload"

@@ -98,10 +98,8 @@ class EnWizLookup() extends Actor with EnWizMongo {
     def findLeft(it: Iterator[Either[List[String], List[String]]], best: List[String]): Either[List[String], List[String]] = if (it.nonEmpty) {
         it.next() match {
             case Left(ws)  =>
-                println(ws)
                 Left(ws)
             case Right(ws) => 
-                println(ws)
                 findLeft(it, betterof(ws, best))
         }
     } else {
