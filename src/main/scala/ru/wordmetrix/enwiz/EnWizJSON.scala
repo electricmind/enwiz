@@ -57,7 +57,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
 
                 case Success(None) => NotFound(s"Sorry, unknown words")
                 case Failure(f) =>
-                    status = 502
+                    status = 504
                     promise.complete(Failure(f))
 
             }
@@ -91,7 +91,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
 
                 case Success(None) => NotFound(s"Sorry, unknown words")
                 case Failure(f) =>
-                    status = 502
+                    status = 504
                     promise.complete(Failure(f))
             }
         }
@@ -128,7 +128,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                     complete(false, words)
 
                 case Failure(f) =>
-                    status = 502
+                    status = 504
                     promise.complete(Failure(f))
             }
     }
