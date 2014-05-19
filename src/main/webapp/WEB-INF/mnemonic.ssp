@@ -6,7 +6,7 @@
 >
     <div class=" ui-state-default  ui-corner-top">
         <span><b>Generate a mnemonic for a sequence of
-                figures.</b></span>
+                digits.</b></span>
     </div>
     <div class="my-mnemonic-scroll">
         <table
@@ -84,7 +84,7 @@
             </div>
             <input
                 type="text"
-                title="Enter a string of figures"
+                title="Enter a string of digits"
                 name="figures"
             />
             <button class="button enwiz-submit">Generate!</button>

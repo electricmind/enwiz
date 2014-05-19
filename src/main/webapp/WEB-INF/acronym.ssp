@@ -1,13 +1,12 @@
-#set (jsacronym) <script src="/js/acronym.js"> ZxzxZ </script> #end 
-
-
+#set (jsacronym)
+<script src="/js/acronym.js"> </script>
+#end
 <div
     id="acronym"
     class="my-panes my-acronym ui-helper-clearfix"
 >
     <div class=" ui-state-default  ui-corner-top">
-        <span><b>Generate a mnemonic for a sequence of
-                figures.</b></span>
+        <span><b>Find a suitable phrase for acronym</b></span>
     </div>
     <div class="my-acronym-scroll">
         <table
@@ -41,6 +40,16 @@
                     class="ui-state-highlight1"
                     style="border: 0px"
                 ><span class="ui-icon ui-icon-check"></span></td>
+                <td width="20%">S.E.C.O.N.D.L.I.F.E.</td>
+                <td>Something Else Came Out Next Day Like If For
+                    Everyone .</td>
+            </tr>
+            <tr>
+                <td
+                    width="2%"
+                    class="ui-state-highlight1"
+                    style="border: 0px"
+                ><span class="ui-icon ui-icon-check"></span></td>
                 <td width="20%">A.N.I.M.O.S.I.T.Y.</td>
                 <td>And Not In Me Or Something In Them Yet .</td>
             </tr>
@@ -63,7 +72,7 @@
                     class="ui-icon ui-icon-alert"
                     title="Exact solution was not found, this one is the best that was available."
                 ></span></td>
-                <td width="20%">I.N.T.L.L.I.G.E.N.T.</td>
+                <td width="20%">I.N.T.E.L.L.I.G.E.N.T.</td>
                 <td>If Not The End Looked Like I Got Em</td>
             </tr>
             <tr>
@@ -93,6 +102,15 @@
                 <td width="20%">C.O.N.T.R.O.L.</td>
                 <td>Crazy Or Not The Right Or Left .</td>
             </tr>
+            <tr>
+                <td
+                    width="2%"
+                    class="ui-state-highlight1"
+                    style="border: 0px"
+                ><span class="ui-icon ui-icon-check"></span></td>
+                <td width="20%">A.C.T.I.V.I.T.Y.</td>
+                <td>Any Company That Is Very Important To You .</td>
+            </tr>
         </table>
         <form
             action="/json/acronym"
@@ -117,7 +135,9 @@
                 name="acronym"
             />
             <button class="button enwiz-submit">Generate!</button>
-            <button class="button enwiz-loading ui-helper-hidden" ><img src="/img/loading.gif"/>&nbsp;Loading...</button>
+            <button class="button enwiz-loading ui-helper-hidden">
+                <img src="/img/loading.gif" />&nbsp;Loading...
+            </button>
         </form>
     </div>
 </div>
