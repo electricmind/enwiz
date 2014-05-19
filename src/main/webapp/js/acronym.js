@@ -4,7 +4,7 @@ $(document).ready(function() {
     $(".form-acronym").ajaxForm({
        clearForm :true,
        error : function(status) {
-         $(".form-acronym .mnemonic-error").show(100);
+         $("#acronym .mnemonic-error").show(100);
          $(".form-acronym .enwiz-submit").show(0);
          $(".form-acronym .enwiz-loading").hide(0);
 

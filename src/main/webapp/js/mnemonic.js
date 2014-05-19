@@ -3,7 +3,7 @@ $(document).ready(function() {
     $(".form-mnemonic").ajaxForm({
         clearForm : true,
         error : function(status) {
-                $(".form-acronym .mnemonic-error").show(100);
+                $("#mnemonic .mnemonic-error").show(100);
                 $(".form-mnemonic .enwiz-submit").show(0);
                 $(".form-mnemonic .enwiz-loading").hide(0);
         },
