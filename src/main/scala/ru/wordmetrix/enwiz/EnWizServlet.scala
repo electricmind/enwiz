@@ -31,7 +31,7 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends
      */
     get("/") {
         contentType = "text/html"
-        ssp("/generator.ssp")
+        ssp("/main.ssp")
     }
 
     get("/admin") {
@@ -67,6 +67,8 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends
         }
 
     }
+    
+    
     get("/memento/?") {
         contentType = "text/html"
         new AsyncResult() {

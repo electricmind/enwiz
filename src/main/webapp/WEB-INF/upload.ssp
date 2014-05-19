@@ -1,0 +1,24 @@
+<div
+    id="upload"
+    class="my-panes my-upload"
+>
+    <div class=" ui-state-default  ui-corner-top">
+        <span><b>Upload new text file to teach the wizard.</b></span>
+    </div>
+    <div id="progress"></div>
+    <form
+        class="form-upload"
+        action="/load"
+        method="post"
+        enctype="multipart/form-data"
+    >
+        <input
+            class="button"
+            type="file"
+            multiple
+            title="Enter a name of a text file to parse and include into the vocabulary."
+            name="text"
+        />
+        <button class="button">Upload</button>
+    </form>
+</div>

@@ -1,0 +1,29 @@
+
+<div
+    id="generate"
+    class=" my-panes my-generate"
+>
+    <div class=" ui-state-default  ui-corner-top">
+        <span
+            title="Press menu button below and choose next word from menu."
+        ><b>Generate English sentences</b></span>
+    </div>
+    <div
+        class="phrase"
+        style="font-size: +25"
+    >
+        <span
+            class="word"
+            data-word=""
+        ></span> <span
+            class="word"
+            data-word=""
+        ></span>
+    </div>
+    <button
+        class="remove ui-helper-hidden"
+        title="Press the button to remove last word."
+        style="font-size: +15"
+    >Remove</button>
+</div>
+
