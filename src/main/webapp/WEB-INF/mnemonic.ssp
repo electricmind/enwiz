@@ -1,3 +1,4 @@
+#set (jsmnemonic) <script src="/js/mnemonic.js">  </script> #end
 
 <div
     id="memento"

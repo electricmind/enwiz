@@ -34,12 +34,42 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends
         ssp("/main.ssp")
     }
 
+    get("/readme") {
+        contentType = "text/html"
+        ssp("/readme.ssp")
+    }
+    
+    get("/generate") {
+        contentType = "text/html"
+        ssp("/generate.ssp")
+    }
+    
+    get("/mnemonic") {
+        contentType = "text/html"
+        ssp("/mnemonic.ssp")
+    }
+    
+    get("/acronym") {
+        contentType = "text/html"
+        ssp("/acronym.ssp")
+    }
+    
+    get("/upload") {
+        contentType = "text/html"
+        basicAuth
+        ssp("/upload.ssp")
+    }
+
+    
+    
     get("/admin") {
         contentType = "text/html"
         basicAuth
         ssp("/generator.ssp", "restricted" -> true)
     }
 
+    
+    
     /**
      * Page with statistic
      */

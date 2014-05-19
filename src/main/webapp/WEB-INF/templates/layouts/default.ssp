@@ -1,5 +1,11 @@
-<%@ val body: String %> <%@ val restricted: Boolean = false %> <%@ val
-js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
+<%@ val body: String %> <%@ val restricted: Boolean = false %> 
+<%@ val js: String = ""%> 
+<%@ val jsmnemonic: String = ""%> 
+<%@ val jsacronym: String = ""%> 
+<%@ val jsgenerate: String = ""%> 
+<%@ val jsupload: String = ""%> 
+
+<%@ val tmpl: String = ""%> <%@ val title: String =
 "English phrase generator"%>
 <html lang="en">
 <head>
@@ -70,75 +76,87 @@ js: String = ""%> <%@ val tmpl: String = ""%> <%@ val title: String =
 ></script>
 <script src="/js/init.js"></script>
 <script src="http://malsup.github.io/min/jquery.form.min.js"></script>
-<%= unescape(js) %> <%= unescape(tmpl) %>
+<script
+    id="progress-tmpl"
+    type="text/x-jquery-tmpl"
+>
+<div  id="progress" class="ui-corner-top" width="100%">
+{{if tasks.length > 0 }}
+<table width="100%">
+{{each(i,task) tasks}}
+<tr><td width="10%">
+   \${task._1.id} </td><td> \${task._1.title} </td><td  width="30%"> \${task._2} % completed </td>
+{{/each}}
+{{/if}}
+</table>
+</div>
+</script>
+<script
+    id="dropmenu-tmpl"
+    type="text/x-jquery-tmpl"
+>
+                    <ul  class="words" style="display:inline-block; vertical-align:top; font-size:+15"><li><a href="#">Add word</a>
+                    <ul style="z-index:100">{{each(i,wp) wps}}<li>
+                        <a class="menuitem" data-word="\${wp.word}">\${wp.word} : \${wp.probability} </a>
+                    </li>{{/each}}</ul></ul>
+</script>
+<script
+    id="phrase-tmpl"
+    type="text/x-jquery-tmpl"
+>
+                    <div class="phrase" style="font-size:+25">
+                        <span class="word" data-word=""></span>
+                        <span class="word" data-word=""></span>
+                    </div></script>
+<script
+    id="memento-tmpl"
+    type="text/x-jquery-tmpl"
+>
+                    <tr class="memento-\${memento._1} ui-helper-hidden" >
+{{if memento._1}}
+<td width="2%" class="ui-state-highlight1" style="border:0px">
+<span class="ui-icon ui-icon-check"></span>
+</td>
+{{else}}
+<td width="2%" class="ui-state-error" style="border:0px">
+<span class="ui-icon ui-icon-alert" title="Exact solution was not found, this one is the best that was available."></span>
+</td>
+{{/if}}
+<td width="2%">\${memento._4}</td>
+<td>\${memento._3}</td>
+</tr>
+</script>
+<script
+    id="loading-tmpl"
+    type="text/x-jquery-tmpl"
+>
+                    <div class="loading" title="Upon completion a popup menu appears." style="vertical-align:top; font-size:+15">
+                        Loading...
+                    </div></script>
+<script
+    id="reload-tmpl"
+    type="text/x-jquery-tmpl"
+>
+                    <button class="reload" style="vertical-align:top; font-size:+15">
+                        Press to continue
+                    </button></script>
+<script
+    id="phraseitem-tmpl"
+    type="text/x-jquery-tmpl"
+>
+                    <span class="word ui-helper-hidden" data-word="\${word}">
+                        \${word} 
+                    </span></script>
+<%= unescape(js) %> 
+<%= unescape(jsmnemonic) %> 
+<%= unescape(jsacronym) %> 
+<%= unescape(jsgenerate) %> 
+<%= unescape(jsupload) %> 
+
+
+<%= unescape(tmpl) %>
 </head>
 <body>
-    <center>
-        <div
-            class="my-main ui-widget-content ui-corner-all  ui-helper-clearfix"
-            style="text-align: left"
-        >
-            <div
-                class="ui-widget-content ui-corner-all  ui-helper-clearfix"
-            >
-                <div
-                    style="float: left"
-                    class="ui-state-default"
-                >
-                    <ul id="mainmenu">
-                        <li><a href="#">Menu</a>
-                            <ul style="z-index: 100">
-                                <li><a
-                                    class="open-generate"
-                                    href="#generate"
-                                >Generate text</a></li>
-                                <li><a
-                                    class="open-memento"
-                                    href="#memento"
-                                >Mnemonic</a></li>
-                                <li><a
-                                    class="open-acronym"
-                                    href="#acronym"
-                                >Acronym</a></li> #if (restricted)
-                                <li><a
-                                    class="open-upload"
-                                    href="admin#upload"
-                                >Load text</a></li>
-                                <li><a
-                                    class="open-statistic"
-                                    href="/stat"
-                                >Statistic</a></li> #else
-                                <li><a
-                                    class="open-upload"
-                                    href="/admin#upload"
-                                >Load text</a></li>
-                                <li><a
-                                    class="open-statistic"
-                                    href="/stat"
-                                >Statistic</a></li> #end
-                                <li><a
-                                    class="open-about"
-                                    href="#about"
-                                >Read Me</a></li>
-                            </ul></li>
-                    </ul>
-                </div>
-                <div
-                    class=" ui-widget-header  ui-corner-all"
-                    style="text-align: center; line-height: 2.2"
-                >
-                    <span>English Wizard</span>
-                </div>
-            </div>
-            <div
-                class="ui-widget-content  ui-corner-none"
-                style="height: 100%"
-            ><%= unescape(body) %></div>
-            <div
-                class="ui-state-default"
-                style="text-align: center"
-            >set: fiction books</div>
-        </div>
-    </center>
+            <%= unescape(body) %>
 </body>
 </html>

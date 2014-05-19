@@ -1,3 +1,6 @@
+#set (jsacronym) <script src="/js/acronym.js"> ZxzxZ </script> #end 
+
+
 <div
     id="acronym"
     class="my-panes my-acronym ui-helper-clearfix"

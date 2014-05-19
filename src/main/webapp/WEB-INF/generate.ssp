@@ -1,3 +1,4 @@
+#set (jsgenerate) <script src="/js/generate.js">  </script> #end
 
 <div
     id="generate"
