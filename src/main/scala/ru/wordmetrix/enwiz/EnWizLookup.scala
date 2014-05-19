@@ -97,8 +97,12 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
     def findLeft(it: Iterator[Either[List[String], List[String]]], best: List[String]): Either[List[String], List[String]] = if (it.nonEmpty) {
         it.next() match {
-            case Left(ws)  => Left(ws)
-            case Right(ws) => findLeft(it, betterof(ws, best))
+            case Left(ws)  =>
+                println(ws)
+                Left(ws)
+            case Right(ws) => 
+                println(ws)
+                findLeft(it, betterof(ws, best))
         }
     } else {
         Right(best)
@@ -111,7 +115,6 @@ class EnWizLookup() extends Actor with EnWizMongo {
             Right(betterof(best, ws))
         } else ns match {
             case n :: ns =>
-                println(s"ws: $ws $best")
                 ws match {
                     case word2 :: word1 :: _ =>
                         val better = betterof(best, ws)
@@ -133,13 +136,14 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                 case _ => false
                             } map {
                                 case (word3, p) =>
-                                    println(s" ok : $n : $word3 x $p : $ws")
+//                                    println(s" ok : $n : $word3 x $p : $ws")
                                     ns2ws(ns, better, word3 :: ws, t)(f)
                             },
                             better
                         )
                 }
             case List() =>
+                println(s"result: ${ws.reverse.mkString(" ")})")
                 ws match {
                     case word2 :: word1 :: _ =>
                         coll.findOne($and(
@@ -161,7 +165,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
             Future {
                 EnWizPi2Words(
-                    ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 10000) {
+                    ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 100000) {
                         case (n, word3) => !Set("'", ",", "-")(word3) && word3.length == n
                     } match {
                         case Left(x)  => Left(x.reverse)
@@ -177,7 +181,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
             println(s"lookup $ls")
             Future {
                 EnWizAcronym(
-                    ns2ws(ls, List(), List("", ""), System.currentTimeMillis() + 10000) {
+                    ns2ws(ls, List(), List("", ""), System.currentTimeMillis() + 100000) {
                         case (letter, word3) => letter.head.toLower == word3.head.toLower
                     } match {
                         case Left(x)  => Left(x.reverse)

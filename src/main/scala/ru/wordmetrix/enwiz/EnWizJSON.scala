@@ -152,7 +152,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         val is = promise.future
         val query = params.getOrElse("acronym", "")
         val letters = query.split("").filter(x=>allowed.contains(x.toUpperCase())).take(25).toList
-println(letters)
+
         def complete(success: Boolean, words: List[String]) = {
             
             val phrase = words.map({
@@ -166,7 +166,7 @@ println(letters)
                 phrase
             )
 
-            promise.complete(Try(success, words, phrase, query))
+            promise.complete(Try(success, words, phrase, letters.map(_ + ".").mkString.toUpperCase()))
         }
         lookup ? EnWizAcronymRequest(
             letters

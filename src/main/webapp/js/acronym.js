@@ -13,7 +13,7 @@ $(document).ready(function() {
                 acronym : $('.form-acronym input[name=acronym]').val()
             }).appendTo($(".acronym")).show(200);
             $('.my-acronym-scroll').animate({
-                scrollTop: $('.my-acronyme-scroll table').height()
+                scrollTop: $('.my-acronym-scroll table').height()
             }, 200)
        }
     });

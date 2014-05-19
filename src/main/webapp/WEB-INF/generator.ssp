@@ -141,7 +141,7 @@ generates english phrases. #end #set (tmpl)
                 four-five words it is quite possible to find a text
                 containing them. More than five .... yeah, it's
                 debatable.</p>
-            <p style="text-align: center">v.0.1.0/p>
+            <p style="text-align: center">v.0.1.1/p>
         </div>
     </div>
     <div
@@ -344,6 +344,45 @@ generates english phrases. #end #set (tmpl)
                     <td width="20%">A.R.T.I.F.I.C.I.A.L.</td>
                     <td>And Remember That I Felt It Coming In And
                         Looked .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-error"
+                        style="border: 0px"
+                    ><span
+                        class="ui-icon ui-icon-alert"
+                        title="Exact solution was not found, this one is the best that was available."
+                    ></span></td>
+                    <td width="20%">I.N.T.L.L.I.G.E.N.T.</td>
+                    <td>If Not The End Looked Like I Got Em</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">G.R.I.M.M.</td>
+                    <td>Go Right In My Mind .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">M.I.N.D.</td>
+                    <td>Mind Is Not Disappointed .</td>
+                </tr>
+                <tr>
+                    <td
+                        width="2%"
+                        class="ui-state-highlight1"
+                        style="border: 0px"
+                    ><span class="ui-icon ui-icon-check"></span></td>
+                    <td width="20%">C.O.N.T.R.O.L.</td>
+                    <td>Crazy Or Not The Right Or Left .</td>
                 </tr>
             </table>
             <form
