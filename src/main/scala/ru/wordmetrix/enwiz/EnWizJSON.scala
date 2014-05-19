@@ -57,7 +57,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
 
                 case Success(None) => NotFound(s"Sorry, unknown words")
                 case Failure(f) =>
-                    status = 502
+                    status = 504
                     promise.complete(Failure(f))
 
             }
@@ -91,7 +91,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
 
                 case Success(None) => NotFound(s"Sorry, unknown words")
                 case Failure(f) =>
-                    status = 502
+                    status = 504
                     promise.complete(Failure(f))
             }
         }
@@ -101,7 +101,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
      * Return mnemonic for a sequence of figures.
      */
 
-    def memento = new AsyncResult() {
+    def mnemonic = new AsyncResult() {
         val promise = Promise[(Boolean, List[String], String, String)]
         val is = promise.future
         val query = params.getOrElse("figures", "")
@@ -129,17 +129,17 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                     complete(false, words)
 
                 case Failure(f) =>
-                    status = 502
+                    status = 504
                     promise.complete(Failure(f))
             }
     }
 
-    get("/memento/:figures") {
-        memento
+    get("/mnemonic/:figures") {
+        mnemonic
     }
 
-    get("/memento/?") {
-        memento
+    get("/mnemonic/?") {
+        mnemonic
     }
 
     /**
@@ -177,7 +177,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                     complete(false, words)
 
                 case Failure(f) =>
-                    status = 502
+                    status = 504
                     promise.complete(Failure(f))
             }
     }

@@ -16,8 +16,7 @@
             bit of better sense of how English really runs.</p>
         <p>
             First one is a <b><a
-                href="#memento"
-                class="open-memento"
+                href="#mnemonic"
                 title="a generator of mnemonics for numbers"
             >mnemonic generator</a></b>, theoretically one can use it to
             memorize a long sequence of digits. Let's assume you need to
@@ -45,7 +44,6 @@
         <p>
             <b><a
                 href="#generate"
-                class="open-generate"
                 title="a generator of tedious passages"
             >Sentence generator</a></b> allows to realize principles of these
             toys. The tool suggests more plausible word with respect to
@@ -63,6 +61,6 @@
             comes from a real text, correct one. For each four-five
             words it is quite possible to find a text containing them.
             More than five .... yeah, it's debatable.</p>
-        <p style="text-align: center">build 024 based on v.0.1.0</p>
+        <p style="text-align: center">build 026 as prototype v.0.2.0</p>
     </div>
 </div>

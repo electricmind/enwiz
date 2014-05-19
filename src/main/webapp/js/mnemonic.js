@@ -1,21 +1,28 @@
 $(document).ready(function() {
-    $(".form-memento").ajaxForm({
-       clearForm :true,
-       error : function(status) {
-         $(".memento-error").show(100);  
-       },
-       beforeSubmit : function(status) {
-         $(".memento-error").hide(100);  
-       },
-       success : function(responseText, statusText, xhr, $form)  {
-            $("#memento-tmpl").tmpl({
-                memento : responseText,
-                figures : $('.form-memento input[name=figures]').val()
-            }).appendTo($(".memento")).show(200);
-            $('.my-memento-scroll').animate({
-                scrollTop: $('.my-memento-scroll table').height()
+   $(".form-mnemonic .enwiz-loading").hide(100);
+    $(".form-mnemonic").ajaxForm({
+        clearForm : true,
+        error : function(status) {
+                $(".form-acronym .mnemonic-error").show(100);
+                $(".form-mnemonic .enwiz-submit").show(0);
+                $(".form-mnemonic .enwiz-loading").hide(0);
+        },
+        beforeSubmit : function(status) {
+            $(".form-acronym .mnemonic-error").hide(100);
+            $(".form-mnemonic .enwiz-submit").hide(0);
+            $(".form-mnemonic .enwiz-loading").show(0);
+        },
+        success : function(responseText, statusText, xhr, $form) {
+            $(".form-mnemonic .enwiz-submit").show(0);
+            $(".form-mnemonic .enwiz-loading").hide(0);
+
+            $("#mnemonic-tmpl").tmpl({
+                mnemonic : responseText,
+            }).appendTo($(".mnemonic")).show(200);
+            $('.my-mnemonic-scroll').animate({
+                scrollTop : $('.my-mnemonic-scroll table').height()
             }, 200)
-       }
+        }
     });
-    
+
 });

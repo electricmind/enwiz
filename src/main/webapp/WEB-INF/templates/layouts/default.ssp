@@ -72,11 +72,11 @@
                         <span class="word" data-word=""></span>
                     </div></script>
 <script
-    id="memento-tmpl"
+    id="mnemonic-tmpl"
     type="text/x-jquery-tmpl"
 >
-                    <tr class="memento-\${memento._1} ui-helper-hidden" >
-{{if memento._1}}
+                    <tr class="mnemonic-\${mnemonic._1} ui-helper-hidden" >
+{{if mnemonic._1}}
 <td width="2%" class="ui-state-highlight1" style="border:0px">
 <span class="ui-icon ui-icon-check"></span>
 </td>
@@ -85,8 +85,8 @@
 <span class="ui-icon ui-icon-alert" title="Exact solution was not found, this one is the best that was available."></span>
 </td>
 {{/if}}
-<td width="2%">\${memento._4}</td>
-<td>\${memento._3}</td>
+<td width="2%">\${mnemonic._4}</td>
+<td>\${mnemonic._3}</td>
 </tr>
 </script>
 <script
@@ -94,32 +94,34 @@
     type="text/x-jquery-tmpl"
 >
                     <div class="loading" title="Upon completion a popup menu appears." style="vertical-align:top; font-size:+15">
-                        Loading...
-                    </div></script>
+                        <img src="/img/loading.gif"> Loading...
+                    </div>
+</script>
 <script
     id="reload-tmpl"
     type="text/x-jquery-tmpl"
 >
                     <button class="reload" style="vertical-align:top; font-size:+15">
                         Press to continue
-                    </button></script>
+                    </button>
+</script>
 <script
     id="phraseitem-tmpl"
     type="text/x-jquery-tmpl"
 >
                     <span class="word ui-helper-hidden" data-word="\${word}">
                         \${word} 
-                    </span></script>
+                    </span>
+</script>
+
 <%= unescape(js) %> 
 <%= unescape(jsmnemonic) %> 
 <%= unescape(jsacronym) %> 
 <%= unescape(jsgenerate) %> 
 <%= unescape(jsupload) %> 
-
-
 <%= unescape(tmpl) %>
 </head>
 <body>
-            <%= unescape(body) %>
+<%= unescape(body) %>
 </body>
 </html>

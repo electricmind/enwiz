@@ -21,35 +21,27 @@ generates english phrases. #end
                     <li><a href="#">Menu</a>
                         <ul style="z-index: 100">
                             <li><a
-                                class="open-generate"
                                 href="#generate"
                             >Generate text</a></li>
                             <li><a
-                                class="open-memento"
-                                href="#memento"
+                                href="#mnemonic"
                             >Mnemonic</a></li>
                             <li><a
-                                class="open-acronym"
                                 href="#acronym"
                             >Acronym</a></li> #if (restricted)
                             <li><a
-                                class="open-upload"
                                 href="admin#upload"
                             >Load text</a></li>
                             <li><a
-                                class="open-statistic"
                                 href="/stat"
                             >Statistic</a></li> #else
                             <li><a
-                                class="open-upload"
                                 href="/admin#upload"
                             >Load text</a></li>
                             <li><a
-                                class="open-statistic"
                                 href="/stat"
                             >Statistic</a></li> #end
                             <li><a
-                                class="open-about"
                                 href="#about"
                             >Read Me</a></li>
                         </ul></li>

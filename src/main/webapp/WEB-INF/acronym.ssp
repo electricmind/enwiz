@@ -116,7 +116,8 @@
                 title="Enter a word for acronym"
                 name="acronym"
             />
-            <button class="button">Generate!</button>
+            <button class="button enwiz-submit">Generate!</button>
+            <button class="button enwiz-loading ui-helper-hidden" ><img src="/img/loading.gif"/>&nbsp;Loading...</button>
         </form>
     </div>
 </div>

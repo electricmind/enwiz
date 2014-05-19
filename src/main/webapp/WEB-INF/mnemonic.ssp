@@ -1,16 +1,16 @@
 #set (jsmnemonic) <script src="/js/mnemonic.js">  </script> #end
 
 <div
-    id="memento"
-    class="my-panes my-memento ui-helper-clearfix"
+    id="mnemonic"
+    class="my-panes my-mnemonic ui-helper-clearfix"
 >
     <div class=" ui-state-default  ui-corner-top">
         <span><b>Generate a mnemonic for a sequence of
                 figures.</b></span>
     </div>
-    <div class="my-memento-scroll">
+    <div class="my-mnemonic-scroll">
         <table
-            class="memento ui-corner-top"
+            class="mnemonic ui-corner-top"
             width="100%"
         >
             <tr>
@@ -66,12 +66,12 @@
             </tr>
         </table>
         <form
-            action="/json/memento"
-            class="form-memento"
+            action="/json/mnemonic"
+            class="form-mnemonic"
             style="float: left"
         >
             <div
-                class="memento-error ui-state-error ui-corner-all ui-helper-hidden"
+                class="mnemonic-error ui-state-error ui-corner-all ui-helper-hidden"
                 style="padding: 0 .2em; width: 250px; float: right"
             >
                 <p>
@@ -87,7 +87,8 @@
                 title="Enter a string of figures"
                 name="figures"
             />
-            <button class="button">Generate!</button>
+            <button class="button enwiz-submit">Generate!</button>
+            <button class="button enwiz-loading ui-helper-hidden" ><img src="/img/loading.gif"/>&nbsp;Loading...</button>
         </form>
     </div>
 </div>
