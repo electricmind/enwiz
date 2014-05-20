@@ -31,7 +31,7 @@ case class Probability(word: String, probability: Double)
 class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         extends ScalatraServlet with FutureSupport with JacksonJsonSupport { //with GZipSupport{
     protected implicit def executor: ExecutionContext = system.dispatcher
-    implicit val defaultTimeout = Timeout(10 second)
+    implicit val defaultTimeout = Timeout(3 second)
     protected implicit val jsonFormats: Formats = DefaultFormats
 
     before() {
@@ -119,13 +119,13 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
             promise.complete(Try(success, words, phrase, query))
         }
 
-        lookup ? EnWizPi2WordsRequest(
+        lookup ? EnWizMnemonicRequest(
             figures
         ) onComplete {
-                case Success(EnWizPi2Words(Left(words))) =>
+                case Success(EnWizMnemonic(Left(words))) =>
                     complete(true, words)
 
-                case Success(EnWizPi2Words(Right(words))) =>
+                case Success(EnWizMnemonic(Right(words))) =>
                     complete(false, words)
 
                 case Failure(f) =>

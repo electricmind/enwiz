@@ -1,30 +1,60 @@
 $(document).ready(function() {
-    
-    $(".form-acronym .enwiz-loading").hide(100);
+   $(".form-acronym .enwiz-loading").hide(100);
+   const nmax = 2;
+   var n = nmax;
+   var allowed = true;
     $(".form-acronym").ajaxForm({
-       clearForm :true,
-       error : function(status) {
-         $("#acronym .mnemonic-error").show(100);
-         $(".form-acronym .enwiz-submit").show(0);
-         $(".form-acronym .enwiz-loading").hide(0);
+        clearForm : true,
+        error : function(status) {
+                if (status.status == 504 && n > 0) {
+                    n--;
+                    $(".form-acronym").submit();
+                } else {
+                    if (status.status == 504) {
+                        $("#acronym .enwiz-warning").show(100);
+                    } else {
+                        $("#acronym .enwiz-error").show(100);
+                    }
 
-       },
-       beforeSubmit : function(status) {
-         $(".form-acronym .mnemonic-error").hide(100);
-         $(".form-acronym .enwiz-submit").hide(0);
-         $(".form-acronym .enwiz-loading").show(0);
-       },
-       success : function(responseText, statusText, xhr, $form)  {
-           $(".form-acronym .enwiz-submit").show(0);
-           $(".form-acronym .enwiz-loading").hide(0)
-           ;
+                    $(".form-acronym .enwiz-submit").show(0);
+                    $(".form-acronym .enwiz-loading").hide(0);
+                    $(".form-acronym input[type=text]").removeProp("disabled");
+                    allowed = true;
+                    n = nmax;
+
+                }
+        },
+        beforeSubmit : function(status) {
+            if (n < nmax) {
+                return true;
+            } else {
+                if (allowed) {
+                    $(".form-acronym .enwiz-error").hide(100);
+                    $(".form-acronym .enwiz-warning").hide(100);
+                    $(".form-acronym .enwiz-submit").hide(0);
+                    $(".form-acronym .enwiz-loading").show(0);
+                    $(".form-acronym input[type=text]").prop("disabled","disabled");
+                    allowed = false;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+        success : function(responseText, statusText, xhr, $form) {
+            $(".form-acronym .enwiz-submit").show(0);
+            $(".form-acronym .enwiz-loading").hide(0);
+            $(".form-acronym input[type=text]").removeProp("disabled");
+            allowed = true;
+            n = nmax;
+            
             $("#mnemonic-tmpl").tmpl({
                 mnemonic : responseText,
             }).appendTo($(".acronym")).show(200);
             $('.my-acronym-scroll').animate({
-                scrollTop: $('.my-acronym-scroll table').height()
+                scrollTop : $('.my-acronym-scroll table').height()
             }, 200)
-       }
+        }
     });
-    
+
 });

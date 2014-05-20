@@ -29,9 +29,9 @@ object EnWizLookup {
     case class EnWizStat(count1: Int, count2: Int, count3: Int,
                          average: Double) extends EnWizMessage
 
-    case class EnWizPi2WordsRequest(ns: List[Int]) extends EnWizMessage
+    case class EnWizMnemonicRequest(ns: List[Int]) extends EnWizMessage
 
-    case class EnWizPi2Words(ns: Either[List[String], List[String]]) extends EnWizMessage
+    case class EnWizMnemonic(ns: Either[List[String], List[String]]) extends EnWizMessage
 
     case class EnWizAcronymRequest(ls: List[String]) extends EnWizMessage
 
@@ -97,9 +97,9 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
     def findLeft(it: Iterator[Either[List[String], List[String]]], best: List[String]): Either[List[String], List[String]] = if (it.nonEmpty) {
         it.next() match {
-            case Left(ws)  =>
+            case Left(ws) =>
                 Left(ws)
-            case Right(ws) => 
+            case Right(ws) =>
                 findLeft(it, betterof(ws, best))
         }
     } else {
@@ -134,7 +134,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                 case _ => false
                             } map {
                                 case (word3, p) =>
-//                                    println(s" ok : $n : $word3 x $p : $ws")
+                                    //                                    println(s" ok : $n : $word3 x $p : $ws")
                                     ns2ws(ns, better, word3 :: ws, t)(f)
                             },
                             better
@@ -159,10 +159,12 @@ class EnWizLookup() extends Actor with EnWizMongo {
         /**
          * Return sequence of words each has a length equal to according number
          */
-        case EnWizPi2WordsRequest(ns) =>
+        
+  //      case EnWizMnemonicRequest(ns) =>
+        case EnWizMnemonicRequest(ns) =>
 
             Future {
-                EnWizPi2Words(
+                EnWizMnemonic(
                     ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 100000) {
                         case (n, word3) => !Set("'", ",", "-")(word3) && word3.length == n
                     } match {
@@ -175,6 +177,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
         /**
          * Return sequence of words each begins with a letter of an acronym
          */
+//        case EnWizAcronymRequest(ls) =>
         case EnWizAcronymRequest(ls) =>
             println(s"lookup $ls")
             Future {

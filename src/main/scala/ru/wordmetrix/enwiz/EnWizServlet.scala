@@ -1,6 +1,7 @@
 package ru.wordmetrix.enwiz
 
 import scala.concurrent.{ ExecutionContext, Promise }
+
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
 import org.scalatra.{ AsyncResult, FutureSupport, BadRequest }
@@ -122,13 +123,13 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends
                 words.mkString(" ")
             )
 
-            lookup ? EnWizPi2WordsRequest(
+            lookup ? EnWizMnemonicRequest(
                 figures
             ) onSuccess {
-                    case EnWizPi2Words(Left(words)) =>
+                    case EnWizMnemonic(Left(words)) =>
                         writeLog(words)
                         promise.complete(Try(page(true, words)))
-                    case EnWizPi2Words(Right(words)) =>
+                    case EnWizMnemonic(Right(words)) =>
                         writeLog(words)
                         promise.complete(Try(page(false, words)))
                 }

@@ -71,7 +71,7 @@
             style="float: left"
         >
             <div
-                class="mnemonic-error ui-state-error ui-corner-all ui-helper-hidden"
+                class="enwiz-error ui-state-error ui-corner-all ui-helper-hidden"
                 style="padding: 0 .2em; width: 250px; float: right"
             >
                 <p>
@@ -80,6 +80,17 @@
                         style="float: left; margin-right: .3em;"
                     ></span> <strong>Alert:</strong> Error to access the
                     server, try again.
+                </p>
+            </div>
+            <div
+                class="enwiz-warning ui-state-highlight ui-corner-all ui-helper-hidden"
+                style="padding: 0 .2em; width: 250px; float: right;" 
+            ><!--  ; color:orange; border-color: orange; -->
+                <p>
+                    <span
+                        class="ui-icon ui-icon-info"
+                        style="float: left; margin-right: .3em;"
+                    ></span> <strong>Alert:</strong> Timeout to access the server, try again.
                 </p>
             </div>
             <input
