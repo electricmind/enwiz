@@ -66,7 +66,7 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends
     get("/admin") {
         contentType = "text/html"
         basicAuth
-        ssp("/generator.ssp", "restricted" -> true)
+        ssp("/main.ssp", "restricted" -> true)
     }
 
     
@@ -76,6 +76,7 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends
      */
     get("/stat") {
         contentType = "text/html"
+        basicAuth
         new AsyncResult() {
             val promise = Promise[String]()
             val is = promise.future
@@ -100,41 +101,6 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends
     }
     
     
-    get("/memento/?") {
-        contentType = "text/html"
-        new AsyncResult() {
-            val promise = Promise[String]
-            val is = promise.future
-
-            def page(ok: Boolean, words: List[String]) =
-                ssp("/memento.ssp",
-                    "layout" -> "WEB-INF/layouts/light.ssp",
-                    "ok" -> ok,
-                    "words" -> words.mkString(" ")
-                )
-
-            val query = params.getOrElse("numbers", "")
-            val figures = query.split("").map(
-                x => Try(x.toInt).toOption
-            ).flatten.toList
-
-            def writeLog(words: List[String]) = log ! EnWizAccessLogMnemonic(
-                request.getRemoteAddr(), query, figures.mkString,
-                words.mkString(" ")
-            )
-
-            lookup ? EnWizMnemonicRequest(
-                figures
-            ) onSuccess {
-                    case EnWizMnemonic(Left(words)) =>
-                        writeLog(words)
-                        promise.complete(Try(page(true, words)))
-                    case EnWizMnemonic(Right(words)) =>
-                        writeLog(words)
-                        promise.complete(Try(page(false, words)))
-                }
-        }
-    }
 
     /**
      * Page that posts new text
@@ -162,7 +128,7 @@ class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends
 
         }
 
-        ssp("/load.ssp", "layout" -> "WEB-INF/layouts/light.ssp", "text" -> "")
+        ssp("/upload.ssp", "layout" -> "WEB-INF/layouts/light.ssp", "text" -> "")
     }
 
     get("/load")(load)

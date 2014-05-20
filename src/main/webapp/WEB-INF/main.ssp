@@ -34,12 +34,6 @@ generates english phrases. #end
                             >Load text</a></li>
                             <li><a
                                 href="/stat"
-                            >Statistic</a></li> #else
-                            <li><a
-                                href="/admin#upload"
-                            >Load text</a></li>
-                            <li><a
-                                href="/stat"
                             >Statistic</a></li> #end
                             <li><a
                                 href="#about"
