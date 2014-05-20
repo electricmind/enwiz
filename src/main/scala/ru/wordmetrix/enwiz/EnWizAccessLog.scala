@@ -57,24 +57,26 @@ class EnWizAccessLog() extends Actor with EnWizMongo {
                 "word2" -> word2
             ))
             
-        case EnWizAccessLogMnemonic(ip, request, figures, response) =>
-            coll.insert(MO(
+        case msg @ EnWizAccessLogMnemonic(ip, request, figures, response) =>
+                        coll.insert(MO(
                 "ip" -> ip,
                 "time" -> System.currentTimeMillis(),
                 "action" -> "mnemonic",
                 "request" -> request,
-                "figures" -> figures,
+                "digits" -> figures,
                 "response" -> response
             ))
             
-        case EnWizAccessLogAcronym(ip, request, figures, response) =>
+            
+        case msg @ EnWizAccessLogAcronym(ip, request, figures, response) =>
             coll.insert(MO(
                 "ip" -> ip,
                 "time" -> System.currentTimeMillis(),
                 "action" -> "acronym",
                 "request" -> request,
-                "figures" -> figures,
+                "acronym" -> figures,
                 "response" -> response
             ))
+
     }
 }
