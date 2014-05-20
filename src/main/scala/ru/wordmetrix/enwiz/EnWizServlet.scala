@@ -1,7 +1,6 @@
 package ru.wordmetrix.enwiz
 
 import scala.concurrent.{ ExecutionContext, Promise }
-
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
 import org.scalatra.{ AsyncResult, FutureSupport, BadRequest }
@@ -14,12 +13,13 @@ import akka.pattern.ask
 import akka.util.Timeout
 import scala.util.Success
 import scala.util.Failure
+import org.scalatra.GZipSupport
 
 /**
  * Servlet that provides UI
  */
 class EnWizServlet(system: ActorSystem, lookup: ActorRef, log: ActorRef) extends EnwizStack
-        with FutureSupport with FileUploadSupport with AuthenticationSupport { //with GZipSupport{
+        with FutureSupport with FileUploadSupport with AuthenticationSupport {
 
     configureMultipartHandling(MultipartConfig(maxFileSize = Some(100 * 1024 * 1024)))
 

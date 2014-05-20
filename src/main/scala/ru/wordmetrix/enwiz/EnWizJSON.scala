@@ -1,7 +1,6 @@
 package ru.wordmetrix.enwiz
 
 import scala.concurrent.{ ExecutionContext, Promise }
-
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
 import org.json4s.{ DefaultFormats, Formats }
@@ -16,6 +15,7 @@ import akka.util.Timeout
 import scala.util.Success
 import scala.util.Failure
 import org.scalatra.BadRequest
+import org.scalatra.GZipSupport
 
 /**
  * A servlet that provides access to API with JSON
@@ -96,7 +96,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
             }
         }
     }
-    
+
     /**
      * Return mnemonic for a sequence of figures.
      */
@@ -151,15 +151,15 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         val allowed = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").tail.toSet
         val is = promise.future
         val query = params.getOrElse("acronym", "")
-        val letters = query.split("").filter(x=>allowed.contains(x.toUpperCase())).take(25).toList
+        val letters = query.split("").filter(x => allowed.contains(x.toUpperCase())).take(25).toList
 
         def complete(success: Boolean, words: List[String]) = {
-            
+
             val phrase = words.map({
-                case ""=> ""
-                case s => s.head.toUpper + s.tail.toLowerCase
+                case "" => ""
+                case s  => s.head.toUpper + s.tail.toLowerCase
             }).mkString(" ")
-            
+
             log ! EnWizAccessLogAcronym(
                 request.getRemoteAddr(), query, letters.mkString,
                 phrase
@@ -189,5 +189,5 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
     get("/acronym/?") {
         acronym
     }
-    
+
 }
