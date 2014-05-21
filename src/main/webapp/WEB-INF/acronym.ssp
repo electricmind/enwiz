@@ -6,7 +6,7 @@
     class="my-panes my-acronym ui-helper-clearfix"
 >
     <div class=" ui-state-default  ui-corner-top">
-        <span><b>Find a suitable phrase for acronym</b></span>
+        <span><b>Find a suitable phrase for an acronym</b></span>
     </div>
     <div class="my-acronym-scroll">
         <table
