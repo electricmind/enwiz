@@ -161,3 +161,10 @@ sbt deploy
 ```
 
 If `browse` doesn't launch your browser, manually open [http://localhost:8080/](http://localhost:8080/) in your browser.
+
+History
+---------
+Version 0.1.0, 20140518, Initial release
+
+Version 0.2.0, 20140521, Acronym generator was added and interactivity of UI was enhanced
+
