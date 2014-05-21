@@ -4,16 +4,21 @@ English Wizard
 
 This very tool is just a toy, that can  work on the top of a serious dataset about millions of English trigrams, that comes from a range of texts. It provides two opportunities: a bit of enjoy and a bit of better sense of how English really runs.
 
-First one is a **mnemonic generator**, theoretically one can use it to memorize a long sequence of numbers. Practically, just because English is not my native, it works for me in opposite direction, that's enjoyable. Let's assume you need to memorize a Pi. Look at the lengths of the words: *"And(3) I (1) have (4) a (1) child (5) condemned (9) to (2) always (6) think (5)."*, that gives 3.14159265.
+First one is a **mnemonic generator**, theoretically one can use it to memorize a long sequence of numbers. Let's assume you need to memorize a Pi. Look at the lengths of the words: *"And(3) I (1) have (4) a (1) child (5) condemned (9) to (2) always (6) think (5)."*, that gives 3.14159265. Practically, just because English is not my native, it works for me in opposite direction, that's enjoyable.
 
 One can write a bunch of amusing things: *"They were both gone into some kind that says that this time when they were gone from them both with guns they find this town ."*, what a lurid story of two awful fellows in four-letter words!
 
-For the lack of an interest to numbers, one can focus on language itself with a sentence generator. The tool suggests more plausible word with respect to a couple of previous. English writing becomes a lot of easy for one, who chooses suitable words one by one. Of course it would be a complete synthetic nonsense, but .... you will be surprised that only a little participation of humanity is really necessary to put a sense into them.
+Others, for the lack of an interest to numbers, can try **acronyms generator**. An acronym is a vocabulary word, formed from the initial letters of words in a phrase: M.I.N.D is for "Mind Is Not Disappointed" . Acronym's generator might find a phrase, suitable for given acronym.
+
+**Sentence generator allows** to realize principles of these toys. The tool suggests more plausible word with respect to a couple of previous. English writing becomes a lot of easy for one, who chooses suitable words one by one. Of course it would be a complete synthetic nonsense, but .... you will be surprised that only a little participation of humanity is really necessary to put a sense into them.
 
 As for me, it helps to estimate possible context of different words or possible language constructs, but to be honest I used a little more sophisticated tool.
 
 Two words about grammar correctness. For each three word that database uses it's guaranteed that they comes from a real text, correct one. For each four-five word that is quite possible to find a text that contains them. More than five .... yeah, it's debatable.
 
+Demo version
+---------------
+Demo version of the program is presented here: [http://enwiz.jelasticloud.com](http://enwiz.jelasticloud.com).
 
 Sample of vocabulary
 ---------------------
@@ -25,11 +30,15 @@ Forensic set :
 | --------| ------ | ------- | -------- | ----------------------------- |
 |  242M   | 101954 | 1080966 | 2.405365 | 1.89                          |
 
+*Forensic set is 4000 articles acquired from the Wikipedia by means of [webcrawler](https://github.com/electricmind/webcrawler) using word "Forensic" like a sample and initial page*
+
 Fiction set :
 
 |  length | unigram | bigram | trigram  | average frequency of trigramm |
 | --------| ------ | ------- | -------- | ----------------------------- |
 |  87M    | 85044  | 1343235 | 3799617  | 2.37                          |
+
+*Fiction set is 87M of 100 fiction book of variety of authors*
 
 Considering the fact, that size of any corpora is limited  , less intellectual source provides a sample with higher average frequency of trigramm having less or the same vocabulary size. Average frequency of trigramm is a crucial parameter that reflects a quality of model. Text generated on the base of the model with large average frequency of trigramm better come up to a human expectations. So, difference between 1.89 and 2.37 is the difference between two mnemonics of Pi : *"But I have a great diversity of people using the Latin American president .* and *And I have a child condemned to always think .*
  
@@ -81,13 +90,32 @@ A few outcomes of the mnemonic generator
 -------------------------------------------
 
  - Pi = 3.14159265 :	*And I have a child condemned to always think .*, *Now I have a rectangle of public space .*
- - Pi =3.141592653589	 : "But I have a great diversity of people using the Latin American president .*
- -	e = 2.71828 : *He thought a headache of migraine.*
- -	e = 2.71828182845 : *To achieve a majority of building a database is designed with space .*
- -	just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
+ - Pi = 3.141592653589	 : "But I have a great diversity of people using the Latin American president .*
+ - e = 2.71828 : *He thought a headache of migraine.*
+ - e = 2.71828182845 : *To achieve a majority of building a database is designed with space .*
+ - just numbers = 242424242424242424242424 : 	*He felt as well as some of them in that it made me feel as much as they do that to make it easy .*
  - just numbers = 1234567654321 :	*I do not know about thirty seconds before their eyes met in a ..*
  - just numbers = 444444444444444444444444 : *They were both gone into some kind that says that this time when they were gone from them both with guns they find this town .*
 
+A few outcomes of the acronym generator
+-------------------------------------------
+Acronyms below was generated by the algorithm, that does not pretend to make any sense or even correctness: 
+they was randomly picked out of a random distribution of phrases,  which looks natural enough.
+
+  - S.E.C.O.N.D.L.I.F.E. : *"Something Else Came Out Next Day Like If For Everyone ."*,
+  - A.N.I.M.O.S.I.T.Y.	: *"And Not In Me Or Something In Them Yet ."*,
+  - A.R.T.I.F.I.C.I.A.L. : *"And Remember That I Felt It Coming In And Looked ."*,
+  <!-- - I.N.T.E.L.L.I.G.E.N.T.	: *"If Not The End Looked Like I Got Em"*, -->
+  - G.R.I.M.M.	: *"Go Right In My Mind ."*,
+  - M.I.N.D. : *"Mind Is Not Disappointed ."*,
+  - C.O.N.T.R.O.L.	: *"Crazy Or Not The Right Or Left ."*,
+  - A.C.T.I.V.I.T.Y. : *"Any Company That Is Very Important To You ."*,
+  - P.Y.T.H.O.N. : *"Put Your Tongue Hanging Out Near ."*,
+  - J.A.V.A. : *"Jack And Vinnie Arriving ."*,
+  - S.C.A.L.A.	: *"She Could Actually Look At ."*,
+  - F.O.R.T.R.A.N.	: *"For One Reason The Road And Now ."*,
+  - P.H.P.	: *"Perhaps He Pulled ."*,
+  - H.T.M.L. :	*"He Took My Left .".
 
 Usage
 -------------
