@@ -8,6 +8,8 @@ $(document).ready(function() {
         error : function(status) {
                 if (status.status == 504 && n > 0) {
                     n--;
+                    allowed = true;
+                    $(".form-mnemonic input[type=text]").removeAttr("disabled");
                     $(".form-mnemonic").submit();
                 } else {
                     if (status.status == 504) {
@@ -18,33 +20,31 @@ $(document).ready(function() {
 
                     $(".form-mnemonic .enwiz-submit").show(0);
                     $(".form-mnemonic .enwiz-loading").hide(0);
-                    $(".form-mnemonic input[type=text]").removeProp("disabled");
+                    $(".form-mnemonic input[type=text]").removeAttr("disabled");
                     allowed = true;
                     n = nmax;
 
                 }
         },
         beforeSubmit : function(status) {
-            if (n < nmax) {
-                return true;
-            } else {
                 if (allowed) {
-                    $(".form-mnemonic .enwiz-error").hide(100);
-                    $(".form-mnemonic .enwiz-warning").hide(100);
-                    $(".form-mnemonic .enwiz-submit").hide(0);
-                    $(".form-mnemonic .enwiz-loading").show(0);
-                    $(".form-mnemonic input[type=text]").prop("disabled","disabled");
+                    if (n == nmax) {
+                        $(".form-mnemonic .enwiz-error").hide(100);
+                        $(".form-mnemonic .enwiz-warning").hide(100);
+                        $(".form-mnemonic .enwiz-submit").hide(0);
+                        $(".form-mnemonic .enwiz-loading").show(0);
+                    } 
+                    $(".form-mnemonic input[type=text]").attr("disabled","disabled");
                     allowed = false;
                     return true;
                 } else {
                     return false;
                 }
-            }
         },
         success : function(responseText, statusText, xhr, $form) {
             $(".form-mnemonic .enwiz-submit").show(0);
             $(".form-mnemonic .enwiz-loading").hide(0);
-            $(".form-mnemonic input[type=text]").removeProp("disabled");
+            $(".form-mnemonic input[type=text]").removeAttr("disabled");
             allowed = true;
             n = nmax;
             

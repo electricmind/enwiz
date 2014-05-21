@@ -8,6 +8,8 @@ $(document).ready(function() {
         error : function(status) {
                 if (status.status == 504 && n > 0) {
                     n--;
+                    allowed = true;
+                    $(".form-acronym input[type=text]").removeAttr("disabled");
                     $(".form-acronym").submit();
                 } else {
                     if (status.status == 504) {
@@ -18,33 +20,31 @@ $(document).ready(function() {
 
                     $(".form-acronym .enwiz-submit").show(0);
                     $(".form-acronym .enwiz-loading").hide(0);
-                    $(".form-acronym input[type=text]").removeProp("disabled");
+                    $(".form-acronym input[type=text]").removeAttr("disabled");
                     allowed = true;
                     n = nmax;
 
                 }
         },
         beforeSubmit : function(status) {
-            if (n < nmax) {
-                return true;
-            } else {
                 if (allowed) {
-                    $(".form-acronym .enwiz-error").hide(100);
-                    $(".form-acronym .enwiz-warning").hide(100);
-                    $(".form-acronym .enwiz-submit").hide(0);
-                    $(".form-acronym .enwiz-loading").show(0);
-                    $(".form-acronym input[type=text]").prop("disabled","disabled");
+                    if (n == nmax) {
+                        $(".form-acronym .enwiz-error").hide(100);
+                        $(".form-acronym .enwiz-warning").hide(100);
+                        $(".form-acronym .enwiz-submit").hide(0);
+                        $(".form-acronym .enwiz-loading").show(0);
+                    }
+                    $(".form-acronym input[type=text]").attr("disabled","disabled");
                     allowed = false;
                     return true;
                 } else {
                     return false;
                 }
-            }
         },
         success : function(responseText, statusText, xhr, $form) {
             $(".form-acronym .enwiz-submit").show(0);
             $(".form-acronym .enwiz-loading").hide(0);
-            $(".form-acronym input[type=text]").removeProp("disabled");
+            $(".form-acronym input[type=text]").removeAttr("disabled");
             allowed = true;
             n = nmax;
             

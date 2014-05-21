@@ -31,7 +31,7 @@ case class Probability(word: String, probability: Double)
 class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         extends ScalatraServlet with FutureSupport with JacksonJsonSupport { //with GZipSupport{
     protected implicit def executor: ExecutionContext = system.dispatcher
-    implicit val defaultTimeout = Timeout(3 second)
+    implicit val defaultTimeout = Timeout(30 second)
     protected implicit val jsonFormats: Formats = DefaultFormats
 
     before() {

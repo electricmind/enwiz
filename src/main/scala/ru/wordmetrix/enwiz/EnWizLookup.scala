@@ -160,7 +160,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
          * Return sequence of words each has a length equal to according number
          */
         
-  //      case EnWizMnemonicRequest(ns) =>
+//        case EnWizMnemonicRequest(ns) =>
         case EnWizMnemonicRequest(ns) =>
 
             Future {
