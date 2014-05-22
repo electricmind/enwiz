@@ -165,7 +165,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
             Future {
                 EnWizMnemonic(
-                    ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 100000) {
+                    ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 25000) {
                         case (n, word3) => !Set("'", ",", "-")(word3) && word3.length == n
                     } match {
                         case Left(x)  => Left(x.reverse)
@@ -182,7 +182,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
             println(s"lookup $ls")
             Future {
                 EnWizAcronym(
-                    ns2ws(ls, List(), List("", ""), System.currentTimeMillis() + 100000) {
+                    ns2ws(ls, List(), List("", ""), System.currentTimeMillis() + 25000) {
                         case (letter, word3) => letter.head.toLower == word3.head.toLower
                     } match {
                         case Left(x)  => Left(x.reverse)
