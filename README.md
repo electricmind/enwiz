@@ -30,7 +30,7 @@ Forensic set :
 | --------| ------ | ------- | -------- | ----------------------------- |
 |  242M   | 101954 | 1080966 | 2.405365 | 1.89                          |
 
-*Forensic set is 4000 articles acquired from the Wikipedia by means of [webcrawler](https://github.com/electricmind/webcrawler) using word "Forensic" like a sample and initial page*
+*Forensic set is 11000 articles acquired from the Wikipedia by means of [webcrawler](https://github.com/electricmind/webcrawler) using word "Forensic" like a sample and initial page*
 
 Fiction set :
 
