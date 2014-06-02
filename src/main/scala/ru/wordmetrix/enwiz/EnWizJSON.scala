@@ -28,10 +28,30 @@ object Probability {
 
 case class Probability(word: String, probability: Double)
 
+object Status extends Enumeration("OK", "Timeout", "Best", "Error") {
+    type Status = Value
+    val OK, Timeout, Best, Error = Value
+}
+
+object Result {
+    def apply[F](status: Status.Status) = ResultFail[F](status)
+    def apply[F](status: Status.Status, data: F) = ResultOK[F](status, data)
+}
+
+class Result[F](status: Status.Status)
+
+case class ResultOK[F](status: Status.Status, data: F) extends Result[F](status)
+
+case class ResultFail[F](status: Status.Status) extends Result[F](status)
+
+case class ResultDataMnemonic(words: List[String], phrase: String, query: String)
+
+case class ResultDataAcronym(words: List[String], phrase: String, query: String)
+
 class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         extends ScalatraServlet with FutureSupport with JacksonJsonSupport { //with GZipSupport{
     protected implicit def executor: ExecutionContext = system.dispatcher
-    implicit val defaultTimeout = Timeout(30 second)
+    implicit val defaultTimeout = Timeout(1 second)
     protected implicit val jsonFormats: Formats = DefaultFormats
 
     before() {
@@ -44,7 +64,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
      */
     def result(prefix: String, path: String, word1: String, word2: String) =
         new AsyncResult() {
-            val promise = Promise[List[Probability]]()
+            val promise = Promise[Result[List[Probability]]]()
             val is = promise.future
             log ! EnWizAccessLogWords(
                 ip = request.getRemoteAddr(), word1, word2)
@@ -52,13 +72,12 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
             lookup ? EnWizWords(word1, word2) onComplete {
                 case Success(Some(words: List[(String, Double)])) =>
                     promise.complete(Try(
-                        words.map(x => Probability(x))
+                        ResultOK(Status.OK, words.map(x => Probability(x)))
                     ))
 
                 case Success(None) => NotFound(s"Sorry, unknown words")
                 case Failure(f) =>
-                    status = 504
-                    promise.complete(Failure(f))
+                    promise.complete(Try(ResultFail(Status.Error)))
 
             }
         }
@@ -74,25 +93,27 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
     get("/words/:word1/:word2") {
         result("", "", params("word1"), params("word2"))
     }
+    
     /**
      * Return a progress of texts' parsing
      */
     get("/progress") {
         new AsyncResult() {
-            val promise = Promise[List[(EnWizTaskId, String)]]()
+            val promise = Promise[Result[List[(EnWizTaskId, String)]]]()
             val is = promise.future
+            
             lookup ? EnWizStatusRequest() onComplete {
                 case Success(EnWizStatus(tasks)) =>
-                    promise.complete(Try(
+                    promise.complete(Try(ResultOK(Status.OK,
                         tasks map {
                             case (tid, part) => (tid, f"${part * 100}%4.2f")
                         }
-                    ))
+                    )))
 
                 case Success(None) => NotFound(s"Sorry, unknown words")
+                
                 case Failure(f) =>
-                    status = 504
-                    promise.complete(Failure(f))
+                    promise.complete(Try(ResultFail(Status.Error)))
             }
         }
     }
@@ -102,39 +123,37 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
      */
 
     def mnemonic = new AsyncResult() {
-        val promise = Promise[(Boolean, List[String], String, String)]
+        val promise = Promise[Result[ResultDataMnemonic]]
         val is = promise.future
-        val query = params.getOrElse("figures", "")
-        val figures = query.split("").map(
+        val query = params.getOrElse("digits", "")
+        val digits = query.split("").map(
             x => Try(x.toInt).toOption).flatten.toList.take(25)
 
-        def complete(success: Boolean, words: List[String]) = {
-            val phrase = words.mkString(" ")
-            log ! EnWizAccessLogMnemonic(
-
-                request.getRemoteAddr(), query, figures.mkString,
-                phrase
-            )
-
-            promise.complete(Try(success, words, phrase, query))
-        }
-
         lookup ? EnWizMnemonicRequest(
-            figures
+            digits
         ) onComplete {
-                case Success(EnWizMnemonic(Left(words))) =>
-                    complete(true, words)
+                case Success(EnWizMnemonic(r)) =>
+                    val (status, words) = r match {
+                        case Left(words)  => (Status.OK, words)
+                        case Right(words) => (Status.Best, words)
+                    }
+                    val phrase = words.mkString(" ")
 
-                case Success(EnWizMnemonic(Right(words))) =>
-                    complete(false, words)
+                    promise.complete(Try(
+                        Result(Status.OK, ResultDataMnemonic(words, phrase, query))
+                    ))
+
+                case Failure(f : akka.pattern.AskTimeoutException) =>
+                    println(f)
+                    promise.complete(Try(Result(Status.Timeout)))
 
                 case Failure(f) =>
-                    status = 504
-                    promise.complete(Failure(f))
+                    println(f)
+                    promise.complete(Try(Result(Status.Error)))
             }
     }
 
-    get("/mnemonic/:figures") {
+    get("/mnemonic/:digits") {
         mnemonic
     }
 
@@ -147,37 +166,40 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
      */
 
     def acronym = new AsyncResult() {
-        val promise = Promise[(Boolean, List[String], String, String)]
+        val promise = Promise[Result[ResultDataAcronym]]
         val allowed = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").tail.toSet
         val is = promise.future
         val query = params.getOrElse("acronym", "")
         val letters = query.split("").filter(x => allowed.contains(x.toUpperCase())).take(25).toList
 
-        def complete(success: Boolean, words: List[String]) = {
-
-            val phrase = words.map({
-                case "" => ""
-                case s  => s.head.toUpper + s.tail.toLowerCase
-            }).mkString(" ")
-            log ! EnWizAccessLogAcronym(
-                request.getRemoteAddr(), query, letters.mkString,
-                phrase
-            )
-
-            promise.complete(Try(success, words, phrase, letters.map(_ + ".").mkString.toUpperCase()))
-        }
         lookup ? EnWizAcronymRequest(
             letters
         ) onComplete {
-                case Success(EnWizAcronym(Left(words))) =>
-                    complete(true, words)
+                case Success(EnWizAcronym(r)) =>
+                    val (status, words) = r match {
+                        case Left(words)  => (Status.OK, words)
+                        case Right(words) => (Status.Best, words)
+                    }
+                    val phrase = words.map({
+                        case "" => ""
+                        case s  => s.head.toUpper + s.tail.toLowerCase
+                    }).mkString(" ")
+                    log ! EnWizAccessLogAcronym(
+                        request.getRemoteAddr(), query, letters.mkString,
+                        phrase
+                    )
 
-                case Success(EnWizAcronym(Right(words))) =>
-                    complete(false, words)
+                    promise.complete(Try(
+                        ResultOK(status, ResultDataAcronym(words, phrase, letters.map(_ + ".").mkString.toUpperCase()))
+                    ))
+
+                case Failure(f : akka.pattern.AskTimeoutException) =>
+                    println(f)
+                    promise.complete(Try(Result(Status.Timeout)))
 
                 case Failure(f) =>
-                    status = 504
-                    promise.complete(Failure(f))
+                    println(f)
+                    promise.complete(Try(Result(Status.Error)))
             }
     }
 

@@ -96,7 +96,7 @@
             <input
                 type="text"
                 title="Enter a string of digits"
-                name="figures"
+                name="digits"
             />
             <button class="button enwiz-submit">Generate!</button>
             <button class="button enwiz-loading ui-helper-hidden" ><img src="/img/loading.gif"/>&nbsp;Loading...</button>

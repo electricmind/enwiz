@@ -8,13 +8,17 @@ $(document).ready(function() {
                     $("#progress").text("Unavailable")
                 }
             }
-        }).done(function(data) {
-            $("#progress").replaceWith($("#progress-tmpl").tmpl({
-                tasks : data
-            }));
-                                            if (data.length == 0) {
-             clearInterval(interval);
-             }
+        }).done(function(response) {
+            if (response.status.name == "OK") {
+                $("#progress").replaceWith($("#progress-tmpl").tmpl({
+                    tasks : response.data
+                }));
+                if (response.data.length == 0) {
+                 clearInterval(interval);
+                }
+            } else {
+                $("#progress").text("Unavailable")
+            }
         });
     };
     

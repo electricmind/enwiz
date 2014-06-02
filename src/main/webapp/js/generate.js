@@ -2,24 +2,27 @@ $(document).ready(
         function() {
             var cache = [];
 
-            $(".remove").button().hide().on("click", function() {
-                if ($(".phrase :last .word").size() == 2) {
-                    if ($(".phrase").size() > 1) {
-                        $(".phrase :last").remove();
-                        $(".phrase :last .word :last").remove();
-                    } else {
-                        return;
-                    }
-                } else {
-                    $(".phrase :last .word :last").remove();
-                    if ($(".phrase :last .word").size() == 2 && $(".phrase").size() == 1) {
-                        $(".remove").hide(200);
-                    }
-                }
+            $(".remove").button().hide().on(
+                    "click",
+                    function() {
+                        if ($(".phrase :last .word").size() == 2) {
+                            if ($(".phrase").size() > 1) {
+                                $(".phrase :last").remove();
+                                $(".phrase :last .word :last").remove();
+                            } else {
+                                return;
+                            }
+                        } else {
+                            $(".phrase :last .word :last").remove();
+                            if ($(".phrase :last .word").size() == 2
+                                    && $(".phrase").size() == 1) {
+                                $(".remove").hide(200);
+                            }
+                        }
 
-                $(".words").remove();
-                add();
-            });
+                        $(".words").remove();
+                        add();
+                    });
 
             function add() {
                 var url = "/json/words/";
@@ -55,32 +58,36 @@ $(document).ready(
                 if (url in cache) {
                     update(cache[url]);
                 } else {
-                    $("#loading-tmpl").tmpl().appendTo(".phrase :last").button();
+                    $("#loading-tmpl").tmpl().appendTo(".phrase :last")
+                            .button();
 
-                    $.ajax(
-                            {
-                                url : url,
-                                statusCode : {
-                                    504 : function() {
-                                        $(".loading").remove();
-                                        if (i <= 1) {
-                                            request(url, i + 1);
-                                        } else {
-                                            $("#reload-tmpl").tmpl({}).appendTo(
-                                                    ".phrase :last").button();
-                                            $(".reload").on("click",
-                                                    function() {
-                                                        $(".reload").remove();
-                                                        request(url, 0);
-                                                    })
-                                        }
+                    $.ajax({
+                        url : url,
+                        statusCode : {
+                            504 : function() {
+                            }
+                        }
+                    }).done(
+                            function(response) {
+                                if (response.status.name == "OK") {
+
+                                    cache[url] = response.data;
+                                    $(".loading").remove();
+                                    update(response.data);
+                                } else {
+                                    $(".loading").remove();
+                                    if (i <= 1) {
+                                        request(url, i + 1);
+                                    } else {
+                                        $("#reload-tmpl").tmpl({}).appendTo(
+                                                ".phrase :last").button();
+                                        $(".reload").on("click", function() {
+                                            $(".reload").remove();
+                                            request(url, 0);
+                                        })
                                     }
                                 }
-                            }).done(function(data) {
-                        cache[url] = data;
-                        $(".loading").remove();
-                        update(data);
-                    });
+                            });
                 }
             }
 
@@ -96,7 +103,6 @@ $(document).ready(
                 }).appendTo(".phrase :last").show(400);
                 $(".remove").show(400);
 
-
                 $(words).remove();
 
                 if (w2 == ".") {
@@ -105,7 +111,7 @@ $(document).ready(
                 } else {
                     add();
                 }
-                
+
                 false;
             }
             add();
