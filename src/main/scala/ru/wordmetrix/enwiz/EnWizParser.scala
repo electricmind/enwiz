@@ -38,7 +38,6 @@ class EnWizParser() extends Actor with EnWizMongo {
         val trigrams = (for {
             sentence <- msg.text.phrases
             Vector(word1, word2, word3) <- {
-                //   println(sentence)
                 ("" +: "" +:
                     sentence.tokenize.toVector :+ ".") sliding 3
             }

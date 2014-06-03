@@ -264,7 +264,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                 val average = (coll.find("kind" $eq "trigram").map {
                     x => 
                         x.getOrElse("probability","0").toString.toDouble
-                } reduce(_+_))  / trigram
+                } reduceOption(_+_)) getOrElse(0.0) / trigram
                 
                 println(EnWizStat(unigram, bigram, trigram,
                     average ))
