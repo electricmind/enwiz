@@ -244,7 +244,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
 
             case None =>
                 ws.toList.span(_ != "*") match {
-                    case (ws1, _ :: ws2) => (ws1, ws2)
+                    case (ws1, _ :: ws2) => (ws1.takeRight(2), ws2.take(2))
                 }
         }
 
@@ -281,5 +281,9 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
     get("/gap1/:w/:w/:w") { gap }
     get("/gap1/:w/:w/:w/:w") { gap }
     get("/gap1/:w/:w/:w/:w/:w") { gap }
+    get("/gap1/:w/:w/:w/:w/:w/:w") { gap }
+    get("/gap1/:w/:w/:w/:w/:w/:w/:w") { gap }
+    get("/gap1/:w/:w/:w/:w/:w/:w/:w/:w") { gap }
+    get("/gap1/:w/:w/:w/:w/:w/:w/:w/:w/:w") { gap }
 
 }

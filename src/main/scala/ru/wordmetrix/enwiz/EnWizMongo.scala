@@ -87,13 +87,13 @@ trait EnWizMongo {
                         }
                         
                         coll.update(
-                            MongoDBObject("kind" -> "bigram", "word1" -> word1,
-                                "word2" -> word2),
+                            $and("kind" $eq "bigram", "word1" $eq word1,
+                                "word2" $eq word2),
                             $inc("probability" -> 1.0),
                             upsert = true
                         )
                         coll.update(
-                            MongoDBObject("kind" -> "unigram", "word1" -> word1),
+                            $and("kind" $eq "unigram", "word1" $eq word1),
                             $inc("probability" -> 1.0),
                             upsert = true
                         );
