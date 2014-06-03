@@ -51,32 +51,48 @@ $(document).ready(
                         }
                     });
                     $(".menuitem").click(handler);
+                    $(".menuitem-enter").click(function() {
+                        var form = $("#phraseform-tmpl").tmpl().replaceAll(".phrase :last .words");
+                        $(form).find("button").button();
+                        $(form).find("input").focus();
+                        $(form).submit(function() {
+                            $.each(
+                                $("form input[name=phrase]").val().split(/\s+/), 
+                                function(x,y) { 
+                                    $("#phraseitem-tmpl").tmpl({
+                                        word : y
+                                    }).insertBefore(".phrase :last .phraseform").show(400); 
+                                    
+                                } 
+                            );
+                            $(".phrase :last .phraseform").remove();
+                            add();
+                            return false;
+                        });
+                    });
                 }
                 if (url in cache) {
                     update(cache[url]);
                 } else {
                     $("#loading-tmpl").tmpl().appendTo(".phrase :last").button();
-
-                    $.ajax(
-                            {
-                                url : url,
-                                statusCode : {
-                                    504 : function() {
-                                        $(".loading").remove();
-                                        if (i <= 1) {
-                                            request(url, i + 1);
-                                        } else {
-                                            $("#reload-tmpl").tmpl({}).appendTo(
-                                                    ".phrase :last").button();
-                                            $(".reload").on("click",
-                                                    function() {
-                                                        $(".reload").remove();
-                                                        request(url, 0);
-                                                    })
-                                        }
-                                    }
-                                }
-                            }).done(function(data) {
+                    $.ajax({
+                        url : url,
+                        statusCode : {
+                            504 : function() {
+                                $(".loading").remove();
+                                if (i <= 1) {
+                                    request(url, i + 1);
+                                } else {
+                                    $("#reload-tmpl").tmpl({}).appendTo(
+                                       ".phrase :last").button();
+                                    $(".reload").on("click", function() {
+                                       $(".reload").remove();
+                                       request(url, 0);
+                                    });
+                               }
+                           }
+                        }
+                    }).done(function(data) {
                         cache[url] = data;
                         $(".loading").remove();
                         update(data);
@@ -85,9 +101,7 @@ $(document).ready(
             }
 
             function handler(event) {
-
                 var words = $(event.target).parents(".words");
-
                 var w1 = $(words).prev().data("word");
                 var w2 = $(event.target).data("word");
 
@@ -95,7 +109,6 @@ $(document).ready(
                     "word" : $(event.target).data("word")
                 }).appendTo(".phrase :last").show(400);
                 $(".remove").show(400);
-
 
                 $(words).remove();
 

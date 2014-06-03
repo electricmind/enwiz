@@ -54,12 +54,24 @@
 </table>
 </div>
 </script>
+
+<script
+    id="phraseform-tmpl"
+    type="text/x-jquery-tmpl"
+>
+    <form class="phraseform" action="#">
+        <input type="text" name="phrase"/>
+        <button style="vertical-align:top; font-size:+15">Enter</button>
+    </form>
+</script>
 <script
     id="dropmenu-tmpl"
     type="text/x-jquery-tmpl"
 >
                     <ul  class="words" style="display:inline-block; vertical-align:top; font-size:+15"><li><a href="#">Add word</a>
-                    <ul style="z-index:100">{{each(i,wp) wps}}<li>
+                    <ul style="z-index:100">
+                    <li><a class="menuitem-enter"><i>Enter a phrase</i></a></li>
+                    {{each(i,wp) wps}}<li>
                         <a class="menuitem" data-word="\${wp.word}">\${wp.word} : \${wp.probability} </a>
                     </li>{{/each}}</ul></ul>
 </script>
