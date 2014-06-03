@@ -50,11 +50,23 @@ class EnWizParser() extends Actor with EnWizMongo {
             ((word1, word2, word3), id) <- trigrams.zipWithIndex
         } {
             coll.update(
-                MongoDBObject("word1" -> word1, "word2" -> word2,
-                    "word3" -> word3),
+                MongoDBObject("kind" -> "trigram", "word1" -> word1,
+                    "word2" -> word2, "word3" -> word3),
                 $inc("probability" -> 1.0),
                 upsert = true
             );
+            coll.update(
+                MongoDBObject("kind" -> "bigram", "word1" -> word1,
+                    "word2" -> word2),
+                $inc("probability" -> 1.0),
+                upsert = true
+            );
+            coll.update(
+                MongoDBObject("kind" -> "unigram", "word1" -> word1),
+                $inc("probability" -> 1.0),
+                upsert = true
+            );
+
             self ! EnWizProgress(msg.task, id.toDouble / size)
         }
 
@@ -104,9 +116,9 @@ class EnWizParser() extends Actor with EnWizMongo {
             )
 
         case EnWizStatusRequest() =>
-            sender ! EnWizStatus(progress.toList.sortBy(x => x._1.id)/*queue.toList.map(
+            sender ! EnWizStatus(progress.toList.sortBy(x => x._1.id) /*queue.toList.map(
                 msg => msg.task -> progress(msg.task)
-            )*/)
+            )*/ )
     }
 
     def receive(): Receive = idle

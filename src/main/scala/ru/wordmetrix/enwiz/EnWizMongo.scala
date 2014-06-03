@@ -12,7 +12,7 @@ import java.io.File
  */
 
 object EnWizMongo {
-    
+
 }
 
 trait EnWizMongo {
@@ -35,7 +35,7 @@ trait EnWizMongo {
     def version() = {
         coll.findOne("stat" $eq "version") match {
             case Some(stat) => stat.getOrElse("value", 0)
-            case None => 0
+            case None       => 0
         }
     }
 
@@ -47,7 +47,7 @@ trait EnWizMongo {
         )
     }
 
-    def update : Unit = EnWizMongo.synchronized  {
+    def update: Unit = EnWizMongo.synchronized {
         println(s"Update # ${version()} $dbname")
         version() match {
             case 0 =>
@@ -59,11 +59,53 @@ trait EnWizMongo {
                 coll.ensureIndex(MO("stat" -> 1))
                 version(1)
                 update
+
+            case 1 =>
+                coll.update(
+                        $and("word1" $exists true, "word2" $exists true, "word3" $exists true), 
+                        $set("kind" -> "trigram"),
+                        multi = true
+                )
+                val n = Iterator.from(0)
                 
+                coll.ensureIndex(MO("kind" -> 1))
+                coll.ensureIndex(MO("kind" -> 1, "word1" -> 1))
+                coll.ensureIndex(MO("kind" -> 1, "word2" -> 1))
+                coll.ensureIndex(MO("kind" -> 1, "word3" -> 1))
+                coll.ensureIndex(MO("kind" -> 1, "word1" -> 1, "word2" -> 1))
+                coll.ensureIndex(MO("kind" -> 1, "word1" -> 1, "word2" -> 1, "word3" -> 1))
+                coll.ensureIndex(MO("kind" -> 1, "word2" -> 1, "word3" -> 1))
+                coll.ensureIndex(MO("stat" -> 1))
+
+                coll.find("kind" $eq "trigram") foreach {
+                    case x =>
+                        val word1: String = x.get("word1").toString()
+                        val word2: String = x.get("word2").toString()
+                        n.next match {
+                            case n  if n % 1000 == 0 =>   println(s"$n records updated")
+                            case _ => 
+                        }
+                        
+                        coll.update(
+                            MongoDBObject("kind" -> "bigram", "word1" -> word1,
+                                "word2" -> word2),
+                            $inc("probability" -> 1.0),
+                            upsert = true
+                        )
+                        coll.update(
+                            MongoDBObject("kind" -> "unigram", "word1" -> word1),
+                            $inc("probability" -> 1.0),
+                            upsert = true
+                        );
+
+                }
+                version(2)
+                update
+
             case _ =>
                 println(s"Update completed")
         }
     }
-    
+
     update
 }
