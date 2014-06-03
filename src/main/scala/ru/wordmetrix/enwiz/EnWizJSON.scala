@@ -16,6 +16,7 @@ import scala.util.Success
 import scala.util.Failure
 import org.scalatra.BadRequest
 import org.scalatra.GZipSupport
+import ru.wordmetrix.nlp.NLP._
 
 /**
  * A servlet that provides access to API with JSON
@@ -93,7 +94,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
     get("/words/:word1/:word2") {
         result("", "", params("word1"), params("word2"))
     }
-    
+
     /**
      * Return a progress of texts' parsing
      */
@@ -101,7 +102,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         new AsyncResult() {
             val promise = Promise[Result[List[(EnWizTaskId, String)]]]()
             val is = promise.future
-            
+
             lookup ? EnWizStatusRequest() onComplete {
                 case Success(EnWizStatus(tasks)) =>
                     promise.complete(Try(ResultOK(Status.OK,
@@ -111,7 +112,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                     )))
 
                 case Success(None) => NotFound(s"Sorry, unknown words")
-                
+
                 case Failure(f) =>
                     promise.complete(Try(ResultFail(Status.Error)))
             }
@@ -143,7 +144,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                         Result(Status.OK, ResultDataMnemonic(words, phrase, query))
                     ))
 
-                case Failure(f : akka.pattern.AskTimeoutException) =>
+                case Failure(f: akka.pattern.AskTimeoutException) =>
                     println(f)
                     promise.complete(Try(Result(Status.Timeout)))
 
@@ -193,7 +194,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                         ResultOK(status, ResultDataAcronym(words, phrase, letters.map(_ + ".").mkString.toUpperCase()))
                     ))
 
-                case Failure(f : akka.pattern.AskTimeoutException) =>
+                case Failure(f: akka.pattern.AskTimeoutException) =>
                     println(f)
                     promise.complete(Try(Result(Status.Timeout)))
 
@@ -211,4 +212,27 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         acronym
     }
 
+    get("/phrase/:phrase") {
+        new AsyncResult() {
+            val promise = Promise[Result[(List[String], String, Double)]]
+            val is = promise.future
+            val phrase = params.getOrElse("phrase", "")
+            val query = phrase.tokenize
+
+            lookup ? EnWizPhraseRequest(
+                query
+            ) onComplete {
+                    case Success(EnWizPhrase(probability)) =>
+                        promise.complete(Try(
+                            Result(Status.OK, (query, phrase, probability))
+                        ))
+
+                    case Failure(f: akka.pattern.AskTimeoutException) =>
+                        promise.complete(Try(Result(Status.Timeout)))
+
+                    case Failure(f) =>
+                        promise.complete(Try(Result(Status.Error)))
+                }
+        }
+    }
 }

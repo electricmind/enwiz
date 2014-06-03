@@ -37,6 +37,10 @@ object EnWizLookup {
 
     case class EnWizAcronym(ns: Either[List[String], List[String]]) extends EnWizMessage
 
+    case class EnWizPhraseRequest(ls: List[String]) extends EnWizMessage
+
+    case class EnWizPhrase(probability: Double) extends EnWizMessage
+
     def props(): Props = Props(new EnWizLookup())
 }
 
@@ -145,7 +149,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                                                 ns2ws(ns, better, word3 :: ws, t)(f)
                                         }
                                 case None => Iterator.empty
-                               
+
                             },
                             better
                         )
@@ -169,10 +173,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
         /**
          * Return sequence of words each has a length equal to according number
          */
-
-        //        case EnWizMnemonicRequest(ns) =>
         case EnWizMnemonicRequest(ns) =>
-
             Future {
                 EnWizMnemonic(
                     ns2ws(ns.map(x => if (x == 0) 10 else x), List(), List("", ""), System.currentTimeMillis() + 100000) {
@@ -187,7 +188,6 @@ class EnWizLookup() extends Actor with EnWizMongo {
         /**
          * Return sequence of words each begins with a letter of an acronym
          */
-        //        case EnWizAcronymRequest(ls) =>
         case EnWizAcronymRequest(ls) =>
             println(s"lookup $ls")
             Future {
@@ -301,6 +301,28 @@ class EnWizLookup() extends Actor with EnWizMongo {
                     )
                 case None => None
             }
-
+        case EnWizPhraseRequest(words) =>
+            sender ! EnWizPhrase(words.sliding(3).map({
+                case List(w1, w2, w3) =>
+                    coll.findOne($and(
+                        "kind" $eq "bigram",
+                        "word1" $eq w1,
+                        "word2" $eq w2)) match {
+                        case Some(bigram) =>
+                            val count: Double = bigram.getOrElse("probability", 0.0).toString.toDouble
+                            coll.findOne($and(
+                                "kind" $eq "trigram",
+                                "word1" $eq w1,
+                                "word2" $eq w2,
+                                "word3" $eq w3
+                            )) match {
+                                case Some(trigram) =>
+                                    trigram.getOrElse("probability", 0.0).
+                                        toString.toDouble / count
+                                case None => 0.0d
+                            }
+                        case None => 0.0d
+                    }
+            }).reduceOption(_ * _).getOrElse(0.0d))
     }
 }
