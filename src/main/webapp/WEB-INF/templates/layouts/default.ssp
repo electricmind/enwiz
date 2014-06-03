@@ -60,7 +60,7 @@
 >
                     <ul  class="words" style="display:inline-block; vertical-align:top; font-size:+15"><li><a href="#">Add word</a>
                     <ul style="z-index:100">{{each(i,wp) wps}}<li>
-                        <a class="menuitem" data-word="\${wp.word}">\${wp.word} : \${wp.probability} </a>
+                        <a class="menuitem" data-word="\${wp.word}">\${wp.word} : \${wp.probability.toString().substring(0,5)} </a>
                     </li>{{/each}}</ul></ul>
 </script>
 <script
