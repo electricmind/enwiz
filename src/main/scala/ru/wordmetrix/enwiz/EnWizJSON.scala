@@ -235,4 +235,51 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                 }
         }
     }
+
+    def gap = {
+        val ws = multiParams("w").toList
+        val (ws1, ws2) = params.get("number") match {
+            case Some(number) =>
+                ws.splitAt(number.toInt)
+
+            case None =>
+                ws.toList.span(_ != "*") match {
+                    case (ws1, _ :: ws2) => (ws1, ws2)
+                }
+        }
+
+        new AsyncResult() {
+            val promise = Promise[Result[List[Probability]]]
+            val is = promise.future
+
+            lookup ? EnWizGapRequest(
+                ws1.toList, ws2.toList
+            ) onComplete {
+                    case Success(EnWizGap(wps)) =>
+                        promise.complete(Try(
+                            Result(Status.OK, wps.map(x => Probability(x)))
+                        ))
+
+                    case Failure(f: akka.pattern.AskTimeoutException) =>
+                        promise.complete(Try(Result(Status.Timeout)))
+
+                    case Failure(f) =>
+                        promise.complete(Try(Result(Status.Error)))
+                }
+        }
+
+    }
+
+    get("/gap/:number") { gap }
+    get("/gap/:number/:w") { gap }
+    get("/gap/:number/:w/:w") { gap }
+    get("/gap/:number/:w/:w/:w") { gap }
+    get("/gap/:number/:w/:w/:w/:w") { gap }
+
+    get("/gap1/:w") { gap }
+    get("/gap1/:w/:w") { gap }
+    get("/gap1/:w/:w/:w") { gap }
+    get("/gap1/:w/:w/:w/:w") { gap }
+    get("/gap1/:w/:w/:w/:w/:w") { gap }
+
 }

@@ -41,6 +41,10 @@ object EnWizLookup {
 
     case class EnWizPhrase(probability: Double) extends EnWizMessage
 
+    case class EnWizGapRequest(ws1: List[String], ws2: List[String]) extends EnWizMessage
+
+    case class EnWizGap(wps1: List[(String, Double)]) extends EnWizMessage
+
     def props(): Props = Props(new EnWizLookup())
 }
 
@@ -294,13 +298,95 @@ class EnWizLookup() extends Actor with EnWizMongo {
                             "kind" $eq "trigram",
                             "word1" $eq word1,
                             "word2" $eq word2
-                        )).sort(MO("probability" -> -1)).
-                            limit(100).map(x =>
+                        ))
+                            .sort(MO("probability" -> -1))
+                            .map(x =>
                                 (x.get("word3"), x.get("probability").toString.toDouble / count)
                             ).toList
                     )
                 case None => None
             }
+
+        case EnWizGapRequest(ws1, ws2) =>
+            val wps1: Map[String, Double] = ws1 match {
+                case w11 :: w12 :: _ => coll.findOne($and(
+                    "kind" $eq "bigram",
+                    "word1" $eq w11,
+                    "word2" $eq w12)) match {
+                    case Some(bigram) =>
+                        val count: Double = bigram.getOrElse("probability", 0.0).toString.toDouble
+                        coll.find($and(
+                            "kind" $eq "trigram",
+                            "word1" $eq w11,
+                            "word2" $eq w12
+                        ))
+                            .sort(MO("probability" -> -1))
+                            .map(x =>
+                                (x.get("word3").toString -> x.get("probability").toString.toDouble / count)
+                            ).toMap
+
+                    case None => Map()
+                }
+
+                case w11 :: _ => coll.findOne($and(
+                    "kind" $eq "unigram",
+                    "word1" $eq w11)) match {
+                    case Some(uniram) =>
+                        val count: Double = uniram.getOrElse("probability", 0.0).toString.toDouble
+                        coll.find($and(
+                            "kind" $eq "bigram",
+                            "word1" $eq w11
+                        ))
+                            .sort(MO("probability" -> -1))
+                            .map(x =>
+                                (x.get("word2").toString -> x.get("probability").toString.toDouble / count)
+                            ).toMap
+
+                    case None => Map()
+                }
+
+            }
+
+            val wps2: Map[String, Double] = ws2 match {
+                case w22 :: w23 :: _ => coll.findOne($and(
+                    "kind" $eq "bigram",
+                    "word1" $eq w22,
+                    "word2" $eq w23)) match {
+                    case Some(bigram) =>
+                        val count: Double = bigram.getOrElse("probability", 0.0).toString.toDouble
+                        coll.find($and(
+                            "kind" $eq "trigram",
+                            "word2" $eq w22,
+                            "word3" $eq w23
+                        ))
+                            .sort(MO("probability" -> -1))
+                            .map(x =>
+                                (x.get("word1").toString -> x.get("probability").toString.toDouble / count)
+                            ).toMap
+                    case None => Map()
+                }
+
+                case w22 :: _ =>
+                    coll.findOne($and(
+                        "kind" $eq "unigram",
+                        "word1" $eq w22)) match {
+                        case Some(unigram) =>
+                            val count: Double = unigram.getOrElse("probability", 0.0).toString.toDouble
+                            coll.find($and(
+                                "kind" $eq "bigram",
+                                "word2" $eq w22
+                            ))
+                                .sort(MO("probability" -> -1))
+                                .map(x =>
+                                    (x.get("word1").toString -> x.get("probability").toString.toDouble / count)
+                                ).toMap
+                        case None => Map()
+                    }
+            }
+            println(wps1)
+            println(wps2)
+            sender ! EnWizGap((wps1.keySet & wps2.keySet).map(x => x -> wps1(x) * wps2(x)).toList.sortBy(-_._2))
+
         case EnWizPhraseRequest(words) =>
             sender ! EnWizPhrase(words.sliding(3).map({
                 case List(w1, w2, w3) =>

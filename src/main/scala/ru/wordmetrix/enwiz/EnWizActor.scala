@@ -53,5 +53,9 @@ class EnWizActor(lookupprop: Props, parserprop: Props) extends Actor {
 
         case msg @ EnWizPhraseRequest(_) =>
             lookup forward msg
+
+        case msg @ EnWizGapRequest(_,_) =>
+            println(msg)
+            lookup forward msg
     }
 }
