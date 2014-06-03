@@ -117,25 +117,35 @@ class EnWizLookup() extends Actor with EnWizMongo {
                     case word2 :: word1 :: _ =>
                         val better = betterof(best, ws)
 
-                        findLeft(coll.find($and(
-                            "word1" $eq word1,
-                            "word2" $eq word2,
-                            "word3" $exists true,
-                            "probability" $exists true)).
-                            sort(MO("probability" -> -1)).
-                            map(x => {
-                                (
-                                    x.get("word3").toString,
-                                    x.get("probability").toString.toDouble
-                                )
-                            }) filter {
-                                case (word3, _) =>
-                                    f(n, word3)
-                                case _ => false
-                            } map {
-                                case (word3, p) =>
-                                    //                                    println(s" ok : $n : $word3 x $p : $ws")
-                                    ns2ws(ns, better, word3 :: ws, t)(f)
+                        findLeft(
+                            coll.findOne($and(
+                                "kind" $eq "bigram",
+                                "word1" $eq word1,
+                                "word2" $eq word2)) match {
+                                case Some(bigram) =>
+                                    val count: Double = bigram.getOrElse("probability", 0.0).toString.toDouble
+
+                                    coll.find($and(
+                                        "kind" $eq "trigram",
+                                        "word1" $eq word1,
+                                        "word2" $eq word2
+                                    )).sort(MO("probability" -> -1)).
+                                        map(x => {
+                                            (
+                                                x.get("word3").toString,
+                                                x.get("probability").toString.toDouble / count
+                                            )
+                                        }) filter {
+                                            case (word3, _) =>
+                                                f(n, word3)
+                                            case _ => false
+                                        } map {
+                                            case (word3, p) =>
+                                                //                                    println(s" ok : $n : $word3 x $p : $ws")
+                                                ns2ws(ns, better, word3 :: ws, t)(f)
+                                        }
+                                case None => Iterator.empty
+                               
                             },
                             better
                         )

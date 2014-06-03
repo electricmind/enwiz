@@ -51,7 +51,7 @@ case class ResultDataAcronym(words: List[String], phrase: String, query: String)
 class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         extends ScalatraServlet with FutureSupport with JacksonJsonSupport { //with GZipSupport{
     protected implicit def executor: ExecutionContext = system.dispatcher
-    implicit val defaultTimeout = Timeout(1 second)
+    implicit val defaultTimeout = Timeout(30 second)
     protected implicit val jsonFormats: Formats = DefaultFormats
 
     before() {
