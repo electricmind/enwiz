@@ -258,33 +258,17 @@ class EnWizLookup() extends Actor with EnWizMongo {
                 sender ! EnWizStat(unigram.toInt, bigram.toInt, trigram.toInt,
                     average / trigram)
             } else {
-                val records = coll.find($and(
-                    "word1" $exists true,
-                    "word2" $exists true,
-                    "word3" $exists true,
-                    "probability" $exists true
-                )).map(x => (
-                    x.get("word1").toString,
-                    x.get("word2").toString,
-                    x.get("word3").toString,
-                    x.get("probability").toString.toDouble)
-                ).toSet
-
-                val average = records.iterator.map({
-                    case (w1, w2, w3, p) =>
-                        p.toString.toDouble
-                }).reduceOption(_ + _).getOrElse(0.0) / records.size
-
-                val trigram: Set[(String, String, String)] = records.map({
-                    case (w1, w2, w3, _) => (w1, w2, w3)
-                })
-
-                val bigram: Set[(String, String)] = trigram.map({ case (w1, w2, _) => (w1, w2) })
-
-                val unigram: Set[String] = bigram.map({ case (w1, _) => (w1) })
-                println(EnWizStat(unigram.size, bigram.size, trigram.size,
-                    average))
-                sender ! EnWizStat(unigram.size, bigram.size, trigram.size,
+                val trigram = coll.find("kind" $eq "trigram").count();
+                val bigram = coll.find("kind" $eq "bigram").count();
+                val unigram = coll.find("kind" $eq "unigram").count();
+                val average = (coll.find("kind" $eq "trigram").map {
+                    x => 
+                        x.getOrElse("probability","0").toString.toDouble
+                } reduce(_+_))  / trigram
+                
+                println(EnWizStat(unigram, bigram, trigram,
+                    average ))
+                sender ! EnWizStat(unigram, bigram, trigram,
                     average)
             }
 
