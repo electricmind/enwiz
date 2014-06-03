@@ -61,21 +61,27 @@ trait EnWizMongo {
                 update
 
             case 1 =>
+                coll.remove("kind" $eq "unigram")
+                coll.remove("kind" $eq "bigram")
+
+                coll.dropIndexes()
+                
                 coll.update(
                         $and("word1" $exists true, "word2" $exists true, "word3" $exists true), 
                         $set("kind" -> "trigram"),
                         multi = true
                 )
-                val n = Iterator.from(0)
                 
                 coll.ensureIndex(MO("kind" -> 1))
                 coll.ensureIndex(MO("kind" -> 1, "word1" -> 1))
                 coll.ensureIndex(MO("kind" -> 1, "word2" -> 1))
-                coll.ensureIndex(MO("kind" -> 1, "word3" -> 1))
                 coll.ensureIndex(MO("kind" -> 1, "word1" -> 1, "word2" -> 1))
                 coll.ensureIndex(MO("kind" -> 1, "word1" -> 1, "word2" -> 1, "word3" -> 1))
                 coll.ensureIndex(MO("kind" -> 1, "word2" -> 1, "word3" -> 1))
                 coll.ensureIndex(MO("stat" -> 1))
+
+                val n = Iterator.from(0)
+                
 
                 coll.find("kind" $eq "trigram") foreach {
                     case x =>
@@ -99,6 +105,7 @@ trait EnWizMongo {
                         );
 
                 }
+
                 version(2)
                 update
 
