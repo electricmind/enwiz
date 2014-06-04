@@ -2,14 +2,14 @@ package ru.wordmetrix.enwiz
 
 import java.io.FileInputStream
 import java.util.Properties
-
 import scala.collection.JavaConverters.propertiesAsScalaMapConverter
-
 import org.scalatra.ScalatraBase
 import org.scalatra.auth.{ ScentryConfig, ScentrySupport }
 import org.scalatra.auth.strategy.{ BasicAuthStrategy, BasicAuthSupport }
-
 import javax.servlet.http.{ HttpServletRequest, HttpServletResponse }
+import com.typesafe.config.ConfigFactory
+import java.io.File
+import scala.util.Try
 /**
  * Authentication strategy that saves identity in "~/enwizauth.cfg"
  */
@@ -23,19 +23,15 @@ class OurBasicAuthStrategy(protected override val app: ScalatraBase, realm: Stri
             implicit request: HttpServletRequest,
             response: HttpServletResponse): Option[User] = {
 
-        val prop = new Properties() match {
-            case prop =>
-                prop.load(new FileInputStream(
-                    System.getProperty("user.home") + "/enwizauth.cfg"));
-                prop.asScala
-        }
+        val cfg = ConfigFactory.parseFile(
+            new File(System.getProperty("user.home"), "enwizauth.cfg")
+        ).getObject("auth").toConfig()
 
-        val identity = prop.getOrElse("username", "admin")
+        val identity: String = cfg.getString("username")
 
-        prop.get("password") match {
-            case Some(password) if password == password &&
+        cfg.getString("password") match {
+            case password if password == password &&
                 userName == identity => Some(User(identity))
-            case _ => None
         }
     }
 

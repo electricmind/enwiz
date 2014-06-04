@@ -4,27 +4,14 @@ $(document).ready(function() {
    var n = nmax;
    var allowed = true;
     $(".form-mnemonic").ajaxForm({
-        clearForm : true,
+//        clearForm : true,
         error : function(status) {
-                if (status.status == 504 && n > 0) {
-                    n--;
-                    allowed = true;
-                    $(".form-mnemonic input[type=text]").removeAttr("disabled");
-                    $(".form-mnemonic").submit();
-                } else {
-                    if (status.status == 504) {
-                        $("#mnemonic .enwiz-warning").show(100);
-                    } else {
-                        $("#mnemonic .enwiz-error").show(100);
-                    }
-
+                    $("#mnemonic .enwiz-error").show(100);
                     $(".form-mnemonic .enwiz-submit").show(0);
                     $(".form-mnemonic .enwiz-loading").hide(0);
                     $(".form-mnemonic input[type=text]").removeAttr("disabled");
                     allowed = true;
                     n = nmax;
-
-                }
         },
         beforeSubmit : function(status) {
                 if (allowed) {
@@ -41,19 +28,42 @@ $(document).ready(function() {
                     return false;
                 }
         },
-        success : function(responseText, statusText, xhr, $form) {
-            $(".form-mnemonic .enwiz-submit").show(0);
-            $(".form-mnemonic .enwiz-loading").hide(0);
-            $(".form-mnemonic input[type=text]").removeAttr("disabled");
-            allowed = true;
-            n = nmax;
-            
-            $("#mnemonic-tmpl").tmpl({
-                mnemonic : responseText,
-            }).appendTo($(".mnemonic")).show(200);
-            $('.my-mnemonic-scroll').animate({
-                scrollTop : $('.my-mnemonic-scroll table').height()
-            }, 200)
+        success : function(response, statusText, xhr, $form) {
+            if (response.status.name == "OK" || response.status.name == "BEST") {
+                $(".form-mnemonic .enwiz-submit").show(0);
+                $(".form-mnemonic .enwiz-loading").hide(0);
+                $(".form-mnemonic input[type=text]").removeAttr("disabled");
+                allowed = true;
+                n = nmax;
+                
+                $("#mnemonic-tmpl").tmpl({
+                    mnemonic : response.data,
+                    status : response.status.name
+                }).appendTo($(".mnemonic")).show(200);
+                $('.my-mnemonic-scroll').animate({
+                    scrollTop : $('.my-mnemonic-scroll table').height()
+                }, 200);
+                $($form).resetForm();
+            } else {
+                if (response.status.name == "Timeout" && n > 0) {
+                    n--;
+                    allowed = true;
+                    $(".form-mnemonic input[type=text]").removeAttr("disabled");
+                    $(".form-mnemonic").submit();
+                } else {
+                    if (response.status.name == "Timeout") {
+                        $("#mnemonic .enwiz-warning").show(100);
+                    } else {
+                        $("#mnemonic .enwiz-error").show(100);
+                    }
+
+                    $(".form-mnemonic .enwiz-submit").show(0);
+                    $(".form-mnemonic .enwiz-loading").hide(0);
+                    $(".form-mnemonic input[type=text]").removeAttr("disabled");
+                    allowed = true;
+                    n = nmax;
+                }
+            }
         }
     });
 

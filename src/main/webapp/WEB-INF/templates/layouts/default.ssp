@@ -72,7 +72,7 @@
                     <ul style="z-index:100">
                     <li><a class="menuitem-enter"><i>Enter a phrase</i></a></li>
                     {{each(i,wp) wps}}<li>
-                        <a class="menuitem" data-word="\${wp.word}">\${wp.word} : \${wp.probability} </a>
+                        <a class="menuitem" data-word="\${wp.word}">\${wp.word} : \${wp.probability.toString().substring(0,5)} </a>
                     </li>{{/each}}</ul></ul>
 </script>
 <script
@@ -87,8 +87,8 @@
     id="mnemonic-tmpl"
     type="text/x-jquery-tmpl"
 >
-                    <tr class="mnemonic-\${mnemonic._1} ui-helper-hidden" >
-{{if mnemonic._1}}
+                    <tr class="mnemonic-\${status} ui-helper-hidden" >
+{{if status == "OK"}}
 <td width="2%" class="ui-state-highlight1" style="border:0px">
 <span class="ui-icon ui-icon-check"></span>
 </td>
@@ -97,8 +97,8 @@
 <span class="ui-icon ui-icon-alert" title="Exact solution was not found, this one is the best that was available."></span>
 </td>
 {{/if}}
-<td width="2%">\${mnemonic._4}</td>
-<td>\${mnemonic._3}</td>
+<td width="2%">\${mnemonic.query}</td>
+<td>\${mnemonic.phrase}</td>
 </tr>
 </script>
 <script
