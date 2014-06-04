@@ -65,13 +65,13 @@ trait EnWizMongo {
                 coll.remove("kind" $eq "bigram")
 
                 coll.dropIndexes()
-                
+
                 coll.update(
-                        $and("word1" $exists true, "word2" $exists true, "word3" $exists true), 
-                        $set("kind" -> "trigram"),
-                        multi = true
+                    $and("word1" $exists true, "word2" $exists true, "word3" $exists true),
+                    $set("kind" -> "trigram"),
+                    multi = true
                 )
-                
+
                 coll.ensureIndex(MO("kind" -> 1))
                 coll.ensureIndex(MO("kind" -> 1, "word1" -> 1))
                 coll.ensureIndex(MO("kind" -> 1, "word2" -> 1))
@@ -81,25 +81,24 @@ trait EnWizMongo {
                 coll.ensureIndex(MO("stat" -> 1))
 
                 val n = Iterator.from(0)
-                
 
                 coll.find("kind" $eq "trigram") foreach {
                     case x =>
                         val word1: String = x.get("word1").toString()
                         val word2: String = x.get("word2").toString()
                         n.next match {
-                            case n  if n % 1000 == 0 =>   println(s"$n records updated")
-                            case _ => 
+                            case n if n % 1000 == 0 => println(s"$n records updated")
+                            case _                  =>
                         }
-                        
+
                         coll.update(
-                            $and("kind" $eq "bigram", "word1" $eq word1,
-                                "word2" $eq word2),
+                            MO("kind" -> "bigram", "word1" -> word1,
+                                "word2" -> word2),
                             $inc("probability" -> 1.0),
                             upsert = true
                         )
                         coll.update(
-                            $and("kind" $eq "unigram", "word1" $eq word1),
+                            MO("kind" -> "unigram", "word1" -> word1),
                             $inc("probability" -> 1.0),
                             upsert = true
                         );
