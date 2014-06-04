@@ -4,6 +4,7 @@
 <%@ val jsacronym: String = ""%> 
 <%@ val jsgenerate: String = ""%> 
 <%@ val jsupload: String = ""%> 
+<%@ val jsestimate: String = ""%> 
 
 <%@ val tmpl: String = ""%> <%@ val title: String =
 "English phrase generator"%>
@@ -131,6 +132,7 @@
 <%= unescape(jsacronym) %> 
 <%= unescape(jsgenerate) %> 
 <%= unescape(jsupload) %> 
+<%= unescape(jsestimate) %> 
 <%= unescape(tmpl) %>
 </head>
 <body>

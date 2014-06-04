@@ -1,9 +1,5 @@
 <%@ val restricted: Boolean = false %> #set (title) Wizard that
-generates english phrases. #end 
-#set (tmpl)
-
-#end
-#set (js)
+generates english phrases. #end #set (tmpl) #end #set (js)
 <script src="/js/progressSpin.min.js">  </script>
 <script src="/js/main.js">  </script>
 #end
@@ -20,24 +16,19 @@ generates english phrases. #end
                 <ul id="mainmenu">
                     <li><a href="#">Menu</a>
                         <ul style="z-index: 100">
-                            <li><a
-                                href="#generate"
-                            >Generate text</a></li>
-                            <li><a
-                                href="#mnemonic"
-                            >Mnemonic</a></li>
-                            <li><a
-                                href="#acronym"
-                            >Acronym</a></li> #if (restricted)
-                            <li><a
-                                href="admin#upload"
-                            >Load text</a></li>
-                            <li><a
-                                href="/stat"
-                            >Statistic</a></li> #end
-                            <li><a
-                                href="#about"
-                            >Read Me</a></li>
+                            <li><a href="#generate">Generate
+                                    text</a></li>
+                            <li><a href="#estimate">Estimate
+                                    phrase</a></li>
+                            <li><a href="#mnemonic">Mnemonic</a></li>
+                            <li><a href="#acronym">Acronym</a></li>
+                            #if (restricted)
+                            <li><a href="admin#upload">Load
+                                    text</a></li>
+                            <li><a href="/stat">Statistic</a></li>
+                            #end
+                            <li><a href="#about">Read
+                                    Me</a></li>
                         </ul></li>
                 </ul>
             </div>
@@ -57,8 +48,8 @@ generates english phrases. #end
                 class="my-wizard-content"
             ><% render("readme.ssp") %> #if (restricted) <%
                 render("upload.ssp") %> #end <% render("generate.ssp")
-                %> <% render("mnemonic.ssp") %> <%
-                render("acronym.ssp") %> </div>
+                %> <% render("estimate.ssp") %> <%
+                render("mnemonic.ssp") %> <% render("acronym.ssp") %></div>
         </div>
         <div
             class="ui-state-default"

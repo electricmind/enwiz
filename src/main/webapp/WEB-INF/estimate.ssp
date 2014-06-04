@@ -1,0 +1,48 @@
+#set (jsestimate)
+<script src="/js/estimate.js">  </script>
+<script
+    id="estimate-tmpl-phrase"
+    type="text/x-jquery-tmpl"
+>
+          <p>          {{each(i,word) data._1}}<span>
+                        <span data-word="\${word}">\${word} </span>
+                    </span>{{/each}}
+ <i>(probability: \${data._3})</i>
+          </p>
+</script>
+<script
+    id="estimate-tmpl"
+    type="text/x-jquery-tmpl"
+>
+        <div>
+            <form action="/json/estimate">
+                <input
+                    type="text"
+                    name="phrase"
+                />
+                <button>Submit</button>
+            </form>
+            <div
+                class="enwiz-loading ui-helper-hidden"
+                title="Upon completion a popup menu appears."
+                style="vertical-align: top; font-size: +15"
+            >
+                <img src="/img/loading.gif"> Loading...
+            </div>
+            <div class="estimate-phrase ui-helper-hidden"></div>
+        </div>
+
+</script>
+#end
+<div
+    id="estimate"
+    class=" my-panes"
+>
+    <div class=" ui-state-default  ui-corner-top">
+        <span
+            title="Press menu button below and choose next word from menu."
+        ><b>Estimate probability of English sentences</b></span>
+    </div>
+    <div id="estimate-items">
+    </div>
+</div>

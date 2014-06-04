@@ -212,28 +212,34 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         acronym
     }
 
-    get("/phrase/:phrase") {
-        new AsyncResult() {
-            val promise = Promise[Result[(List[String], String, Double)]]
-            val is = promise.future
-            val phrase = params.getOrElse("phrase", "")
-            val query = phrase.tokenize
+    get("/estimate") {
+        estimate
+    }
 
-            lookup ? EnWizPhraseRequest(
-                query
-            ) onComplete {
-                    case Success(EnWizPhrase(probability)) =>
-                        promise.complete(Try(
-                            Result(Status.OK, (query, phrase, probability))
-                        ))
+    get("/estimate/:phrase") {
+        estimate
+    }
 
-                    case Failure(f: akka.pattern.AskTimeoutException) =>
-                        promise.complete(Try(Result(Status.Timeout)))
+    def estimate = new AsyncResult() {
+        val promise = Promise[Result[(List[String], String, Double)]]
+        val is = promise.future
+        val phrase = params.getOrElse("phrase", "")
+        val query = phrase.tokenize
 
-                    case Failure(f) =>
-                        promise.complete(Try(Result(Status.Error)))
-                }
-        }
+        lookup ? EnWizPhraseRequest(
+            query
+        ) onComplete {
+                case Success(EnWizPhrase(probability)) =>
+                    promise.complete(Try(
+                        Result(Status.OK, (query, phrase, probability))
+                    ))
+
+                case Failure(f: akka.pattern.AskTimeoutException) =>
+                    promise.complete(Try(Result(Status.Timeout)))
+
+                case Failure(f) =>
+                    promise.complete(Try(Result(Status.Error)))
+            }
     }
 
     def gap = {
