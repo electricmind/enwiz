@@ -58,7 +58,9 @@
                                 at : "top+30"
                             },
                             focus : function() {
-                                $(".prompt-word ul").menu("collapse");
+                                $(".prompt-menu").each(function() { 
+                                    if (this!=menu[0]) $(this).menu("collapse") 
+                                });
                             }
                         });
                         
