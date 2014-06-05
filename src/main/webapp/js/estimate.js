@@ -19,16 +19,12 @@
                 var allowed = false;
                 
                 form.ajaxForm({
-                    
                     beforeSubmit : function(status) {
                         form.hide();
                         loading.show();
                         $("#estimate-tmpl").tmpl().appendTo("#estimate-items").estimate();   
-
                     },
-                
                     success : function(response, statusText, xhr, form) {
-                
                         if (response.status.name == 'OK' || 
                                response.status.name == 'Best')  {
                             $(settings.template + '-phrase').tmpl({
@@ -72,7 +68,7 @@
                     
                 }).done(function(response) {
                     if (response.status.name == "OK") {
-                        $(".estimate-probability").text(response.data._3.toString().slice(0,5));
+                        $(".estimate-probability",widget).text(response.data._3.toString().slice(0,5));
                     }  
                 });
             });
