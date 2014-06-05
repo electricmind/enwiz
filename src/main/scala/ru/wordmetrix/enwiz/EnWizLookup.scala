@@ -383,8 +383,9 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         case None => Map()
                     }
             }
-            println(wps1)
-            println(wps2)
+            println(ws1,ws2)
+            //println(wps1)
+            //println(wps2)
             sender ! EnWizGap((wps1.keySet & wps2.keySet).map(x => x -> wps1(x) * wps2(x)).toList.sortBy(-_._2))
 
         case EnWizPhraseRequest(words) =>

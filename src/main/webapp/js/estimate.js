@@ -37,7 +37,7 @@
                             
                             phrase.show();
                             
-                            $('span',phrase).button();
+                            $('span',phrase).prompt();
                             
                             loading.hide();
                             
@@ -62,7 +62,23 @@
                     }
                 });
             });
-        }
+        },
+        update : function(word) {
+            return $(this).map(function() {
+                const widget = $(this).closest(".ui-widget");
+                const self = $(".ui-content",widget);
+                const url = '/json/estimate/' + $(".prompt", widget).prompt('word').toArray().join(' ');
+                $.ajax({
+                    url : url
+                    
+                }).done(function(response) {
+                    if (response.status.name == "OK") {
+                        $(".estimate-probability").text(response.data._3);
+                    }  
+                });
+            });
+        } 
+
     }
     
     $.fn.estimate = function(method) {

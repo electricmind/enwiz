@@ -1,20 +1,21 @@
 #set (jsestimate)
 <script src="/js/estimate.js">  </script>
+<script src="/js/prompt.js">  </script>
 <script
     id="estimate-tmpl-phrase"
     type="text/x-jquery-tmpl"
 >
-          <p>          {{each(i,word) data._1}}<span>
+          <p>          {{each(i,word) data._1}}
                         <span data-word="\${word}">\${word} </span>
-                    </span>{{/each}}
- <i>(probability: \${data._3})</i>
+                    {{/each}}
+ <i>(probability: <i class="estimate-probability">\${data._3.toString().slice(0,5)}</i>)</i>
           </p>
 </script>
 <script
     id="estimate-tmpl"
     type="text/x-jquery-tmpl"
 >
-        <div>
+        <div class="estimate ui-widget">
             <form action="/json/estimate">
                 <input
                     type="text"
@@ -33,6 +34,46 @@
         </div>
 
 </script>
+<script
+    id="prompt-tmpl-menu"
+    type="text/x-jquery-tmpl"
+>
+    <ul
+        class="prompt-menu"
+        style="display: inline-block; vertical-align: top; font-size: +15"
+    >
+        <li><a class="prompt-current" href="#"> \${w} </a>
+            <ul style="z-index: 100">
+                {{each(i,wp) wps}}
+                <li><a
+                    class="prompt-item"
+                    data-word="\${wp.word}"
+                >\${wp.word} :
+                        \${wp.probability.toString().substring(0,5)} </a></li>
+                {{/each}}
+            </ul>
+    </ul>
+    
+</script>
+<script
+    id="prompt-tmpl"
+    type="text/x-jquery-tmpl"
+>
+<div class="ui-widget prompt" style="float:left">
+    <div class="prompt-word"></div>
+    <div
+        class="enwiz-loading ui-helper-hidden"
+        title="Upon completion a popup menu appears."
+        style="vertical-align: top; font-size: +15"
+    >
+        <img src="/img/loading.gif"> Loading...
+    </div>
+    <button
+        class="reload ui-helper-hidden"
+        style="vertical-align: top; font-size: +15"
+    >Press to continue</button>
+</div>
+</script>
 #end
 <div
     id="estimate"
@@ -43,6 +84,5 @@
             title="Press menu button below and choose next word from menu."
         ><b>Estimate probability of English sentences</b></span>
     </div>
-    <div id="estimate-items">
-    </div>
+    <div id="estimate-items"></div>
 </div>

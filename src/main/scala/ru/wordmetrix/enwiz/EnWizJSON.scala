@@ -254,12 +254,14 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
                 }
         }
 
+        
+        
         new AsyncResult() {
             val promise = Promise[Result[List[Probability]]]
             val is = promise.future
 
             lookup ? EnWizGapRequest(
-                ws1.toList, ws2.toList
+                ("" :: "" :: ws1 ).takeRight(2), (ws2.take(2) :+ ".").take(2)
             ) onComplete {
                     case Success(EnWizGap(wps)) =>
                         promise.complete(Try(
@@ -282,14 +284,14 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
     get("/gap/:number/:w/:w/:w") { gap }
     get("/gap/:number/:w/:w/:w/:w") { gap }
 
-    get("/gap1/:w") { gap }
-    get("/gap1/:w/:w") { gap }
-    get("/gap1/:w/:w/:w") { gap }
-    get("/gap1/:w/:w/:w/:w") { gap }
-    get("/gap1/:w/:w/:w/:w/:w") { gap }
-    get("/gap1/:w/:w/:w/:w/:w/:w") { gap }
-    get("/gap1/:w/:w/:w/:w/:w/:w/:w") { gap }
-    get("/gap1/:w/:w/:w/:w/:w/:w/:w/:w") { gap }
-    get("/gap1/:w/:w/:w/:w/:w/:w/:w/:w/:w") { gap }
+    get("/prompt/:w/?") { gap }
+    get("/prompt/:w/:w/?") { gap }
+    get("/prompt/:w/:w/:w/?") { gap }
+    get("/prompt/:w/:w/:w/:w/?") { gap }
+    get("/prompt/:w/:w/:w/:w/:w/?") { gap }
+    get("/prompt/:w/:w/:w/:w/:w/:w/?") { gap }
+    get("/prompt/:w/:w/:w/:w/:w/:w/:w/?") { gap }
+    get("/prompt/:w/:w/:w/:w/:w/:w/:w/:w/?") { gap }
+    get("/prompt/:w/:w/:w/:w/:w/:w/:w/:w/:w/?") { gap }
 
 }
