@@ -56,6 +56,9 @@
                             position : {
                                 my : "top",
                                 at : "top+30"
+                            },
+                            focus : function() {
+                                $(".prompt-word ul").menu("collapse");
                             }
                         });
                         
