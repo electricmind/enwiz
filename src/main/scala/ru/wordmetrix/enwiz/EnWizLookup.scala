@@ -307,12 +307,12 @@ class EnWizLookup() extends Actor with EnWizMongo {
                 case None => None
             }
 
-        case EnWizGapRequest(ws1, w3 :: _) =>
-            println(s"$ws1 x $w3")
+        case EnWizGapRequest(_ :+ w1, w3 :: _) =>
+            println(s"$w1 x $w3")
 
             sender ! EnWizGap(coll.find($and(
                 "kind" $eq "trigram",
-                "word1" $eq ws1.last,
+                "word1" $eq w1,
                 "word3" $eq w3
             ))
                 .sort(MO("probability" -> -1))
