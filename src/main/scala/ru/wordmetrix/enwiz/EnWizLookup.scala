@@ -309,6 +309,12 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
         case EnWizGapRequest(_ :+ w1, w3 :: _) =>
             println(s"$w1 x $w3")
+            val count = coll.find($and(
+                "kind" $eq "trigram",
+                "word1" $eq w1,
+                "word3" $eq w3)
+            ).map(x => x.getOrElse("probability", 0.0).
+                toString.toDouble).sum
 
             sender ! EnWizGap(coll.find($and(
                 "kind" $eq "trigram",
@@ -317,7 +323,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
             ))
                 .sort(MO("probability" -> -1))
                 .map(x =>
-                    (x.get("word2").toString -> x.get("probability").toString.toDouble)
+                    (x.get("word2").toString -> x.get("probability").toString.toDouble / count)
                 ).toList.sortBy(-_._2))
 
         case EnWizGapRequest(ws1, ws2) =>
@@ -405,6 +411,33 @@ class EnWizLookup() extends Actor with EnWizMongo {
             sender ! EnWizPhrase(words.sliding(3).map({
 
                 case List(w1, w2, w3) =>
+                    coll.findOne($and(
+                        "kind" $eq "bigram",
+                        "word1" $eq w1,
+                        "word2" $eq w2)) match {
+                        case Some(bigram) =>
+                            val count: Double = bigram.getOrElse("probability", 0.0).toString.toDouble
+                            coll.findOne($and(
+                                "kind" $eq "trigram",
+                                "word1" $eq w1,
+                                "word2" $eq w2,
+                                "word3" $eq w3
+                            )) match {
+                                case Some(trigram) =>
+                                    trigram.getOrElse("probability", 0.0).
+                                        toString.toDouble / count
+                                case None => coll.findOne($and(
+                                    "kind" $eq "unigram",
+                                    "word1" $eq w1)) match {
+                                    case Some(unigram) =>
+                                        0.001 * count / unigram.getOrElse("probability", 0.0).toString.toDouble
+                                    case None => 0.0d
+                                }
+                            }
+                        case None => 0.0d
+                    }
+
+                case List(w1, w2, w3) =>
                     val count = coll.find($and(
                         "kind" $eq "bigram",
                         "word1" $eq w1,
@@ -423,26 +456,6 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         case None => 0.0d
                     }
 
-                case List(w1, w2, w3) =>
-                    coll.findOne($and(
-                        "kind" $eq "bigram",
-                        "word1" $eq w1,
-                        "word2" $eq w2)) match {
-                        case Some(bigram) =>
-                            val count: Double = bigram.getOrElse("probability", 0.0).toString.toDouble
-                            coll.findOne($and(
-                                "kind" $eq "trigram",
-                                "word1" $eq w1,
-                                "word2" $eq w2,
-                                "word3" $eq w3
-                            )) match {
-                                case Some(trigram) =>
-                                    trigram.getOrElse("probability", 0.0).
-                                        toString.toDouble / count
-                                case None => 0.0d
-                            }
-                        case None => 0.0d
-                    }
             }).reduceOption(_ * _).getOrElse(0.0d))
     }
 }
