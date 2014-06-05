@@ -49,7 +49,7 @@
                     class="prompt-item"
                     data-word="\${wp.word}"
                 >\${wp.word} :
-                        \${wp.probability.toString().substring(0,5)} </a></li>
+                        \${Number(wp.probability).toFixed(5)} </a></li>
                 {{/each}}
             </ul>
     </ul>

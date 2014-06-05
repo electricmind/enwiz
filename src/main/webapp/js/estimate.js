@@ -68,7 +68,7 @@
                     
                 }).done(function(response) {
                     if (response.status.name == "OK") {
-                        $(".estimate-probability",widget).text(response.data._3.toString().slice(0,5));
+                        $(".estimate-probability",widget).text(Number(response.data._3).toFixed(5));
                     }  
                 });
             });
