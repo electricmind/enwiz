@@ -52,7 +52,6 @@
                                     } else {
                                         $('.enwiz-error', self).show(100);
                                     }
-    
                                     form.show(0);
                                     loading.hide(0);
                                     allowed = true;
@@ -73,7 +72,7 @@
                     
                 }).done(function(response) {
                     if (response.status.name == "OK") {
-                        $(".estimate-probability").text(response.data._3);
+                        $(".estimate-probability").text(response.data._3.toString().slice(0,5));
                     }  
                 });
             });
