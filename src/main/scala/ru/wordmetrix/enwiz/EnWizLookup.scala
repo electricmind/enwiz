@@ -307,6 +307,19 @@ class EnWizLookup() extends Actor with EnWizMongo {
                 case None => None
             }
 
+        case EnWizGapRequest(ws1, w3 :: _) =>
+            println(s"$ws1 x $w3")
+            
+            sender ! EnWizGap(coll.find($and(
+                "kind" $eq "trigram",
+                "word1" $eq ws1.last,
+                "word3" $eq w3
+            ))
+                .sort(MO("probability" -> -1))
+                .map(x =>
+                    (x.get("word2").toString -> x.get("probability").toString.toDouble)
+                ).toList.sortBy(- _._2))
+                
         case EnWizGapRequest(ws1, ws2) =>
             val wps1: Map[String, Double] = ws1 match {
                 case w11 :: w12 :: _ => coll.findOne($and(
@@ -383,7 +396,7 @@ class EnWizLookup() extends Actor with EnWizMongo {
                         case None => Map()
                     }
             }
-            println(ws1,ws2)
+            println(ws1, ws2)
             //println(wps1)
             //println(wps2)
             sender ! EnWizGap((wps1.keySet & wps2.keySet).map(x => x -> wps1(x) * wps2(x)).toList.sortBy(-_._2))

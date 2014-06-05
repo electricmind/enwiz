@@ -107,6 +107,10 @@ trait EnWizMongo {
 
                 version(2)
                 update
+            case 2 =>
+                coll.ensureIndex(MO("kind" -> 1, "word1" -> 1, "word3" -> 1))
+                version(3)
+                update
 
             case _ =>
                 println(s"Update completed")
