@@ -64,11 +64,37 @@
                             }
                         });
                         
+                        if ('*' == $(self).prompt('word')[0] && response.data.length > 0) {
+                            $(self).prompt('update',response.data[0].word)
+                        }
+                        
                         $(".prompt-item",menu).click(function() {
                             $(self).prompt('update',$(this).data('word'));
                         });
                         
+                        $(".prompt-insert",menu).click(function() {
+                            const prevs = $(widget).prevAll('div.ui-widget').slice(0,2);
+                            const nexts = $(widget).nextAll('div.ui-widget').slice(0,2);
+                            
+                            $(
+                                $('<span data-word="*">*</span>').insertAfter(widget)
+                            ).prompt();
+                            
+                            prevs.prompt('load');
+                            nexts.prompt('load');
+                            $(widget).closest(".estimate").estimate('update');
+                        });
                         
+                        $(".prompt-delete",menu).click(function() {
+                            const prevs = $(widget).prevAll('div.ui-widget').slice(0,2);
+                            const nexts = $(widget).nextAll('div.ui-widget').slice(0,2);
+                            
+                            $(widget).remove();
+
+                            prevs.prompt('load');
+                            nexts.prompt('load');
+                            $(widget).closest(".estimate").estimate('update');
+                        });
                     } 
                 });
             });

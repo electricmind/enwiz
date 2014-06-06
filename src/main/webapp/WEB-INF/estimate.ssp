@@ -17,10 +17,9 @@
 >
         <div class="estimate ui-widget">
             <form action="/json/estimate">
-                <input
-                    type="text"
-                    name="phrase"
-                />
+                <textarea
+                    style="width:100%"
+                    name="phrase"></textarea>
                 <button>Submit</button>
             </form>
             <div
@@ -44,6 +43,10 @@
     >
         <li><a class="prompt-current" href="#"> \${w} </a>
             <ul style="z-index: 100">
+                <li><a>Edit</a><ul>
+                    <li><a class="prompt-delete">Delete</a></li>
+                    <li><a class="prompt-insert">Insert</a></li>
+                </ul></li>
                 {{each(i,wp) wps}}
                 <li><a
                     class="prompt-item"
