@@ -28,7 +28,8 @@
                         if (response.status.name == 'OK' || 
                                response.status.name == 'Best')  {
                             $(settings.template + '-phrase').tmpl({
-                                data : response.data
+                                data : response.data,
+                                probability : (-Math.log(response.data._3)/Math.LN10).toFixed(4)
                             }).appendTo(phrase);
                             
                             phrase.show();
@@ -68,7 +69,7 @@
                     
                 }).done(function(response) {
                     if (response.status.name == "OK") {
-                        $(".estimate-probability",widget).text(Number(response.data._3).toFixed(5));
+                        $(".estimate-probability",widget).text(Number(-Math.log(response.data._3)/Math.LN10).toFixed(4));
                     }  
                 });
             });
