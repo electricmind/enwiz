@@ -326,7 +326,99 @@ class EnWizLookup() extends Actor with EnWizMongo {
                     (x.get("word2").toString -> x.get("probability").toString.toDouble / count)
                 ).toList.sortBy(-_._2))
 
+        case EnWizGapRequest(List(), w2 :: w3 :: _) =>
+            println(s"$w2 x $w3")
+            val count = coll.find($and(
+                "kind" $eq "trigram",
+                "word2" $eq w2,
+                "word3" $eq w3)
+            ).map(x => x.getOrElse("probability", 0.0).
+                toString.toDouble).sum
+
+            sender ! EnWizGap(coll.find($and(
+                "kind" $eq "trigram",
+                "word2" $eq w2,
+                "word3" $eq w3
+            ))
+                .sort(MO("probability" -> -1))
+                .map(x =>
+                    (x.get("word1").toString -> x.get("probability").toString.toDouble / count)
+                ).toList.sortBy(-_._2))
+
+        case EnWizGapRequest(List(), w2 :: _) =>
+            println(s"$w2")
+            val count = coll.find($and(
+                "kind" $eq "bigram",
+                "word2" $eq w2)
+            ).map(x => x.getOrElse("probability", 0.0).
+                toString.toDouble).sum
+
+            sender ! EnWizGap(coll.find($and(
+                "kind" $eq "bigram",
+                "word2" $eq w2
+            ))
+                .sort(MO("probability" -> -1))
+                .map(x =>
+                    (x.get("word1").toString -> x.get("probability").toString.toDouble / count)
+                ).toList.sortBy(-_._2))
+
+        case EnWizGapRequest(List(), w2 :: w3 :: _) =>
+            println(s"$w2 x $w3")
+            val count = coll.find($and(
+                "kind" $eq "trigram",
+                "word2" $eq w2,
+                "word3" $eq w3)
+            ).map(x => x.getOrElse("probability", 0.0).
+                toString.toDouble).sum
+
+            sender ! EnWizGap(coll.find($and(
+                "kind" $eq "trigram",
+                "word2" $eq w2,
+                "word3" $eq w3
+            ))
+                .sort(MO("probability" -> -1))
+                .map(x =>
+                    (x.get("word1").toString -> x.get("probability").toString.toDouble / count)
+                ).toList.sortBy(-_._2))
+
+        case EnWizGapRequest(_ :+ w1 :+ w2, List()) =>
+            println(s" ../* $w1 x $w2")
+            val count = coll.find($and(
+                "kind" $eq "trigram",
+                "word1" $eq w1,
+                "word2" $eq w2)
+            ).map(x => x.getOrElse("probability", 0.0).
+                toString.toDouble).sum
+
+            sender ! EnWizGap(coll.find($and(
+                "kind" $eq "trigram",
+                "word1" $eq w1,
+                "word2" $eq w2
+            ))
+                .sort(MO("probability" -> -1))
+                .map(x =>
+                    (x.get("word3").toString -> x.get("probability").toString.toDouble / count)
+                ).toList.sortBy(-_._2))
+
+        case EnWizGapRequest(_ :+ w1, List()) =>
+            println(s"$w1")
+            val count = coll.find($and(
+                "kind" $eq "bigram",
+                "word1" $eq w1)
+            ).map(x => x.getOrElse("probability", 0.0).
+                toString.toDouble).sum
+
+            sender ! EnWizGap(coll.find($and(
+                "kind" $eq "bigram",
+                "word1" $eq w1
+            ))
+                .sort(MO("probability" -> -1))
+                .map(x =>
+                    (x.get("word2").toString -> x.get("probability").toString.toDouble / count)
+                ).toList.sortBy(-_._2))
+
         case EnWizGapRequest(ws1, ws2) =>
+            println("default")
             val wps1: Map[String, Double] = ws1 match {
                 case w11 :: w12 :: _ => coll.findOne($and(
                     "kind" $eq "bigram",
@@ -409,7 +501,6 @@ class EnWizLookup() extends Actor with EnWizMongo {
 
         case EnWizPhraseRequest(words) =>
             sender ! EnWizPhrase(words.sliding(3).map({
-
                 case List(w1, w2, w3) =>
                     coll.findOne($and(
                         "kind" $eq "bigram",
