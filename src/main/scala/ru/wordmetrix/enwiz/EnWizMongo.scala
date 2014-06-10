@@ -5,6 +5,7 @@ import java.util.Properties
 import scala.collection.JavaConverters._
 import java.io.FileInputStream
 import java.io.File
+import akka.actor.Actor
 
 /**
  * Bind a collection to MongoDB
@@ -15,22 +16,11 @@ object EnWizMongo {
 
 }
 
-trait EnWizMongo {
+trait EnWizMongo extends Actor {
     val MO = MongoDBObject
 
-    val cfg = ConfigFactory.parseFile(
-        new File(System.getProperty("user.home"), "enwizdb.cfg")
-    ).getObject("mongo").toConfig()
-
-    val host: String = cfg.getString("host")
-    val dbname: String = cfg.getString("dbname")
-    val user: String = cfg.getString("user")
-    val password: String = cfg.getString("password")
-    val port: String = cfg.getString("port")
-
-    lazy val coll = MongoClient(MongoClientURI(
-        s"mongodb://$user:$password@$host:$port/$dbname")
-    )(dbname)("words")
+    val settings = EnWizSettingsDB.get(context.system)
+    lazy val coll = MongoClient(MongoClientURI(settings.url))(settings.dbname)("words")
 
     def version() = {
         coll.findOne("stat" $eq "version") match {
@@ -48,7 +38,7 @@ trait EnWizMongo {
     }
 
     def update: Unit = EnWizMongo.synchronized {
-        println(s"Update # ${version()} $dbname")
+        println(s"Update # ${version()} ${settings.dbname}")
         version() match {
             case 0 =>
                 coll.ensureIndex(MO("word1" -> 1))

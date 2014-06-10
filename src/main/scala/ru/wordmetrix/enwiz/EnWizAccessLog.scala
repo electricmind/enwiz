@@ -36,8 +36,8 @@ class EnWizAccessLog() extends Actor with EnWizMongo {
     import EnWizAccessLog._
 
     override lazy val coll = MongoClient(MongoClientURI(
-        s"mongodb://$user:$password@$host:$port/$dbname")
-    )(dbname)("logs")
+        settings.url
+    ))(settings.dbname)("logs")
 
     coll.ensureIndex(MO("ip" -> 1))
     coll.ensureIndex(MO("time" -> -1))

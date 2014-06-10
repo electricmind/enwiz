@@ -1,6 +1,9 @@
 package ru.wordmetrix.enwiz
 
+
+
 import java.io.FileInputStream
+import akka.actor.ActorSystem
 import java.util.Properties
 import scala.collection.JavaConverters.propertiesAsScalaMapConverter
 import org.scalatra.ScalatraBase
@@ -23,13 +26,11 @@ class OurBasicAuthStrategy(protected override val app: ScalatraBase, realm: Stri
             implicit request: HttpServletRequest,
             response: HttpServletResponse): Option[User] = {
 
-        val cfg = ConfigFactory.parseFile(
-            new File(System.getProperty("user.home"), "enwizauth.cfg")
-        ).getObject("auth").toConfig()
+        val settings = EnWizSettingsAuth(ActorSystem())
 
-        val identity: String = cfg.getString("username")
+        val identity: String = settings.username
 
-        cfg.getString("password") match {
+        settings.password match {
             case password if password == password &&
                 userName == identity => Some(User(identity))
         }
