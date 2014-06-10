@@ -33,10 +33,20 @@
                 const widget = $(this).closest(".ui-widget");
                 const self = $(".ui-content",widget);
                        
-                const words_p = $(widget).prevAll('div.ui-widget').prompt('word').toArray().slice(0,2).reverse()
-                const words_n = $(widget).nextAll('div.ui-widget').prompt('word').toArray().slice(0,2)
+                const words_p_1 = $(widget).prevAll('div.ui-widget').prompt('word').toArray();
+                var words_p = [];
+                for (i = 0; i<words_p_1.length && i<2 && words_p_1[i]!='*'; i++) {
+                    words_p[i] = words_p_1[i];
+                }
                 
-                const url = '/json/prompt/' + words_p.concat(['*']).concat(words_n).join('/');
+                
+                const words_n_1 = $(widget).nextAll('div.ui-widget').prompt('word').toArray().slice(0,2);
+                var words_n = [];
+                for (i = 0; i<words_n_1.length && i<2 && words_n_1[i]!='*'; i++) {
+                    words_n[i] = words_n_1[i];
+                }
+                
+                const url = '/json/prompt/' + words_p.reverse().concat(['*']).concat(words_n).join('/');
                 
                 $.ajax({
                     url : url,
@@ -116,7 +126,7 @@
                 $(self).data('word',word);
                 
                 $(".prompt-current",widget).text(word);
-                //$(self).prompt('load');
+                // $(self).prompt('load');
                 $(widget).prevAll('div.ui-widget').slice(0,2).prompt('load');
                 $(widget).nextAll('div.ui-widget').slice(0,2).prompt('load');
                 $(widget).closest(".estimate").estimate('update');

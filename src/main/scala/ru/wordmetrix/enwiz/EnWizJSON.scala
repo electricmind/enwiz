@@ -232,7 +232,7 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
         ) onComplete {
                 case Success(EnWizPhrase(probability)) =>
                     promise.complete(Try(
-                        Result(Status.OK, (query, phrase, probability))
+                        Result(Status.OK, (query.drop(2), phrase, probability))
                     ))
 
                 case Failure(f: akka.pattern.AskTimeoutException) =>
@@ -262,7 +262,6 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
             val is = promise.future
             println(s"Request ${ws1.takeRight(2)} ${ws2.take(2)}")
             lookup ? EnWizGapRequest(
-       //     ("" :: "" :: ws1 ).takeRight(2), (ws2.take(2) :+ ".").take(2)
               ws1.takeRight(2), ws2.take(2)
             ) onComplete {
                     case Success(EnWizGap(wps)) =>
