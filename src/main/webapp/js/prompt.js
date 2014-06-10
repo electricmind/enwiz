@@ -64,8 +64,13 @@
                             }
                         });
                         
-                        if ('*' == $(self).prompt('word')[0] && response.data.length > 0) {
-                            $(self).prompt('update',response.data[0].word)
+                        if ('*' == $(self).prompt('word')[0]) {
+                            if (response.data.length > 0) {
+                                $(self).prompt('update',response.data[0].word);
+                            } else {
+                                $(self).prompt('update','*');
+                            } 
+                            $(widget).closest(".estimate").estimate('update');
                         }
                         
                         $(".prompt-item",menu).click(function() {
@@ -73,16 +78,11 @@
                         });
                         
                         $(".prompt-insert",menu).click(function() {
-                            const prevs = $(widget).prevAll('div.ui-widget').slice(0,2);
-                            const nexts = $(widget).nextAll('div.ui-widget').slice(0,2);
                             
                             $(
                                 $('<span data-word="*">*</span>').insertAfter(widget)
                             ).prompt();
                             
-                            prevs.prompt('load');
-                            nexts.prompt('load');
-                            $(widget).closest(".estimate").estimate('update');
                         });
                         
                         $(".prompt-delete",menu).click(function() {
@@ -112,15 +112,16 @@
             return $(this).map(function() {
                 const widget = $(this).closest(".ui-widget");
                 const self = $(".ui-content",widget);
+                
                 $(self).data('word',word);
+                
                 $(".prompt-current",widget).text(word);
-                $(self).prompt('load');
+                //$(self).prompt('load');
                 $(widget).prevAll('div.ui-widget').slice(0,2).prompt('load');
                 $(widget).nextAll('div.ui-widget').slice(0,2).prompt('load');
                 $(widget).closest(".estimate").estimate('update');
             });
         } 
-        
     }
     
     $.fn.prompt = function(method) {
