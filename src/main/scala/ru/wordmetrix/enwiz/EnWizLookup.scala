@@ -209,82 +209,18 @@ class EnWizLookup() extends Actor with EnWizMongo {
          * Return a set of statistics of vocabulary
          */
         case EnWizStatRequest() =>
-            if (host != "localhost") {
-                val average = stat("average", {
-                    println("calc ave")
-                    coll.aggregate(List(
-                        MO("$match" -> MO()),
-                        MO("$group" ->
-                            MO("_id" -> MO(
-                                "word1" -> "$word1", "word2" -> "$word2",
-                                "word3" -> "$word3"),
-                                "p" -> MO("$sum" -> "$probability"))),
-                        MO("$group" ->
-                            MO("_id" -> 1, "value" -> MO("$sum" -> "$p"))))
-                    ).results.head
-                }).getOrElse("value", 0.0).toString().toDouble
+            val trigram = coll.find("kind" $eq "trigram").count();
+            val bigram = coll.find("kind" $eq "bigram").count();
+            val unigram = coll.find("kind" $eq "unigram").count();
+            val average = (coll.find("kind" $eq "trigram").map {
+                x =>
+                    x.getOrElse("probability", "0").toString.toDouble
+            } reduceOption (_ + _)) getOrElse (0.0) / trigram
 
-                println(s"return average $average")
-
-                val unigram = stat("unigram", {
-                    coll.aggregate(List(
-                        MO("$match" -> MO()),
-                        MO("$group" ->
-                            MO("_id" -> MO(
-                                "word1" -> "$word1"),
-                                "p" -> MO("$sum" -> "$probability"))),
-                        MO("$group" ->
-                            MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
-                    ).results.head
-                }).getOrElse("value", 0.0).toString().toDouble
-
-                println(s"return unigram $unigram")
-
-                val bigram = stat("bigram", {
-                    coll.aggregate(List(
-                        MO("$match" -> MO()),
-                        MO("$group" ->
-                            MO("_id" -> MO(
-                                "word1" -> "$word1", "word2" -> "$word2"),
-                                "p" -> MO("$sum" -> "$probability"))),
-                        MO("$group" ->
-                            MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
-                    ).results.head
-                }).getOrElse("value", 0.0).toString().toDouble
-
-                println(s"return bigram $bigram")
-
-                val trigram = stat("trigram", {
-                    coll.aggregate(List(
-                        MO("$match" -> MO()),
-                        MO("$group" ->
-                            MO("_id" -> MO(
-                                "word1" -> "$word1", "word2" -> "$word2",
-                                "word3" -> "$word3"),
-                                "p" -> MO("$sum" -> "$probability"))),
-                        MO("$group" ->
-                            MO("_id" -> 1, "value" -> MO("$sum" -> 1))))
-                    ).results.head
-                }).getOrElse("value", 0.0).toString().toDouble
-
-                println(s"return trigram $trigram")
-
-                sender ! EnWizStat(unigram.toInt, bigram.toInt, trigram.toInt,
-                    average / trigram)
-            } else {
-                val trigram = coll.find("kind" $eq "trigram").count();
-                val bigram = coll.find("kind" $eq "bigram").count();
-                val unigram = coll.find("kind" $eq "unigram").count();
-                val average = (coll.find("kind" $eq "trigram").map {
-                    x =>
-                        x.getOrElse("probability", "0").toString.toDouble
-                } reduceOption (_ + _)) getOrElse (0.0) / trigram
-
-                println(EnWizStat(unigram, bigram, trigram,
-                    average))
-                sender ! EnWizStat(unigram, bigram, trigram,
-                    average)
-            }
+            println(EnWizStat(unigram, bigram, trigram,
+                average))
+            sender ! EnWizStat(unigram, bigram, trigram,
+                average)
 
         case EnWizWords(word1, word2) =>
             coll.findOne($and(
@@ -417,11 +353,11 @@ class EnWizLookup() extends Actor with EnWizMongo {
                     (x.get("word2").toString -> x.get("probability").toString.toDouble / count)
                 ).toList.sortBy(-_._2))
 
-//        case EnWizGapRequest(List(), List()) =>
-//            println(s" empty")
-//
-//            sender ! EnWizGap(List())
-            
+        //        case EnWizGapRequest(List(), List()) =>
+        //            println(s" empty")
+        //
+        //            sender ! EnWizGap(List())
+
         case EnWizGapRequest(List(), List()) =>
             println(s" empty")
             val count = coll.find($and(
