@@ -417,6 +417,27 @@ class EnWizLookup() extends Actor with EnWizMongo {
                     (x.get("word2").toString -> x.get("probability").toString.toDouble / count)
                 ).toList.sortBy(-_._2))
 
+//        case EnWizGapRequest(List(), List()) =>
+//            println(s" empty")
+//
+//            sender ! EnWizGap(List())
+            
+        case EnWizGapRequest(List(), List()) =>
+            println(s" empty")
+            val count = coll.find($and(
+                "kind" $eq "unigram")
+            ).map(x => x.getOrElse("probability", 0.0).
+                toString.toDouble).sum
+
+            sender ! EnWizGap(coll.find($and(
+                "kind" $eq "unigram"
+            ))
+                .sort(MO("probability" -> -1))
+                .limit(100)
+                .map(x =>
+                    (x.get("word1").toString -> x.get("probability").toString.toDouble / count)
+                ).toList.sortBy(-_._2))
+
         case EnWizGapRequest(ws1, ws2) =>
             println("default")
             val wps1: Map[String, Double] = ws1 match {
