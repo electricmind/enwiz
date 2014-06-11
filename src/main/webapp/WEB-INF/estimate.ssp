@@ -6,7 +6,7 @@
     type="text/x-jquery-tmpl"
 >
           <p>          {{each(i,word) data._1}}
-                        <span data-word="\${word}">\${word} </span>
+                        <span  class="estimate-word" data-word="\${word}">\${word} </span>
                     {{/each}}
  <i>(probability: <i class="estimate-probability">\${ probability }</i>)</i>
           </p>
@@ -29,7 +29,7 @@
             >
                 <img src="/img/loading.gif"> Loading...
             </div>
-            <div class="estimate-phrase ui-helper-hidden"></div>
+            <div class="estimate-phrase ui-helper-hidden"><button class="estimate-addbutton" style="float:left" ><span class="ui-icon ui-icon-plus"></span></button></div>
         </div>
 
 </script>
@@ -43,10 +43,6 @@
     >
         <li><a class="prompt-current" href="#"> \${w} </a>
             <ul style="z-index: 100">
-                <li><a>Edit</a><ul>
-                    <li><a class="prompt-delete">Delete</a></li>
-                    <li><a class="prompt-insert">Insert</a></li>
-                </ul></li>
                 {{each(i,wp) wps}}
                 <li><a
                     class="prompt-item"
@@ -62,8 +58,9 @@
     id="prompt-tmpl"
     type="text/x-jquery-tmpl"
 >
-<div class="ui-widget prompt" style="float:left">
-    <div class="prompt-word"></div>
+<div class="ui-widget ui-widget-content ui-corner-all prompt" style="float:left; padding:2px; margin:2px">
+    <div class="prompt-word" style="float:left"></div>
+
     <div
         class="enwiz-loading ui-helper-hidden"
         title="Upon completion a popup menu appears."
@@ -71,6 +68,10 @@
     >
         <img src="/img/loading.gif"> Loading...
     </div>
+    <button class="prompt-delete">
+         <span class="ui-icon ui-icon-close" ></span></button>
+    <button class="prompt-insert">
+         <span class="ui-icon ui-icon-plus"  ></span></button>
     <button
         class="reload ui-helper-hidden"
         style="vertical-align: top; font-size: +15"

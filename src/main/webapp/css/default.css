@@ -1,5 +1,5 @@
 .ui-menu {
-    width: 150px;
+   // width: 150px;
 }
 
 .my-main {
@@ -7,6 +7,20 @@
     height: 480px;
 }
 
+.prompt-delete span {
+	padding: 0px !important;
+	
+}
+
+.prompt-insert span {
+	padding: 0px  !important;
+	
+}
+
+.prompt-word .ui-menu {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
 @media ( max-width : 640px) {
     .my-main {
         width: 100%;

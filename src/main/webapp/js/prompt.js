@@ -24,7 +24,25 @@
                 setTimeout(function() {
                     $(self).prompt('load');
                 }, 100);
+
+                $(".prompt-insert",widget).button().click(function() {
+                    $(
+                        $('<span data-word="*">*</span>').insertAfter(widget)
+                    ).prompt();
+                    
+                });
                 
+                $(".prompt-delete",widget).button().click(function() {
+                    const prevs = $(widget).prevAll('div.ui-widget').slice(0,2);
+                    const nexts = $(widget).nextAll('div.ui-widget').slice(0,2);
+                    
+                    $(widget).remove();
+
+                    prevs.prompt('load');
+                    nexts.prompt('load');
+                    $(widget).closest(".estimate").estimate('update');
+                });
+
             });
         },
         
@@ -57,8 +75,11 @@
                 }).done(function(response) {
                     if (response.status.name == "OK") {
                         $(self).hide();
+                        const word = $(self).prompt('word')[0];
+                        
+                        
                         const menu = $("#prompt-tmpl-menu").tmpl({
-                            w : $(self).prompt('word').toArray().join(),
+                            w : word == '' && '[begin]' || word,
                             wps : response.data
                         }).appendTo(
                            $(".prompt-word",widget).empty()        
@@ -73,8 +94,20 @@
                                 });
                             }
                         });
+
                         
-                        if ('*' == $(self).prompt('word')[0]) {
+                        if (word != '*') {
+                            $('.prompt-current', menu).addClass('ui-state-error');                                    
+
+                            $(response.data).each(function(x) {
+                                if (this.word == word) {
+                                    $('.prompt-current', menu).removeClass('ui-state-error');                                    
+                                }
+                            });
+                        }
+
+                        
+                        if ('*' == word) {
                             if (response.data.length > 0) {
                                 $(self).prompt('update',response.data[0].word);
                             } else {
@@ -87,24 +120,6 @@
                             $(self).prompt('update',$(this).data('word'));
                         });
                         
-                        $(".prompt-insert",menu).click(function() {
-                            
-                            $(
-                                $('<span data-word="*">*</span>').insertAfter(widget)
-                            ).prompt();
-                            
-                        });
-                        
-                        $(".prompt-delete",menu).click(function() {
-                            const prevs = $(widget).prevAll('div.ui-widget').slice(0,2);
-                            const nexts = $(widget).nextAll('div.ui-widget').slice(0,2);
-                            
-                            $(widget).remove();
-
-                            prevs.prompt('load');
-                            nexts.prompt('load');
-                            $(widget).closest(".estimate").estimate('update');
-                        });
                     } 
                 });
             });
@@ -125,7 +140,7 @@
                 
                 $(self).data('word',word);
                 
-                $(".prompt-current",widget).text(word);
+                $(".prompt-current",widget).text(word == '' && '[begin]' || word).removeClass('ui-state-error');
                 // $(self).prompt('load');
                 $(widget).prevAll('div.ui-widget').slice(0,2).prompt('load');
                 $(widget).nextAll('div.ui-widget').slice(0,2).prompt('load');

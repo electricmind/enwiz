@@ -18,6 +18,13 @@
                 var phrase = $('.estimate-phrase', self);
                 var allowed = false;
                 
+                $('.estimate-addbutton',self).button().click(function () {
+                    $('<span data-word="*" class="estimate-word">*</span>').prependTo(
+                        $('.estimate-phrase p',self)
+                    ).prompt();
+                });
+                
+                
                 form.ajaxForm({
                     beforeSubmit : function(status) {
                         form.hide();
@@ -34,7 +41,7 @@
                             
                             phrase.show();
                             
-                            $('span',phrase).prompt();
+                            $('.estimate-word',phrase).prompt();
                             
                             loading.hide();
                             
