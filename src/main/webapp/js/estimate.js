@@ -5,6 +5,7 @@
         init : function(options) {
             return $(this).map(function() {
                 var self = this;
+                var widget = self;
                 var settings = {
                     template : '#' + modulename + '-tmpl',
                     phrase : ''
@@ -20,7 +21,7 @@
                 
                 $('.estimate-addbutton',self).button().click(function () {
                     $('<span data-word="*" class="estimate-word">*</span>').prependTo(
-                        $('.estimate-phrase p',self)
+                        $('.estimate-phrase-holder > div',widget)
                     ).prompt();
                 });
                 
@@ -29,6 +30,7 @@
                     beforeSubmit : function(status) {
                         form.hide();
                         loading.show();
+                        $(loading).show();
                         $("#estimate-tmpl").tmpl().appendTo("#estimate-items").estimate();   
                     },
                     success : function(response, statusText, xhr, form) {
@@ -36,9 +38,10 @@
                                response.status.name == 'Best')  {
                             $(settings.template + '-phrase').tmpl({
                                 data : response.data,
-                                probability : (-Math.log(response.data._3)/Math.LN10).toFixed(4)
-                            }).appendTo(phrase);
+                            }).appendTo($('.estimate-phrase-holder',widget));
                             
+                            $(".estimate-probability",widget).text(Number(-Math.log(response.data._3)/Math.LN10).toFixed(4));
+
                             phrase.show();
                             
                             $('.estimate-word',phrase).prompt();

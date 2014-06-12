@@ -5,17 +5,17 @@
     id="estimate-tmpl-phrase"
     type="text/x-jquery-tmpl"
 >
-          <p>          {{each(i,word) data._1}}
-                        <span  class="estimate-word" data-word="\${word}">\${word} </span>
-                    {{/each}}
- <i>(probability: <i class="estimate-probability">\${ probability }</i>)</i>
-          </p>
+    <div class="ui-helper-clearfix">   
+        {{each(i,word) data._1}}
+            <span  class="estimate-word" data-word="\${word}">\${word} </span>
+        {{/each}}
+    </div>
 </script>
 <script
     id="estimate-tmpl"
     type="text/x-jquery-tmpl"
 >
-        <div class="estimate ui-widget">
+        <div class="estimate ui-widget ui-helper-clearfix">
             <form action="/json/estimate">
                 <textarea
                     style="width:100%"
@@ -29,7 +29,15 @@
             >
                 <img src="/img/loading.gif"> Loading...
             </div>
-            <div class="estimate-phrase ui-helper-hidden"><button class="estimate-addbutton" style="float:left" ><span class="ui-icon ui-icon-plus"></span></button></div>
+            <div class="estimate-phrase ui-helper-hidden">
+                <button class="estimate-addbutton" style="float:left" ><span class="ui-icon ui-icon-plus"></span></button>
+                <div class="estimate-phrase-holder"></div>
+                <div style="font-size:small">
+                      Evaluate: <i class="estimate-probability">
+                         \${ probability }
+                       </i>
+                </div>
+            </div>
         </div>
 
 </script>
@@ -58,20 +66,24 @@
     id="prompt-tmpl"
     type="text/x-jquery-tmpl"
 >
-<div class="ui-widget ui-widget-content ui-corner-all prompt" style="float:left; padding:2px; margin:2px">
+<div class="ui-widget ui-widget-content ui-corner-all prompt" style="float:left; padding:2px; margin:2px; height:1.8em">
     <div class="prompt-word" style="float:left"></div>
-
-    <div
-        class="enwiz-loading ui-helper-hidden"
-        title="Upon completion a popup menu appears."
-        style="vertical-align: top; font-size: +15"
-    >
-        <img src="/img/loading.gif"> Loading...
+    <div class="prompt-placeholder ui-widget-content ui-corner-all" style="float:left"></div>
+    <div style="float:left">
+       <div>
+           <button class="prompt-delete">
+              <span class="ui-icon ui-icon-close" ></span></button>
+           <button class="prompt-insert">
+              <span class="ui-icon ui-icon-plus"  ></span></button>
+       </div>
+       <div
+          class="enwiz-loading ui-helper-hidden"
+          title="Upon completion a popup menu appears."
+          style="vertical-align: top; font-size: +15"
+        >
+        <img src="/img/loading.gif">
+       </div>
     </div>
-    <button class="prompt-delete">
-         <span class="ui-icon ui-icon-close" ></span></button>
-    <button class="prompt-insert">
-         <span class="ui-icon ui-icon-plus"  ></span></button>
     <button
         class="reload ui-helper-hidden"
         style="vertical-align: top; font-size: +15"

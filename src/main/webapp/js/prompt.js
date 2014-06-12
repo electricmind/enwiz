@@ -15,6 +15,7 @@
                 
                 
                 const widget = $(self).wrap( $(settings.template).tmpl() ).closest(".ui-widget");
+                $(self).appendTo( $("." + modulename + '-placeholder', widget) );
                 
 /*
  * $(self).appendTo( $("." + modulename + '-placeholder', widget) );
@@ -66,6 +67,8 @@
                 
                 const url = '/json/prompt/' + words_p.reverse().concat(['*']).concat(words_n).join('/');
                 
+                $(".enwiz-loading",widget).show();
+                
                 $.ajax({
                     url : url,
                     statusCode : {
@@ -73,6 +76,7 @@
                         }
                     }
                 }).done(function(response) {
+                    $(".enwiz-loading",widget).hide();
                     if (response.status.name == "OK") {
                         $(self).hide();
                         const word = $(self).prompt('word')[0];
