@@ -9,12 +9,22 @@
 
 .prompt-delete span {
 	padding: 0px !important;
+}
+ button.prompt-delete{
+    margin-right: 0px !important;
 	
 }
 
 .prompt-insert span {
 	padding: 0px  !important;
+}
+button.prompt-insert  {
+	margin-left: 0px !important;
 	
+}
+
+.ui-state-nice {
+	font-weight:bold !important; 
 }
 
 .prompt-word .ui-menu {

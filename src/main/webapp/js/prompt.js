@@ -102,10 +102,15 @@
                         
                         if (word != '*') {
                             $('.prompt-current', menu).addClass('ui-state-error');                                    
+                            $('.prompt-current', menu).removeClass('ui-state-nice');                                    
 
                             $(response.data).each(function(x) {
                                 if (this.word == word) {
-                                    $('.prompt-current', menu).removeClass('ui-state-error');                                    
+                                    $('.prompt-current', menu).removeClass('ui-state-error');  
+                                    if (x == 0) {
+                                        $('.prompt-current', menu).addClass('ui-state-nice');
+                                    }
+                                    return false;
                                 }
                             });
                         }
