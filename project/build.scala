@@ -8,9 +8,9 @@ import ScalateKeys._
 object EnwizBuild extends Build {
   val Organization = "ru.wordmetrix"
   val Name = "EnWiz"
-  val Version = "0.1.0-SNAPSHOT"
-  val ScalaVersion = "2.10.0"
-  val ScalatraVersion = "2.2.2"
+  val Version = "0.1.1-SNAPSHOT"
+  val ScalaVersion = "2.11.7"
+  val ScalatraVersion = "2.4.0"
 
   lazy val project = Project (
     "enwiz",

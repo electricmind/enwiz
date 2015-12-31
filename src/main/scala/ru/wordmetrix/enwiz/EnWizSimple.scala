@@ -14,13 +14,14 @@ import EnWizLookup._
 import org.json4s.{ DefaultFormats, Formats }
 import org.scalatra.json._
 import scala.xml.Unparsed
+import scala.concurrent.duration._
 /**
  * Servlet for testing purposes
  */
 class EnWizSimple(system: ActorSystem, lookup: ActorRef) extends EnwizStack with FutureSupport with AuthenticationSupport { //with GZipSupport{
 
     protected implicit def executor: ExecutionContext = system.dispatcher
-    implicit val defaultTimeout = Timeout(10000)
+    implicit val defaultTimeout = Timeout(10.seconds)
 
     before("*") {
         basicAuth

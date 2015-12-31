@@ -3,7 +3,7 @@ package ru.wordmetrix.enwiz
 import scala.concurrent.{ ExecutionContext, Promise }
 import scala.concurrent.duration.DurationInt
 import scala.util.Try
-import org.json4s.{ DefaultFormats, Formats }
+import org.json4s.{JValue, JsonInput, DefaultFormats, Formats}
 import org.scalatra.{ AsyncResult, FutureSupport, NotFound, ScalatraServlet }
 import org.scalatra.json.JacksonJsonSupport
 import EnWizLookup._
@@ -29,9 +29,12 @@ object Probability {
 
 case class Probability(word: String, probability: Double)
 
-object Status extends Enumeration("OK", "Timeout", "Best", "Error") {
+object Status extends Enumeration {
     type Status = Value
-    val OK, Timeout, Best, Error = Value
+    val OK = Value("OK")
+    val Timeout = Value("Timeout")
+    val Best = Value("Best")
+    val Error = Value("Error")
 }
 
 object Result {
@@ -285,5 +288,4 @@ class EnWizJSON(system: ActorSystem, lookup: ActorRef, log: ActorRef)
     get("/gap1/:w/:w/:w/:w/:w/:w/:w") { gap }
     get("/gap1/:w/:w/:w/:w/:w/:w/:w/:w") { gap }
     get("/gap1/:w/:w/:w/:w/:w/:w/:w/:w/:w") { gap }
-
 }
